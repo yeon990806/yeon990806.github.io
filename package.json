@@ -5,7 +5,7 @@
   "repository": "https://github.com/yeon990806/yeon990806.github.io.git",
   "author": "yeon990806 <yeon990806@gmail.com>",
   "license": "MIT",
-  "homepage": "yeon990806.github.io/yeon990806.github.io",
+  "homepage": "yeon990806.github.io",
   "devDependencies": {
     "@types/node": "^20.10.3",
     "@types/react": "^18.2.42",
@@ -25,6 +25,6 @@
     "start": "vite",
     "build": "vite build",
     "preview": "vite preview --port 8080",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   }
 }

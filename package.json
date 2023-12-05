@@ -1,0 +1,30 @@
+{
+  "name": "yeon990806.github.io",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/yeon990806/yeon990806.github.io.git",
+  "author": "yeon990806 <yeon990806@gmail.com>",
+  "license": "MIT",
+  "homepage": "yeon990806.github.io/yeon990806.github.io",
+  "devDependencies": {
+    "@types/node": "^20.10.3",
+    "@types/react": "^18.2.42",
+    "@types/react-dom": "^18.2.17",
+    "@vitejs/plugin-react": "^4.2.1",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "gh-pages": "^6.1.0",
+    "typescript": "^5.3.2",
+    "vite": "^5.0.5"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 8080",
+    "deploy": "gh-pages -d build"
+  }
+}

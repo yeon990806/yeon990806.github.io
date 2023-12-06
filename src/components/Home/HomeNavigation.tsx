@@ -31,7 +31,8 @@ const HomeNavigation = () => {
 const StyledNav = styled.nav`
   display: flex;
   flex-direction: row;
-  gap: 16px;
+  gap: 24px;
+  backdrop-filter: blur(10px);
 `;
 
 const StyledLink = styled.a`
@@ -41,6 +42,8 @@ const StyledLink = styled.a`
   font-size: 20px;
   color: #b3c2d9;
   overflow: hidden;
+  transition: 0.4s ease-in;
+  letter-spacing: 0.8px;
 
   &:not(.active):hover::after {
     content: '';

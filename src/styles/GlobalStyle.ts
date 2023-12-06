@@ -5,7 +5,7 @@ import reset from "styled-reset";
 const GlobalStyle = createGlobalStyle`
   ${ reset }
   * {
-    font-family: "Pretendard", sans-serif !important;
+    font-family: "Pretendard", sans-serif;
 
   }
 

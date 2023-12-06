@@ -1,5 +1,6 @@
 import Button from "../common/Button";
 import styled from "styled-components";
+import HomeNavigation from "./HomeNavigation";
 
 const HomeHeader = () => {
   return <StyledHomeHeader>
@@ -9,6 +10,7 @@ const HomeHeader = () => {
       </span>
       YeON
     </StyledLogo>
+    <HomeNavigation />
   </StyledHomeHeader>
 };
 
@@ -21,7 +23,7 @@ const StyledHomeHeader = styled.header`
 
 const StyledLogo = styled.a`
   display: inline-block;
-  font-weight: 800;
+  font-weight: 400;
   font-size: 28px;
   color: #f5f7fa;
   user-select: none;
@@ -29,6 +31,7 @@ const StyledLogo = styled.a`
   transform: skewX(-2deg);
 
   span {
+    margin-right: 8px;
     color: #4ea5ff;
   }
 `;

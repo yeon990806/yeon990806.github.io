@@ -1,8 +1,11 @@
 import Button from "../common/Button";
 import styled from "styled-components";
 import HomeNavigation from "./HomeNavigation";
+import useHomeNavigation from "../../hook/useHome";
 
 const HomeHeader = () => {
+  const { innerWidth } = useHomeNavigation();
+
   return <StyledHomeHeader>
     <StyledLogo onClick={() => location.reload()}>
       <span>
@@ -10,7 +13,7 @@ const HomeHeader = () => {
       </span>
       YeON
     </StyledLogo>
-    <HomeNavigation />
+    { innerWidth >= 600 && <HomeNavigation /> }
   </StyledHomeHeader>
 };
 
@@ -23,6 +26,7 @@ const StyledHomeHeader = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  backdrop-filter: blur(10px);
 `;
 
 const StyledLogo = styled.a`

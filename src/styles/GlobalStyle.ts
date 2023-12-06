@@ -25,6 +25,8 @@ const GlobalStyle = createGlobalStyle`
 
   main {
     height: 100%;
+    display: flex;
+    flex-direction: column;
 
     .home-section {
       height: 100%;

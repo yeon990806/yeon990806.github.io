@@ -15,6 +15,10 @@ const HomeHeader = () => {
 };
 
 const StyledHomeHeader = styled.header`
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
   padding: 16px;
   display: flex;
   align-items: center;

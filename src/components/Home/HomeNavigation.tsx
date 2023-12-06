@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const MENU_LIST = [
   "home",
-  "abount",
+  "about",
   "blog",
   "portfolio",
   "contact",

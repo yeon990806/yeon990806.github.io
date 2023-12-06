@@ -39,7 +39,7 @@ const StyledLink = styled.a`
   text-decoration: none;
   font-inherit;
   font-size: 20px;
-  color: #f5f7fa;
+  color: #b3c2d9;
   overflow: hidden;
 
   &:not(.active):hover::after {
@@ -49,10 +49,15 @@ const StyledLink = styled.a`
     left: 0;
     right: 0;
     height: 2px;
-    background-color: #f5f7fa;
+    background-color: #b3c2d9;
+    border-radius: 2px;
     animation-duration: 0.4s;
     animation-timing-function: ease-in;
     animation-name: anim;
+  }
+
+  &.active {
+    color: #d4dde9;
   }
 
   &.active::after {
@@ -63,6 +68,7 @@ const StyledLink = styled.a`
     right: 0;
     height: 2px;
     background-color: #f5f7fa;
+    border-radius: 2px;
   }
 
   @keyframes anim {

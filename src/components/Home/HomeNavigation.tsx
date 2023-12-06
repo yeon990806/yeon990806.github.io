@@ -75,9 +75,14 @@ const StyledNav = styled.nav`
   }
 
   &.mobile {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     text-align: center;
+    background-color: #292f36;
 
     a {
       padding: 17px 0;

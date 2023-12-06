@@ -42,6 +42,10 @@ const StyledLogo = styled.a`
     margin-right: 8px;
     color: #4ea5ff;
   }
+
+  @media (max-width: 599px) {
+    font-size: 20px;
+  }
 `;
 
 export default HomeHeader;

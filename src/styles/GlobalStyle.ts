@@ -6,7 +6,7 @@ const GlobalStyle = createGlobalStyle`
   ${ reset }
   * {
     font-family: "Pretendard", sans-serif;
-
+    box-sizing: border-box;
   }
 
   html {
@@ -25,12 +25,17 @@ const GlobalStyle = createGlobalStyle`
 
   main {
     height: 100%;
-    display: flex;
-    flex-direction: column;
 
     .home-section {
       height: 100%;
       padding-top: 60px;
+    }
+
+    @media (max-width: 599px) {
+      .home-section {
+        padding-top: 52px;
+        padding-bottom: 46px;
+      }
     }
   }
 `;

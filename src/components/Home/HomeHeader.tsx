@@ -27,6 +27,7 @@ const StyledHomeHeader = styled.header`
   align-items: center;
   justify-content: space-between;
   backdrop-filter: blur(10px);
+  z-index: 10;
 `;
 
 const StyledLogo = styled.a`

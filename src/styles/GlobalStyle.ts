@@ -29,6 +29,11 @@ const GlobalStyle = createGlobalStyle`
     .home-section {
       height: 100%;
       padding-top: 60px;
+
+      .container {
+        height: 100%;
+        padding: 8px;
+      }
     }
 
     @media (max-width: 599px) {

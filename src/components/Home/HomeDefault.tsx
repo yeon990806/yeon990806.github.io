@@ -116,6 +116,7 @@ const StyledArticleContainer = styled.div`
       padding: 8px 4px;
       margin-top: 24px;
       font: inherit;
+      font-weight: 800;
       color: #f5f7fa;
       text-decoration: none;
       overflow: hidden;

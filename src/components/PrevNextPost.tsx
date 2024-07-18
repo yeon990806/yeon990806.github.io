@@ -3,6 +3,7 @@ import { PostType } from "@/libs/types";
 import { useRouter } from "next/navigation";
 import { PiArrowLeft, PiArrowRight } from "react-icons/pi"
 import { motion } from "framer-motion";
+import { cn } from "@/libs/util";
 
 type PrevNextPostProps = {
   prevPost: PostType;
@@ -19,9 +20,9 @@ const PrevNextPost = ({
   };
 
   return (
-    <div className="flex items-center justify-between mt-8">
+    <div className="flex flex-col items-center justify-between mt-8 sm:flex-row">
       <motion.button
-        className="inline-flex items-center gap-4 p-4"
+        className={cn("inline-flex items-center w-full gap-4 p-4 md:w-auto", prevPost && 'bg-light-gray200 dark:bg-dark-gray200 rounded')}
         onClick={() => onClickPost(prevPost.slug, prevPost.category)}
         disabled={!prevPost}
         aria-disabled={!prevPost}
@@ -49,7 +50,7 @@ const PrevNextPost = ({
         )}
       </motion.button>
       <motion.button
-        className="inline-flex items-center gap-4 p-4"
+        className={cn("inline-flex items-center w-full gap-4 p-4 md:w-auto", nextPost && 'bg-light-gray200 dark:bg-dark-gray200 rounded')}
         onClick={() => onClickPost(nextPost.slug, nextPost.category)}
         disabled={!nextPost}
         aria-disabled={!nextPost}

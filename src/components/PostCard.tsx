@@ -16,7 +16,7 @@ const PostCard = ({
   const router = useRouter();
 
   return (
-    <div className="p-4 cursor-pointer" onClick={() => router.push(pageURL)}>
+    <div className="p-4 transition-all delay-100 cursor-pointer hover:bg-light-gray200 dark:hover:bg-dark-gray100 hover:ease-in-out" onClick={() => router.push(pageURL)}>
       <div className="text-md text-light-blue400 dark:text-dark-blue400">
         {series}
       </div>

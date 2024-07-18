@@ -1,17 +1,21 @@
 import PostCard from "@/components/PostCard";
+import SideTagList from "@/components/SideTagList";
 import { getAllPostList } from "@/libs/post";
 
 export default async function Home() {
   const postList = await getAllPostList();
 
   return (
-    <main className="h-100">
-      {postList.map((post, idx) => (
-        <PostCard
-          { ...post }
-          key={idx}
-        />
-      ))}
-    </main>
+    <div className="grid gap-4 h-100 grid-cols-auto-1fr">
+      <SideTagList />
+      <section>
+        {postList.map((post, idx) => (
+          <PostCard
+            { ...post }
+            key={idx}
+          />
+        ))}
+      </section>
+    </div>
   );
 }

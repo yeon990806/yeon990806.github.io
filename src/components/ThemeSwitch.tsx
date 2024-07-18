@@ -29,7 +29,7 @@ const ThemeSwitch = () => {
         {currentTheme}
       </button>
       <motion.div
-        className="box-content absolute left-0 right-0 w-32 mt-1 overflow-hidden border rounded-md shadow-lg border-light-gray200 dark:border-dark-gray200 bg-light-bgay100 dark:bg-dark-gray100"
+        className="box-content absolute left-0 right-0 w-32 mt-1 overflow-hidden border rounded-md shadow-lg border-light-gray200 dark:border-dark-gray200 bg-light-gray100 dark:bg-dark-gray100"
         initial={{ opacity: 0, height: 0 }}
         animate={{ opacity: menuOpen ? 1 : 0, height: menuOpen ? 'auto' : 0 }}
         transition={{ duration: 0.3 }}

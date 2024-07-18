@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className="h-full scroll-my-20 scroll-smooth" suppressHydrationWarning>
-      <body className="flex flex-col min-h-screen font-Pretendard bg-light-background dark:bg-dark-background">
+      <body className="flex flex-col min-h-screen transition ease-in-out font-Pretendard bg-light-background dark:bg-dark-background">
         <ThemeProvider>
           <BlogHeader />
           <main className="mt-[64px] flex flex-1 pt-4 pb-12 flex-col">

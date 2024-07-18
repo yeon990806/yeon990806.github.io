@@ -72,3 +72,18 @@ export const getSortedPostList = async (category?: string) => {
   const postList = await getAllPostList(category);
   return sortPostList(postList);
 };
+
+export const getAllTagList = async () => {
+  const postList = await getAllPostList();
+  const tagCountMap: { [key: string]: number } = {};
+
+  postList.forEach(post => {
+    post.tags?.forEach(tag => {
+      if (tagCountMap[tag]) tagCountMap[tag] += 1;
+      else tagCountMap[tag] = 1;
+      tagCountMap.all = (tagCountMap.all || 0) + 1;
+    });
+  });
+
+  return tagCountMap;
+};

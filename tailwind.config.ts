@@ -69,7 +69,8 @@ const config: Config = {
         }
       },
       gridTemplateColumns: {
-        '1fr-auto': '1fr auto'
+        '1fr-auto': '1fr auto',
+        'auto-1fr': 'auto 1fr'
       },
       spacing: {
         toc: 'calc((100vw - 768px) / 2 - 180px)'

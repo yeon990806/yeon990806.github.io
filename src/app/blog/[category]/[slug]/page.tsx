@@ -1,10 +1,9 @@
 import PostContent from "@/components/PostContent";
 import PostHeader from "@/components/PostHeader";
 import PrevNextPost from "@/components/PrevNextPost";
-import { getAllPostList, getPostBasicInfo, getPostDetail, getPostPathList, getSortedPostList } from "@/libs/post";
+import { getPostBasicInfo, getPostDetail, getPostPathList, getSortedPostList } from "@/libs/post";
 import { PostType } from "@/libs/types";
 import { Metadata } from "next";
-import { MDXRemote } from "next-mdx-remote";
 import { notFound } from "next/navigation";
 
 type PostPageProps = {

@@ -3,7 +3,7 @@
 const assetPrefix = process.env.NODE_ENV === 'production' ? 'https://yeon990806.github.io/' : ''
 
 const nextConfig = {
-  output: 'export',
+  output: process.env.NODE_ENV === 'production' ? 'export' : '',
   assetPrefix,
 };
 

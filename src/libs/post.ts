@@ -61,7 +61,6 @@ export const getAllPostList = async (category?: string): Promise<PostType[]> => 
 export const getPostDetail = (category: string, slug: string) => {
   const decodedSlug = decodeURIComponent(slug);
   const filePath = `${POSTS_PATH}/${category}/${decodedSlug}.mdx`;
-  console.log('filePath', filePath);
 
   const postInfo = parsePost(filePath);
   return postInfo;

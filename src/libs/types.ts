@@ -9,6 +9,8 @@ export type PostType = {
   createdDate: string;
   content: string;
   readingMinutes: number;
+  series: string;
+  tags: string[];
 }
 
 export type corePostType = Omit<PostType, 'body' | '_raw' | '_id'>;

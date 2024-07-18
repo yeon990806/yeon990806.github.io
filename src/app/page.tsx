@@ -8,9 +8,7 @@ export default async function Home() {
     <main className="h-100">
       {postList.map((post, idx) => (
         <PostCard
-          postTitle={post.title}
-          createdDate={post.createdDate}
-          url={post.pageURL}
+          { ...post }
           key={idx}
         />
       ))}

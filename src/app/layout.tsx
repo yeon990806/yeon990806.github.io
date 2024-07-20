@@ -2,14 +2,14 @@ import "./globals.css";
 import 'dayjs/locale/ko';
 import type { Metadata } from "next";
 import dayjs from 'dayjs';
-import BlogHeader from "@/components/BlogHeader";
-import BlogFooter from "@/components/BlogFooter";
+import BlogHeader from "@/components/layout/BlogHeader";
+import BlogFooter from "@/components/layout/BlogFooter";
 import ThemeProvider from "@/components/ThemeProvider";
 
 dayjs.locale('ko');
 
 export const metadata: Metadata = {
-  title: "YeON.DEV",
+  title: "YeON.me",
 };
 
 export default function RootLayout({

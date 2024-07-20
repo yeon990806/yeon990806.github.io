@@ -13,4 +13,10 @@ export type PostType = {
   tags: string[];
 }
 
+export type SeriesType = {
+  img: string;
+  title: string;
+  desc: string;
+};
+
 export type corePostType = Omit<PostType, 'body' | '_raw' | '_id'>;

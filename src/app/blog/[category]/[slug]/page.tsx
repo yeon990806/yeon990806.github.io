@@ -20,7 +20,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params: { category, slug } }: PostPageProps): Promise<Metadata> {
   const post: PostType = await getPostDetail(category, slug);
 
-  const title = `${post.title} | YeON.dev`;
+  const title = `${post.title} | YeON.me`;
   // const imageURL = `${baseDomain}${post.thumbnail}`;
 
   if (!post) {

@@ -50,7 +50,7 @@ const PrevNextPost = ({
         )}
       </motion.button>
       <motion.button
-        className={cn("inline-flex items-center w-full gap-4 p-4 md:w-auto", nextPost && 'bg-light-gray200 dark:bg-dark-gray200 rounded')}
+        className={cn("inline-flex items-center justify-between w-full gap-4 p-4 md:w-auto", nextPost && 'bg-light-gray200 dark:bg-dark-gray200 rounded')}
         onClick={() => onClickPost(nextPost.slug, nextPost.category)}
         disabled={!nextPost}
         aria-disabled={!nextPost}

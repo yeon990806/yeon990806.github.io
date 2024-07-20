@@ -87,3 +87,9 @@ export const getAllTagList = async () => {
 
   return tagCountMap;
 };
+
+export const getSeriesList = async (): Promise<string[]> => {
+  const postList = await getAllPostList();
+
+  return Array.from(new Set(postList.map(v => v.series)));
+};

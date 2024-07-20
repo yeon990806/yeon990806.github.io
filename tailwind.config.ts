@@ -73,7 +73,7 @@ const config: Config = {
         'auto-1fr': 'auto 1fr'
       },
       spacing: {
-        toc: 'calc((100vw - 768px) / 2 - 180px)'
+        toc: 'calc((100vw - 1024px) / 2 - 180px)'
       }
     },
   },

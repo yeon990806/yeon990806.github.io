@@ -1,17 +1,18 @@
+import PostList from "@/components/PostList";
+import PageTitle from "@/components/layout/PageTitle";
 import { getAllPostList } from "@/libs/post";
-import { PostType } from "@/libs/types";
 
-const BlogPage = async () => {
+const BlogPage = async ({ searchParams }: { searchParams: {tags?: string} }) => {
+  const selectedTag = searchParams.tags || 'all';
   const postList = await getAllPostList();
   
   return (
-    <div>
-      <h1>Blog</h1>
-      <ul>
-        {postList?.map((post: PostType, idx: number) => (
-          <li key={idx}>{post.slug}</li>
-        ))}
-      </ul>
+    <div className="w-full max-w-5xl mx-auto relative h-full px-4 mx-auto lg:max-w-6xl lg:px-8">
+      <PageTitle
+        pageTitle="Blog"
+        pageDescription=""
+      />
+      <PostList postList={postList} />
     </div>
   );
 };

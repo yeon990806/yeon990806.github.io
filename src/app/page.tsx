@@ -7,15 +7,7 @@ export default async function Home() {
 
   return (
     <div className="grid gap-4 h-100 grid-cols-auto-1fr">
-      <SideTagList />
-      <section>
-        {postList.map((post, idx) => (
-          <PostCard
-            { ...post }
-            key={idx}
-          />
-        ))}
-      </section>
+      
     </div>
   );
 }

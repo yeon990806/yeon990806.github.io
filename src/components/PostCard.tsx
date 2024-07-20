@@ -9,24 +9,31 @@ const PostCard = ({
   createdDate,
   pageURL,
   readingMinutes,
-  description,
   series,
-  tags
+  tags,
+  content
 }: PostType) => {
   const router = useRouter();
+  const desc = content
+  .replace(/(?<=\])\((.*?)\)/g, '')
+  .replace(/(?<!\S)((http)(s?):\/\/|www\.).+?(?=\s)/g, '')
+  .replace(/[#*\|\[\]]|(\-{3,})|(`{3})(\S*)(?=\s)/g, '')
+  .replace(/\s+/g, ' ')
+  .trim()
+  .slice(0, 160);
 
   return (
-    <div className="p-4 transition-all delay-100 cursor-pointer hover:bg-light-gray200 dark:hover:bg-dark-gray100 hover:ease-in-out" onClick={() => router.push(pageURL)}>
+    <div className="p-4 transition-all delay-100 cursor-pointer hover:bg-light-gray200 dark:hover:bg-dark-gray100 hover:ease-in-out overflow-hidden" onClick={() => router.push(pageURL)}>
       <div className="text-md text-light-blue400 dark:text-dark-blue400">
         {series}
       </div>
       <div className="grid gap-1">
-        <div>
+        <div className="w-full overflow-hidden">
           <h3 className="text-lg text-light-gray800 dark:text-dark-gray800">
             { title }
           </h3>
-          <p className="text-md text-light-gray600 dark:text-dark-gray600">
-            { description }
+          <p className="text-md text-light-gray600 dark:text-dark-gray600 text-ellipsis overflow-hidden w-full whitespace-nowrap">
+            { desc }
           </p>
         </div>
         <div>

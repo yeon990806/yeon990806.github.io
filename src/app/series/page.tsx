@@ -1,21 +1,23 @@
-import InputSearch from "@/components/InputSearch";
 import SeriesList from "@/components/SeriesList";
 import PageTitle from "@/components/layout/PageTitle";
-import { getSeriesList } from "@/libs/post";
+import { getAllPostList, getSeriesList, sortPostList } from "@/libs/post";
 
 const SeriesPage = async () => {
   const seriesList = await getSeriesList();
+  const postList = sortPostList(await getAllPostList());
 
-  return (
-    <div className="w-full max-w-5xl mx-auto relative h-full px-4 mx-auto lg:max-w-6xl lg:px-8">
+return (
+    <div className="relative w-full h-full max-w-5xl px-4 mx-auto lg:max-w-6xl lg:px-8">
       <PageTitle
         pageTitle="Series"
         pageDescription=""
       />
-      <section className="mt-8">
-        <SeriesList dataList={seriesList} />
-      </section>
+      <SeriesList
+        seriesList={seriesList}
+        postList={postList}
+      />
     </div>
   );
 }
+
 export default SeriesPage;

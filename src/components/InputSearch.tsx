@@ -5,22 +5,22 @@ import { FormEvent, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 
 type InputSearchProps = {
-  dataList: any[];
-  onChange: () => string;
+  keyword: string;
+  onInputValue: (v: string) => void;
 };
 
 const InputSearch = ({
-  dataList
+  keyword,
+  onInputValue
 }: InputSearchProps) => {
-  const [inputValue, setInputValue] = useState<string>('');
-
   return (
-    <div>
-      <FiSearch />
+    <div className="grid items-center gap-2 px-2 grid-cols-auto-1fr bg-light-gray300 dark:bg-dark-gray300">
+      <FiSearch size={18} />
       <input
         type="text"
-        value={inputValue}
-        onInput={(e: FormEvent<HTMLInputElement>) => setInputValue(e.currentTarget.value)}
+        value={keyword}
+        onInput={(e: FormEvent<HTMLInputElement>) => onInputValue(e.currentTarget.value)}
+        className="p-2 bg-transparent outline-none"
       />
     </div>
   );

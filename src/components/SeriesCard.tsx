@@ -1,11 +1,15 @@
 import { SeriesType } from "@/libs/types";
+import dayjs from "dayjs";
 import Image from "next/image";
 
 const SeriesCard = ({
   title,
   img,
-  desc
+  desc,
+  postCnt,
+  lastModified
 }: SeriesType) => {
+
   return (
     <div className="">
       <div className="">
@@ -14,8 +18,14 @@ const SeriesCard = ({
       <div className="mt-2 text-lg font-bold leading-none">
         {title}
       </div>
-      <div className="mt-1 text-md font-normal leading-none">
+      <div className="mt-1 font-normal leading-none text-md">
         {desc}
+      </div>
+      <div className="mt-1 font-normal leading-none text-md">
+        {postCnt}
+      </div>
+      <div className="mt-1 font-normal leading-none text-md">
+        { dayjs(lastModified).locale('ko').format('YYYY년 MM월 DD일')}
       </div>
     </div>
   );

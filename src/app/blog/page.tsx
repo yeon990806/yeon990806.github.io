@@ -1,18 +1,21 @@
 import PostList from "@/components/PostList";
 import PageTitle from "@/components/layout/PageTitle";
-import { getAllPostList } from "@/libs/post";
+import { getAllPostList, getAllTagList } from "@/libs/post";
 
 const BlogPage = async () => {
-  // const selectedTag = searchParams.tags || 'all';
   const postList = await getAllPostList();
+  const tagList = await getAllTagList();
   
   return (
-    <div className="w-full max-w-5xl mx-auto relative h-full px-4 mx-auto lg:max-w-6xl lg:px-8">
+    <div className="relative w-full h-full max-w-5xl px-4 mx-auto lg:max-w-6xl lg:px-8">
       <PageTitle
         pageTitle="Blog"
         pageDescription=""
       />
-      <PostList postList={postList} />
+      <PostList
+        postList={postList}
+        tagList={tagList}
+      />
     </div>
   );
 };

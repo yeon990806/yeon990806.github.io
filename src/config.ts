@@ -20,6 +20,7 @@ export const siteConfig = {
   menus: [
     { label: 'blog', path: '/blog' },
     { label: 'series', path: '/series' },
+    { label: 'timeline', path: '/timeline' },
     { label: 'about me', path: '/about' }
   ]
 }

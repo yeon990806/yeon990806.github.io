@@ -2,8 +2,8 @@ import PostList from "@/components/PostList";
 import PageTitle from "@/components/layout/PageTitle";
 import { getAllPostList } from "@/libs/post";
 
-const BlogPage = async ({ searchParams }: { searchParams: {tags?: string} }) => {
-  const selectedTag = searchParams.tags || 'all';
+const BlogPage = async () => {
+  // const selectedTag = searchParams.tags || 'all';
   const postList = await getAllPostList();
   
   return (

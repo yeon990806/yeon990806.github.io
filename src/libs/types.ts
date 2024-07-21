@@ -17,8 +17,8 @@ export type SeriesType = {
   img: string;
   title: string;
   desc: string;
-  postCnt: number;
-  lastModified: Date;
+  postCnt?: number;
+  lastModified?: Date;
 };
 
 export type corePostType = Omit<PostType, 'body' | '_raw' | '_id'>;

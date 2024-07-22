@@ -93,3 +93,9 @@ export const getSeriesList = async (): Promise<string[]> => {
 
   return Array.from(new Set(postList.map(v => v.series)));
 };
+
+export const getSeriesPostList = async (series: string) => {
+  const postList = await getAllPostList();
+
+  return postList.filter(v => v.series?.includes(series))
+}

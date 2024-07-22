@@ -1,13 +1,38 @@
 import PostCard from "@/components/PostCard";
 import PageTitle from "@/components/layout/PageTitle";
 import { Series } from "@/constant/series";
-import { getSeriesPostList, sortPostList } from "@/libs/post";
+import { getAllSeriesSlugs, getSeriesPostList, sortPostList } from "@/libs/post";
 import dayjs from "dayjs";
 import { FiBook, FiClock } from "react-icons/fi";
 
 type SeriesPageProps = {
   params: {
     slug: string;
+  };
+};
+
+export const dynamicParams: boolean = false;
+
+export const generateStaticParams = async () => {
+  const slugs = getAllSeriesSlugs();
+  
+  return slugs.map((slug: string) => ({
+    slug,
+  }));
+};
+
+export const generateMetadata = async ({ params }: SeriesPageProps) => {
+  const series = Series.find(series => series.title === params.slug);
+
+  if (!series) {
+    return {
+      title: "Post Not Found",
+    };
+  }
+
+  return {
+    title: `${series?.title} 시리즈`,
+    description: series?.desc || '',
   };
 };
 

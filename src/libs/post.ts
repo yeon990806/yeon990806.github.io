@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import readingTime from "reading-time";
 import { sync } from "glob"
 import { PostType } from "./types";
+import { Series } from "@/constant/series";
 
 const BASE_PATH = '/posts';
 const POSTS_PATH = path.join(process.cwd(), BASE_PATH);
@@ -13,6 +14,10 @@ export const getPostPathList = (category?: string) => {
   const folder = category || '**';
   const postPaths: string[] = sync(`${POSTS_PATH}/${folder}/**/*.mdx`);
   return postPaths;
+};
+
+export const getAllSeriesSlugs = () => {
+  return Series.map(series => series.title);
 };
 
 export const parsePost = async (postPath: string) => {

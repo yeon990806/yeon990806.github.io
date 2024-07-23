@@ -46,8 +46,8 @@ const SeriesDetail = async ({ params }: SeriesPageProps) => {
         pageTitle={`시리즈`}
         pageDescription=""
       />
-      <div className="grid gap-10 pt-4 mt-2 border-t border-solid border-light-gray800 dark:border-dark-gray800 grid-cols-auto-1fr">
-        <div className="w-[240px]">
+      <div className="grid gap-10 pt-4 mt-2 border-t border-solid border-light-gray800 dark:border-dark-gray800 md:grid-cols-auto-1fr">
+        <div className="w-full md:w-[240px]">
           <div className="w-full overflow-hidden rounded-md">
             <img src={series?.img} />
           </div>

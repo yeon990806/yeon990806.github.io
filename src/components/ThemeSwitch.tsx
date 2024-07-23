@@ -15,8 +15,6 @@ const ThemeSwitch = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const {theme, setTheme} = useTheme();
 
-  const toggleTheme = () => setTheme((prevTheme) => (prevTheme === 'LIGHT' ? 'DARK' : 'LIGHT'));
-
   useEffect(() => { setMounted(true) }, []);
 
   if (!mounted) return null;
@@ -24,7 +22,7 @@ const ThemeSwitch = () => {
   const currentTheme = theme === 'LIGHT' ? <PiSun size={16} /> : <PiMoon size={16} />;
 
   return (
-    <div className="relative inline-block">
+    <div className="relative inline-block max-md:hidden">
       <button className="p-2.5 cursor-pointer" onClick={() => setMenuOpen(prev => !prev)}>
         {currentTheme}
       </button>

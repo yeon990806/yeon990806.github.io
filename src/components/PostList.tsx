@@ -5,6 +5,7 @@ import SideTagList from "./SideTagList";
 import { useEffect, useState } from "react";
 import InputSearch from "./InputSearch";
 import useDebounce from "@/hooks/useDebounce";
+import TopTagList from "./TopTagList";
 
 type PostListProps = {
   postList: PostType[];
@@ -39,7 +40,12 @@ const PostList = ({
         keyword={searchKeyword}
         onInputValue={setSearchKeyword}
       />
-      <div className="grid gap-4 mt-8 grid-cols-auto-1fr">
+      <TopTagList
+        tagList={tagList}
+        selectedTag={selectedTag}
+        onClickTag={setSelectedTag}
+      />
+      <div className="grid gap-4 mt-4 grid-cols-auto-1fr md:mt-8">
         <SideTagList
           tagList={tagList}
           selectedTag={selectedTag}

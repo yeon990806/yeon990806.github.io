@@ -1,18 +1,15 @@
 'use client'
-import { useState, useEffect } from "react";
-import { usePathname } from 'next/navigation';
-import useDelayedRender from "use-delayed-render";
+import HeaderNav from "./HeaderNav";
 import Link from "next/link";
 import ThemeSwitch from "../ThemeSwitch";
-import HeaderNav from "./HeaderNav";
+import ToggleNav from "./ToggleNav";
+import { useState, useEffect } from "react";
+import { usePathname } from 'next/navigation';
+import { FiMenu } from "react-icons/fi";
 
 const BlogHeader = () => {
   const pathname = usePathname();
   const [openedMenu, setMenuOpen] = useState<boolean>(false);
-  const { mounted, rendered } = useDelayedRender(openedMenu, {
-    enterDelay: 20,
-    exitDelay: 300
-  });
 
   const onToggleMenu = () => {
     if (openedMenu) {
@@ -34,23 +31,32 @@ const BlogHeader = () => {
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 flex items-center justify-between py-4 bg-light-background dark:bg-dark-background">
-      <div className="flex items-center w-full gap-4 px-6">
-        <Link href="/">
-          <span className="inline-flex items-center gap-1 cursor-pointer">
-            &lt;
-            <span className="text-light-gray600 dark:text-dark-gray600">
-              <strong className="text-primary">YeON</strong>.me
+    <>
+      <header className="fixed inset-x-0 top-0 z-50 flex py-4 bg-light-background dark:bg-dark-background">
+        <div className="flex items-center w-full gap-4 px-6 max-md:justify-between">
+          <Link href="/">
+            <span className="inline-flex items-center gap-1 cursor-pointer">
+              &lt;
+              <span className="text-light-gray600 dark:text-dark-gray600">
+                <strong className="text-primary">YeON</strong>.me
+              </span>
+              &gt;
             </span>
-            &gt;
-          </span>
-        </Link>
-        <div className="hidden md:block">
-          <HeaderNav />
+          </Link>
+          <div className="hidden md:block">
+            <HeaderNav />
+          </div>
+          <ThemeSwitch />
+          <button
+            onClick={onToggleMenu}
+            className="inline-block p-2 border border-solid rounded cursor-pointer md:hidden border-light-gray800 dark:border-dark-gray800"
+          >
+            <FiMenu />
+          </button>
         </div>
-        <ThemeSwitch />
-      </div>
-    </header>
+      </header>
+      {openedMenu && <ToggleNav onToggle={onToggleMenu} /> }
+    </>
   );
 };
 

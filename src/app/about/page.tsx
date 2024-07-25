@@ -34,7 +34,7 @@ return (
       />
       <div className="grid grid-rows-1 gap-4 md:grid-cols-auto-1fr">
         <div className="min-w-[320px] overflow-hidden bg-no-repeat bg-cover bg-center rounded-lg aspect-video bg-profile"></div>
-        <p className="leading-relax text-light-gray800 dark:text-light-gray800">
+        <p className="leading-relax text-light-gray800 dark:text-dark-gray800">
           안녕하세요. {YEAR - 1}년을 퍼블리셔로, {YEAR}년간 프론트엔드 개발자로 일하고 있는
             <ruby className="text-light-blue500 dark:text-dark-blue500">
               YeON

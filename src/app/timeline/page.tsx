@@ -8,9 +8,9 @@ const Timeline = async () => {
   return (
     <div className="grid w-full h-full max-w-5xl gap-8 px-4 mx-auto lg:max-w-6xl lg:px-8">
       { yearList.map((v) => (
-        <section key={`timeline-year-${v}`} className="grid gap-8 grid-cols-auto-1fr">
+        <section key={`timeline-year-${v}`} className="grid gap-4 md:grid-cols-auto-1fr md:gap-8">
           <div className="flex items-baseline gap-2">
-            <h3 className="text-xl font-black text-light-gray800 dark:text-dark-gray800">
+            <h3 className="text-lg font-black text-light-gray800 dark:text-dark-gray800">
               { v }
             </h3>
             <span className="font-normal text-md text-light-gray400 dark:text-dark-gray400">

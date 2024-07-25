@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import PostCard from "@/components/PostCard";
 import PageTitle from "@/components/layout/PageTitle";
 import { Series } from "@/constant/series";
@@ -49,7 +50,7 @@ const SeriesDetail = async ({ params }: SeriesPageProps) => {
       <div className="grid gap-10 pt-4 mt-2 border-t border-solid border-light-gray800 dark:border-dark-gray800 md:grid-cols-auto-1fr">
         <div className="w-full md:w-[240px]">
           <div className="w-full overflow-hidden rounded-md">
-            <img src={series?.img} />
+            <img src={series?.img} alt={series?.title} />
           </div>
           <h2 className="mt-4 text-xl font-bold leading-relaxed text-light-gray800 dark:text-dark-gray800">
             { series?.title }
@@ -75,7 +76,7 @@ const SeriesDetail = async ({ params }: SeriesPageProps) => {
               <div className="flex items-center justify-center w-8 text-3xl italic font-semibold">
                 {idx + 1}
               </div>
-              <PostCard {...post} />
+              <PostCard {...post} hideSeries />
             </div>
           )) }
         </section>

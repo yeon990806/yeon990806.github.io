@@ -74,6 +74,9 @@ const config: Config = {
       },
       spacing: {
         toc: 'calc((100vw - 1024px) / 2 - 180px)'
+      },
+      backgroundImage: {
+        profile: 'url("/images/profile.jpeg")'
       }
     },
   },

@@ -9,7 +9,7 @@ const PageTitle = ({
 }: PageTitleProps) => {
   return (
     <div className="grid gap-2">
-      <h1 className="text-2xl">
+      <h1 className="text-2xl font-bold">
         { pageTitle }
       </h1>
       <p>

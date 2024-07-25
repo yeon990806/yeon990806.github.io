@@ -11,8 +11,9 @@ const PostCard = ({
   readingMinutes,
   series,
   tags,
-  content
-}: PostType) => {
+  content,
+  hideSeries
+}: PostType & { hideSeries?: boolean }) => {
   const router = useRouter();
   const desc = content
   .replace(/(?<=\])\((.*?)\)/g, '')
@@ -23,16 +24,16 @@ const PostCard = ({
   .slice(0, 160);
 
   return (
-    <div className="p-4 transition-all delay-100 cursor-pointer hover:bg-light-gray200 dark:hover:bg-dark-gray100 hover:ease-in-out overflow-hidden" onClick={() => router.push(pageURL)}>
-      <div className="text-md text-light-blue400 dark:text-dark-blue400">
+    <div className="p-4 overflow-hidden transition-all delay-100 cursor-pointer hover:bg-light-gray200 dark:hover:bg-dark-gray100 hover:ease-in-out" onClick={() => router.push(pageURL)}>
+      { !hideSeries && <div className="text-md text-light-blue400 dark:text-dark-blue400">
         {series}
-      </div>
+      </div> }
       <div className="grid gap-1">
         <div className="w-full overflow-hidden">
           <h3 className="text-lg text-light-gray800 dark:text-dark-gray800">
             { title }
           </h3>
-          <p className="text-md text-light-gray600 dark:text-dark-gray600 text-ellipsis overflow-hidden w-full whitespace-nowrap">
+          <p className="w-full overflow-hidden text-md text-light-gray600 dark:text-dark-gray600 text-ellipsis whitespace-nowrap">
             { desc }
           </p>
         </div>

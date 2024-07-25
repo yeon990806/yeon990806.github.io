@@ -1,7 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
 import { SeriesType } from "@/libs/types";
 import dayjs from "dayjs";
-import Image from "next/image";
 import Link from "next/link";
+import { FiBook, FiClock } from "react-icons/fi";
 
 const SeriesCard = ({
   title,
@@ -13,22 +14,22 @@ const SeriesCard = ({
   return (
     <Link
       href={`/series/${title}`}
-      className="p-4 transition-all delay-100 cursor-pointer hover:bg-light-gray200 dark:hover:bg-dark-gray100 hover:ease-in-out"
+      className="transition-all delay-100 cursor-pointer hover:bg-light-gray200 dark:hover:bg-dark-gray100 hover:ease-in-out text-light-gray800 dark:text-dark-gray800"
     >
-      <div className="">
-        <Image src={img} width={128} height={128} alt={`series-${title}`} />
+      <div className="w-full overflow-hidden rounded-lg">
+        <img src={img} alt={`series-${title}`} loading="lazy" className="w-full" />
       </div>
-      <div className="mt-2 text-lg font-bold leading-none">
+      <div className="mt-3 text-lg font-bold leading-none">
         {title}
       </div>
-      <div className="mt-1 font-normal leading-none text-md">
+      <div className="mt-2 font-normal leading-none text-md">
         {desc}
       </div>
-      <div className="mt-1 font-normal leading-none text-md">
-        {postCnt}
+      <div className="grid items-center gap-2 mt-1 font-normal leading-none text-md grid-cols-auto-1fr">
+        <FiBook className="mb-0.5" /> {postCnt}개의 포스트
       </div>
-      <div className="mt-1 font-normal leading-none text-md">
-        { dayjs(lastModified).locale('ko').format('YYYY년 MM월 DD일')}
+      <div className="grid items-center gap-2 mt-1 font-normal leading-none text-md grid-cols-auto-1fr">
+        마지막 업데이트 | { dayjs(lastModified).locale('ko').format('YYYY년 MM월 DD일')}
       </div>
     </Link>
   );

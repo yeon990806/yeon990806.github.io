@@ -1,6 +1,7 @@
 import PostContent from "@/components/PostContent";
 import PostHeader from "@/components/PostHeader";
 import PrevNextPost from "@/components/PrevNextPost";
+import SeriesPost from "@/components/SeriesPost";
 import { getPostBasicInfo, getPostDetail, getPostPathList, getSortedPostList } from "@/libs/post";
 import { PostType } from "@/libs/types";
 import { Metadata } from "next";
@@ -67,6 +68,10 @@ const PostDetail = async ({ params: { category, slug } }: PostPageProps) => {
           readingTime={postData.readingMinutes}
         />
         <PostContent post={postData} />
+        <SeriesPost
+          series={postData.series}
+          thisPost={postData.pageURL}
+        />
         <PrevNextPost
           prevPost={sortedPostList[currentIdx - 1]}
           nextPost={sortedPostList[currentIdx + 1]}

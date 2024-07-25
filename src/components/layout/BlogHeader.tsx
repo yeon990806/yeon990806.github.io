@@ -4,11 +4,9 @@ import Link from "next/link";
 import ThemeSwitch from "../ThemeSwitch";
 import ToggleNav from "./ToggleNav";
 import { useState, useEffect } from "react";
-import { usePathname } from 'next/navigation';
 import { FiMenu } from "react-icons/fi";
 
 const BlogHeader = () => {
-  const pathname = usePathname();
   const [openedMenu, setMenuOpen] = useState<boolean>(false);
 
   const onToggleMenu = () => {
@@ -19,11 +17,6 @@ const BlogHeader = () => {
       setMenuOpen(true);
       document.body.classList.add('overflow-hidden');
     }
-  };
-
-  const activingMenu = (navPath: string) => {
-    if (navPath === '/') return pathname === navPath;
-    return pathname.startsWith(navPath);
   };
 
   useEffect(() => {

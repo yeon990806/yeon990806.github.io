@@ -86,7 +86,7 @@ export const getAllTagList = async () => {
     post.tags?.forEach(tag => {
       if (tagCountMap[tag]) tagCountMap[tag] += 1;
       else tagCountMap[tag] = 1;
-      tagCountMap.all = (tagCountMap.all || 0) + 1;
+      tagCountMap.all = postList.length;
     });
   });
 

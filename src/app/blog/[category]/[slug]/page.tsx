@@ -1,8 +1,8 @@
+import Giscus from "@/components/Giscus";
 import PostContent from "@/components/PostContent";
 import PostHeader from "@/components/PostHeader";
 import PrevNextPost from "@/components/PrevNextPost";
 import SeriesPost from "@/components/SeriesPost";
-import Giscus from "@/components/giscus";
 import { getPostBasicInfo, getPostDetail, getPostPathList, getSortedPostList } from "@/libs/post";
 import { PostType } from "@/libs/types";
 import { Metadata } from "next";

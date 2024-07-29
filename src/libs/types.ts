@@ -22,3 +22,16 @@ export type SeriesType = {
 };
 
 export type corePostType = Omit<PostType, 'body' | '_raw' | '_id'>;
+
+export type CareerHistoryType = {
+  company: string;
+  range: string;
+  experiences: CareerItemType[];
+};
+
+export type CareerItemType = {
+  title: string;
+  date: string;
+  desc: string;
+  skill?: string[];
+}

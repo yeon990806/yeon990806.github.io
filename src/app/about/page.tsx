@@ -1,29 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import PageTitle from "@/components/layout/PageTitle";
-
-const YEAR = new Date().getFullYear() - 2020;
-
-const CAREER = [
-  {
-    company: '(주) 투네이션',
-    range: `2021.02 ~`,
-    experiences: [
-      {
-        title: '투네 AD 관리자 UI Kit',
-        desc: '',
-        trouble: '',
-      }
-    ]
-  },
-  {
-    company: '알파이글루 / (주) 에프티앤씨',
-    range: '2020.03 ~ 2021.01'
-  },
-  {
-    company: '(주) 인젠트',
-    range: '2017.09 ~ 2020.02'
-  }
-];
+import { CAREER_HISTORY, CAREER_YEAR } from "@/constant/career";
+import { groupedData } from "@/libs/util";
 
 const AboutPage = async () => {
 return (
@@ -35,8 +13,8 @@ return (
       <div className="grid grid-rows-1 gap-4 md:grid-cols-auto-1fr">
         <div className="min-w-[320px] overflow-hidden bg-no-repeat bg-cover bg-center rounded-lg aspect-video bg-profile"></div>
         <p className="leading-relax text-light-gray800 dark:text-dark-gray800">
-          안녕하세요. {YEAR - 1}년을 퍼블리셔로, {YEAR}년간 프론트엔드 개발자로 일하고 있는
-            <ruby className="text-light-blue500 dark:text-dark-blue500">
+          안녕하세요. {CAREER_YEAR - 1}년을 퍼블리셔로, {CAREER_YEAR}년간 프론트엔드 개발자로 일하고 있는
+            <ruby className="px-1 text-light-blue500 dark:text-dark-blue500">
               YeON
               <rt className="text-light-gray600 dark:text-dark-gray600">
                 김도연
@@ -65,15 +43,31 @@ return (
           경력
         </h6>
         <ul className="grid gap-2 mt-2">
-          { CAREER.map((item, idx) => (
-            <li key={idx}>
-              <div>
-                <h6>
+          { CAREER_HISTORY.map((item, idx) => (
+            <li key={idx} className="grid md:gap-8 md:grid-cols-auto-1fr">
+              <div className="inline-flex items-baseline gap-2">
+                <h6 className="text-lg font-semibold text-light-gray800 dark:text-dark-gray800">
                   {item.company}
                 </h6>
-                <div>
+                <div className="text-md text-light-gray500 dark:text-dark-gray500">
                   {item.range}
                 </div>
+              </div>
+              <div className="grid gap-4 pl-4 mt-2.5 border-l py-2">
+                {item.experiences.sort((a, b) => Number(b) - Number(a)).map((exp, idx) => (
+                  <div
+                    key={`${item.company}-exp-${idx}`}
+                    className="grid items-baseline gap-4 grid-cols-auto-1fr"
+                  >
+                    <div className="leading-none text-md text-semibold text-light-gray600 dark:text-dark-gray600">{exp.date}</div>
+                    <div className="grid gap-2">
+                      <div className="text-lg leading-none text-bold text-light-gray700 dark:text-dark-gray700">{exp.title}</div>
+                      <p className="whitespace-pre-wrap text-bold text-light-gray600 dark:text-dark-gray600 leading-relax">
+                        {exp.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </li>
           )) }

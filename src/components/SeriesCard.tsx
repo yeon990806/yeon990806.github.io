@@ -2,19 +2,20 @@
 import { SeriesType } from "@/libs/types";
 import dayjs from "dayjs";
 import Link from "next/link";
-import { FiBook, FiClock } from "react-icons/fi";
+import { FiBook, FiCalendar, FiClock } from "react-icons/fi";
 
 const SeriesCard = ({
   title,
   img,
   desc,
   postCnt,
-  lastModified
+  lastModified,
+  slug,
 }: SeriesType) => {
   return (
     <Link
-      href={`/series/${title}`}
-      className="transition-all delay-100 cursor-pointer hover:bg-light-gray200 dark:hover:bg-dark-gray100 hover:ease-in-out text-light-gray800 dark:text-dark-gray800"
+      href={`/series/${slug}`}
+      className="p-2 transition-all delay-100 cursor-pointer hover:bg-light-gray200 dark:hover:bg-dark-gray100 hover:ease-in-out text-light-gray800 dark:text-dark-gray800"
     >
       <div className="w-full overflow-hidden rounded-lg">
         <img src={img} alt={`series-${title}`} loading="lazy" className="w-full" />
@@ -29,7 +30,7 @@ const SeriesCard = ({
         <FiBook className="mb-0.5" /> {postCnt}개의 포스트
       </div>
       <div className="grid items-center gap-2 mt-1 font-normal leading-none text-md grid-cols-auto-1fr">
-        마지막 업데이트 | { dayjs(lastModified).locale('ko').format('YYYY년 MM월 DD일')}
+        <FiCalendar className="mb-0.5" /> { dayjs(lastModified).locale('ko').format('YYYY년 MM월 DD일')}
       </div>
     </Link>
   );

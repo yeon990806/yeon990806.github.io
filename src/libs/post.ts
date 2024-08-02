@@ -17,7 +17,7 @@ export const getPostPathList = (category?: string) => {
 };
 
 export const getAllSeriesSlugs = () => {
-  return Series.map(series => series.title);
+  return Series.map(series => series.slug);
 };
 
 export const parsePost = async (postPath: string) => {
@@ -99,8 +99,9 @@ export const getSeriesList = async (): Promise<string[]> => {
   return Array.from(new Set(postList.map(v => v.series)));
 };
 
-export const getSeriesPostList = async (series: string) => {
+export const getSeriesPostList = async (slug: string) => {
   const postList = await getAllPostList();
+  const series = Series.find(item => item.slug === slug);
 
-  return postList.filter(v => v.series?.includes(series))
+  return postList.filter(v => v.series?.includes(series?.title!));
 }

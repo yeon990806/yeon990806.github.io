@@ -23,7 +23,7 @@ export const generateStaticParams = async () => {
 };
 
 export const generateMetadata = async ({ params }: SeriesPageProps) => {
-  const series = Series.find(series => series.title === params.slug);
+  const series = Series.find(series => series.slug === params.slug);
 
   if (!series) {
     return {

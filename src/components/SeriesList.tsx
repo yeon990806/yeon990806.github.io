@@ -49,6 +49,7 @@ const SeriesList = ({
             desc={v.desc}
             postCnt={v.postCnt}
             lastModified={v.lastModified}
+            slug={v.slug}
           />
         )) }
       </section>

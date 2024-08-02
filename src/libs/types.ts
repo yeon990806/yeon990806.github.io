@@ -19,6 +19,7 @@ export type SeriesType = {
   desc: string;
   postCnt?: number;
   lastModified?: Date;
+  slug: string;
 };
 
 export type corePostType = Omit<PostType, 'body' | '_raw' | '_id'>;

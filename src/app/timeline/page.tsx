@@ -21,7 +21,7 @@ const Timeline = async () => {
             { postList.filter(post => post.date.getFullYear() === v).map((post, idx) => (
               <Link
                 key={`timeline-${v}=${idx}`}
-                className="grid items-center gap-2 border-b grid-cols-1fr-auto hover:border-light-gray800 dark:hover:border-dark-gray800 boder-solid border-light-background dark:border-dark-background"
+                className="grid items-center gap-2 transition-all grid-cols-1fr-auto hover:pl-4 transition-ease-out transition-delay-150"
                 href={`${post.pageURL}`}
               >
                 <h4>

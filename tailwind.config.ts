@@ -70,7 +70,9 @@ const config: Config = {
       },
       gridTemplateColumns: {
         '1fr-auto': '1fr auto',
-        'auto-1fr': 'auto 1fr'
+        'auto-1fr': 'auto 1fr',
+        'career': '240px 1fr',
+        'career-range': '140px 1fr'
       },
       spacing: {
         toc: 'calc((100vw - 1024px) / 2 - 180px)'

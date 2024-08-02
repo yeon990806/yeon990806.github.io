@@ -44,8 +44,8 @@ return (
         </h6>
         <ul className="grid gap-2 mt-2">
           { CAREER_HISTORY.map((item, idx) => (
-            <li key={idx} className="grid md:gap-8 md:grid-cols-auto-1fr">
-              <div className="inline-flex items-baseline gap-2">
+            <li key={idx} className="grid md:gap-8 md:grid-cols-career">
+              <div className="inline-flex flex-col items-baseline gap-2">
                 <h6 className="text-lg font-semibold text-light-gray800 dark:text-dark-gray800">
                   {item.company}
                 </h6>
@@ -57,7 +57,7 @@ return (
                 {item.experiences.sort((a, b) => Number(b) - Number(a)).map((exp, idx) => (
                   <div
                     key={`${item.company}-exp-${idx}`}
-                    className="grid items-baseline gap-4 grid-cols-auto-1fr"
+                    className="grid items-baseline gap-4 md:grid-cols-career-range"
                   >
                     <div className="leading-none text-md text-semibold text-light-gray600 dark:text-dark-gray600">{exp.date}</div>
                     <div className="grid gap-2">

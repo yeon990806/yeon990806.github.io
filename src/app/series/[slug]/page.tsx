@@ -4,6 +4,7 @@ import PageTitle from "@/components/layout/PageTitle";
 import { Series } from "@/constant/series";
 import { getAllSeriesSlugs, getSeriesPostList, sortPostList } from "@/libs/post";
 import dayjs from "dayjs";
+import Link from "next/link";
 import { FiBook, FiClock } from "react-icons/fi";
 
 type SeriesPageProps = {
@@ -39,17 +40,17 @@ export const generateMetadata = async ({ params }: SeriesPageProps) => {
 
 const SeriesDetail = async ({ params }: SeriesPageProps) => {
   const seriesPostList = sortPostList(await getSeriesPostList(params.slug));
-  const series = Series.find(series => series.title === params.slug);
+  const series = Series.find(series => series.slug === params.slug);
 
   return (
     <div>
       <PageTitle
-        pageTitle={`시리즈`}
+        pageTitle={<Link href="/series">시리즈</Link>}
         pageDescription=""
       />
       <div className="grid gap-10 pt-4 mt-2 border-t border-solid border-light-gray800 dark:border-dark-gray800 md:grid-cols-auto-1fr">
         <div className="w-full md:w-[240px]">
-          <div className="w-full overflow-hidden rounded-md">
+          <div className="flex items-center w-full overflow-hidden rounded-md aspect-video">
             <img src={series?.img} alt={series?.title} />
           </div>
           <h2 className="mt-4 text-xl font-bold leading-relaxed text-light-gray800 dark:text-dark-gray800">

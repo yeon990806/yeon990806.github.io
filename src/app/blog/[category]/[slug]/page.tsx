@@ -62,7 +62,7 @@ const PostDetail = async ({ params: { category, slug } }: PostPageProps) => {
 
   return (
     <section className="w-full">
-      <div className="max-w-full prose dark:prose-invert">
+      <div className="max-w-full prose break-words dark:prose-invert">
         <PostHeader
           title={postData.title}
           createdDate={postData.createdDate}

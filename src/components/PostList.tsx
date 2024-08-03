@@ -45,7 +45,7 @@ const PostList = ({
         selectedTag={selectedTag}
         onClickTag={setSelectedTag}
       />
-      <div className="grid gap-4 mt-4 grid-cols-auto-1fr md:mt-8">
+      <div className="grid mt-4 md:gap-8 gap-y-4 grid-cols-auto-1fr md:mt-8">
         <SideTagList
           tagList={tagList}
           selectedTag={selectedTag}

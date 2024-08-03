@@ -17,16 +17,16 @@ const SeriesCard = ({
       href={`/series/${slug}`}
       className="p-2 transition-all delay-100 cursor-pointer hover:bg-light-gray200 dark:hover:bg-dark-gray100 hover:ease-in-out text-light-gray800 dark:text-dark-gray800"
     >
-      <div className="w-full overflow-hidden rounded-lg">
+      <div className="flex items-center w-full overflow-hidden rounded-lg aspect-video">
         <img src={img} alt={`series-${title}`} loading="lazy" className="w-full" />
       </div>
-      <div className="mt-3 text-lg font-bold leading-none">
+      <div className="mt-4 text-lg font-bold leading-none">
         {title}
       </div>
-      <div className="mt-2 font-normal leading-none text-md">
+      <div className="mt-3 font-normal leading-relax text-md">
         {desc}
       </div>
-      <div className="grid items-center gap-2 mt-1 font-normal leading-none text-md grid-cols-auto-1fr">
+      <div className="grid items-center gap-2 mt-3 font-normal leading-none text-md grid-cols-auto-1fr">
         <FiBook className="mb-0.5" /> {postCnt}개의 포스트
       </div>
       <div className="grid items-center gap-2 mt-1 font-normal leading-none text-md grid-cols-auto-1fr">

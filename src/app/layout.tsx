@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   title: "YeON.me",
   description: "",
   keywords: "",
+  icons: {
+    icon: "/favicon.ico"
+  }
 };
 
 export default function RootLayout({

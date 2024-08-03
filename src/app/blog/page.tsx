@@ -9,7 +9,7 @@ const BlogPage = async () => {
   return (
     <div className="relative w-full h-full max-w-5xl px-4 mx-auto lg:max-w-6xl lg:px-8">
       <PageTitle
-        pageTitle="Blog"
+        pageTitle="블로그"
         pageDescription=""
       />
       <PostList

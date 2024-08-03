@@ -1,5 +1,7 @@
+import { ReactNode } from "react";
+
 type PageTitleProps = {
-  pageTitle: string;
+  pageTitle: string | ReactNode;
   pageDescription: string;
 };
 

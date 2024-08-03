@@ -38,6 +38,6 @@ const Giscus = () => {
     iframe?.contentWindow?.postMessage({ giscus: { setConfig: { theme: currentTheme } } }, 'https://giscus.app');
   }, [currentTheme]);
 
-  return <section ref={ref} />
+  return <section className="mt-4" ref={ref} />
 };
 export default Giscus;

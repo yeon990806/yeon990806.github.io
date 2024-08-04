@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next-sitemap && next export",
     "start": "next start",
     "lint": "next lint",
     "postbuild": "next-exprt-optimize-images",
@@ -15,6 +15,7 @@
     "@fec/remark-a11y-emoji": "^4.0.2",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.11",
+    "feed": "^4.2.2",
     "framer-motion": "^11.3.2",
     "next": "14.2.4",
     "next-mdx-remote": "^5.0.0",

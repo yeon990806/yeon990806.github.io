@@ -15,8 +15,12 @@ export const metadata: Metadata = {
   keywords: "",
   icons: {
     icon: "/favicon.ico"
-  }
+  },
+  verification: {
+    google: 'TKxU6EBHV9hXY2ZZy_oeAzM_g69CEjPoUhZKfSx0Czc',
+  },
 };
+<meta name="google-site-verification" content="TKxU6EBHV9hXY2ZZy_oeAzM_g69CEjPoUhZKfSx0Czc" />
 
 export default function RootLayout({
   children,

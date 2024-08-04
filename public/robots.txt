@@ -1,0 +1,10 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /about
+
+# Host
+Host: https://yeon990806.github.io
+
+# Sitemaps
+Sitemap: https://yeon990806.github.io/sitemap.xml

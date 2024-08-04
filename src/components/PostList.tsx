@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import InputSearch from "./InputSearch";
 import useDebounce from "@/hooks/useDebounce";
 import TopTagList from "./TopTagList";
+import GoogleAd from "./GoogleAd";
 
 type PostListProps = {
   postList: PostType[];
@@ -57,7 +58,8 @@ const PostList = ({
               { ...post }
               key={idx}
             />
-          ))}
+            ))}
+          <GoogleAd type="6520852603" />
         </section>
       </div>
     </div>

@@ -1,3 +1,4 @@
+import GoogleAd from "@/components/GoogleAd";
 import TableOfContent from "@/components/TableOfContent";
 import { ReactNode } from "react";
 
@@ -12,6 +13,7 @@ const BlogLayout = ({ children, params: { slug } }: BlogLayoutProps) => {
       <div className="flex justify-center">
         <section className="w-full max-w-5xl">
           {children}
+          <GoogleAd type="7642362584" />
         </section>
         <div className="w-[180px] fixed right-toc pl-8 max-xl:hidden">
           <TableOfContent />

@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+'use client'
+import { memo, useEffect } from "react";
 
 declare global {
   interface Window {
@@ -6,22 +7,22 @@ declare global {
   }
 }
 
-const GoogleAd = () => {
+const GoogleAd = ({type}: { type: string }) => {
   useEffect(() => {
     (window.adsbygoogle = window.adsbygoogle || []).push({})
   }, [])
 
   return (
-    <div className="googleAd-container">
+    <div className="border googleAd-container">
       <ins
         className="adsbygoogle"
         style={{ display: 'block' }}
-        data-ad-format="fluid"
+        data-ad-format="auto"
         data-ad-layout-key="-fb+5w+4e-db+86"
-        data-ad-client="ca-pub-3131973401944410"
-        data-ad-slot="5792448771"
+        data-ad-client="ca-pub-6100475101609357"
+        data-ad-slot={type}
       />
     </div>
   );
 };
-export default GoogleAd;
+export default memo(GoogleAd);

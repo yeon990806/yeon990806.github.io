@@ -53,7 +53,7 @@ const PostList = ({
           onClickTag={setSelectedTag}
         />
         <section>
-          {filteredPostList.map((post, idx) => (
+          {filteredPostList.sort((a, b) => a.date > b.date ? -1 : 1).map((post, idx) => (
             <PostCard
               { ...post }
               key={idx}

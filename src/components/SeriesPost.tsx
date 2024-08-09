@@ -17,7 +17,7 @@ const SeriesPost = async ({series, thisPost}: {series: string, thisPost: string}
             href={post.pageURL}
             className={cn("no-underline text-light-gray800 dark:text-dark-gray800 hover:pl-2 transition-all", post.pageURL === thisPost && "text-light-gray500 dark:text-dark-gray500")}
           >
-            {idx + 1}. {post.title}
+            {idx + 1}. {post.title} {(post.pageURL === thisPost) && "(현재 포스트)" }
           </Link>
         ))}
       </ul>

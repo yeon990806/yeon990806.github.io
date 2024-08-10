@@ -20,7 +20,7 @@ const PrevNextPost = ({
   };
 
   return (
-    <div className="flex flex-col items-center justify-between mt-8 sm:flex-row">
+    <div className="flex flex-col items-center justify-between mt-8 sm:flex-row gap-4">
       <motion.button
         className={cn("inline-flex items-center w-full gap-4 p-4 md:w-auto", prevPost && 'bg-light-gray200 dark:bg-dark-gray200 rounded')}
         onClick={() => onClickPost(prevPost.slug, prevPost.category)}

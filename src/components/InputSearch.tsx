@@ -1,7 +1,6 @@
 'use client'
 
-import useDebounce from "@/hooks/useDebounce";
-import { FormEvent, useState } from "react";
+import { FormEvent } from "react";
 import { FiSearch } from "react-icons/fi";
 
 type InputSearchProps = {

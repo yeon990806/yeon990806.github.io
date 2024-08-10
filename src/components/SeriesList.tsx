@@ -40,7 +40,7 @@ const SeriesList = ({
           keyword={inputValue}
           onInputValue={setInputValue}
         />
-      <section className="grid gap-4 mt-8 md:grid-cols-2 lg:grid-cols-4">
+      <section className="grid gap-1 mt-8 md:grid-cols-2 lg:grid-cols-4">
         { series.map((v, i) => (
           <SeriesCard
             img={v?.img}

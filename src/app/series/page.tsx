@@ -6,7 +6,7 @@ const SeriesPage = async () => {
   const seriesList = await getSeriesList();
   const postList = sortPostList(await getAllPostList());
 
-return (
+  return (
     <div className="relative w-full h-full max-w-5xl px-4 mx-auto lg:max-w-6xl lg:px-8">
       <PageTitle
         pageTitle="시리즈"

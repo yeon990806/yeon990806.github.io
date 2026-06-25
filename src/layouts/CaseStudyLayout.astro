@@ -1,0 +1,249 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import Base from './Base.astro';
+import Toc from '../components/Toc.astro';
+import CodeCopy from '../components/CodeCopy.astro';
+
+interface Props {
+  entry: CollectionEntry<'portfolio'>;
+  headings: Array<{ depth: number; slug: string; text: string }>;
+}
+
+const { entry, headings } = Astro.props;
+const { title, description, period, role, status, tags, heroImage, demoUrl, repoUrl } = entry.data;
+
+const statusLabel: Record<typeof status, string> = {
+  live: 'Live',
+  archived: 'Archived',
+  wip: 'WIP',
+};
+---
+
+<Base title={title} description={description} ogImage={`/og/portfolio/${entry.id}.png`}>
+  <article class="case container-wide">
+    <header class="case-header">
+      <p class="breadcrumb">
+        <a href="/portfolio">← 포트폴리오로</a>
+      </p>
+      <div class="meta">
+        <span class={`status status-${status}`}>{statusLabel[status]}</span>
+        <span class="period">{period}</span>
+        {role && <span class="role">· {role}</span>}
+      </div>
+      <h1 class="case-title">{title}</h1>
+      <p class="case-desc">{description}</p>
+      {(demoUrl || repoUrl) && (
+        <div class="links">
+          {demoUrl && <a class="link primary" href={demoUrl} target="_blank" rel="noreferrer">Live →</a>}
+          {repoUrl && <a class="link" href={repoUrl} target="_blank" rel="noreferrer">Repo ↗</a>}
+        </div>
+      )}
+      {tags.length > 0 && (
+        <ul class="tags">
+          {tags.map((t) => <li class="tag">{t}</li>)}
+        </ul>
+      )}
+      {heroImage && (
+        <div class="case-hero">
+          <Image src={heroImage} alt="" widths={[640, 960, 1280]} sizes="(max-width: 768px) 100vw, 960px" />
+        </div>
+      )}
+    </header>
+
+    <div class="case-body">
+      {headings && headings.length > 2 && (
+        <aside class="case-toc" aria-label="목차 사이드바">
+          <div class="toc-sticky">
+            <Toc headings={headings} />
+          </div>
+        </aside>
+      )}
+      <div class="prose">
+        <slot />
+      </div>
+    </div>
+  </article>
+
+  <CodeCopy />
+</Base>
+
+<style>
+  .case { padding: 3rem 1.25rem 2rem; }
+
+  .case-header {
+    max-width: 56rem;
+    margin: 0 auto 2.5rem;
+  }
+  .breadcrumb {
+    margin: 0 0 1rem;
+    font-size: 0.875rem;
+  }
+  .breadcrumb a {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  .breadcrumb a:hover { color: var(--color-fg); }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-muted);
+    font-size: 0.875rem;
+  }
+  .status {
+    padding: 0.1rem 0.55rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  .status-live {
+    background: color-mix(in oklch, oklch(65% 0.18 150) 18%, transparent);
+    color: oklch(45% 0.18 150);
+  }
+  .status-wip {
+    background: color-mix(in oklch, var(--color-accent) 15%, transparent);
+    color: var(--color-accent);
+  }
+  .status-archived {
+    background: color-mix(in oklch, var(--color-fg) 8%, transparent);
+    color: var(--color-muted);
+  }
+  :global([data-theme="dark"]) .status-live { color: oklch(75% 0.18 150); }
+  .period { font-variant-numeric: tabular-nums; }
+
+  .case-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.875rem, 1.25rem + 2.5vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.75rem;
+  }
+  .case-desc {
+    margin: 0 0 1.25rem;
+    color: var(--color-muted);
+    font-size: 1.05rem;
+    line-height: 1.55;
+  }
+
+  .links {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .link {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid var(--color-border);
+    color: var(--color-fg);
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .link:hover {
+    background: color-mix(in oklch, var(--color-surface) 80%, transparent);
+    border-color: color-mix(in oklch, var(--color-fg) 25%, transparent);
+  }
+  .link.primary {
+    background: var(--color-accent);
+    color: var(--color-accent-fg);
+    border-color: var(--color-accent);
+  }
+  .link.primary:hover {
+    background: color-mix(in oklch, var(--color-accent) 90%, var(--color-fg));
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .tag {
+    padding: 0.2rem 0.65rem;
+    border-radius: 9999px;
+    background: color-mix(in oklch, var(--color-surface) 60%, transparent);
+    border: 1px solid var(--color-border);
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+  }
+
+  .case-hero {
+    margin-top: 2rem;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .case-hero :global(img) {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 0;
+  }
+
+  .case-body {
+    display: grid;
+    grid-template-columns: 14rem minmax(0, var(--reading-width));
+    gap: 3rem;
+    justify-content: center;
+  }
+  .case-toc {
+    position: relative;
+    height: 100%;
+  }
+  .toc-sticky {
+    position: sticky;
+    top: 5rem;
+    max-height: calc(100dvh - 7rem);
+    overflow-y: auto;
+  }
+  @media (max-width: 1024px) {
+    .case-body { grid-template-columns: minmax(0, var(--reading-width)); }
+    .case-toc { display: none; }
+  }
+
+  /* Reuse same prose styling as PostLayout — keep visually consistent. */
+  .prose {
+    font-size: 1.125rem;
+    line-height: 1.85;
+    color: var(--color-fg);
+  }
+  .prose :global(h2) {
+    margin-top: 2.75rem; margin-bottom: 1rem;
+    font-size: 1.6rem; font-weight: 700;
+    letter-spacing: -0.018em;
+    scroll-margin-top: 5rem;
+  }
+  .prose :global(h3) {
+    margin-top: 2.25rem; margin-bottom: 0.85rem;
+    font-size: 1.25rem; font-weight: 650;
+    letter-spacing: -0.012em;
+    scroll-margin-top: 5rem;
+  }
+  .prose :global(p) { margin-bottom: 1.3em; }
+  .prose :global(strong) { font-weight: 700; color: var(--color-fg); }
+  .prose :global(ul), .prose :global(ol) {
+    padding-left: 1.5rem; margin: 0 0 1.1em;
+  }
+  .prose :global(li) { margin-bottom: 0.35em; }
+  .prose :global(table) {
+    width: 100%; border-collapse: collapse; margin: 1.5em 0; font-size: 0.95em;
+  }
+  .prose :global(th), .prose :global(td) {
+    padding: 0.55em 0.85em; border-bottom: 1px solid var(--color-border); text-align: left;
+  }
+  .prose :global(thead th) {
+    background: color-mix(in oklch, var(--color-surface) 60%, transparent);
+    font-weight: 600;
+  }
+  .prose :global(blockquote p:last-child) { margin-bottom: 0; }
+</style>

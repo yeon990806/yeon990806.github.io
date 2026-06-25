@@ -1,0 +1,21 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import CaseStudyLayout from '../../layouts/CaseStudyLayout.astro';
+
+export const getStaticPaths = (async () => {
+  const showDrafts = import.meta.env.DEV;
+  const all = await getCollection('portfolio', ({ data }) => showDrafts || !data.draft);
+  return all.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+---
+
+<CaseStudyLayout entry={entry} headings={headings}>
+  <Content />
+</CaseStudyLayout>

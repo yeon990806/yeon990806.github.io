@@ -1,0 +1,81 @@
+---
+// Client-side injector: adds a copy button to every <pre> code block on the page.
+// Bound at load and after each View Transition.
+---
+
+<script>
+  const COPY_LABEL = '복사';
+  const COPIED_LABEL = '복사됨';
+
+  function injectCopyButtons() {
+    const pres = document.querySelectorAll<HTMLPreElement>('article pre, .prose pre');
+    pres.forEach((pre) => {
+      if (pre.dataset.copyReady === 'true') return;
+      pre.dataset.copyReady = 'true';
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'code-copy';
+      btn.setAttribute('aria-label', '코드 복사');
+      btn.textContent = COPY_LABEL;
+
+      btn.addEventListener('click', async () => {
+        const code = pre.querySelector('code');
+        const text = code?.innerText ?? pre.innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = COPIED_LABEL;
+          btn.classList.add('is-copied');
+          setTimeout(() => {
+            btn.textContent = COPY_LABEL;
+            btn.classList.remove('is-copied');
+          }, 1500);
+        } catch (e) {
+          console.warn('clipboard write failed', e);
+        }
+      });
+
+      pre.appendChild(btn);
+    });
+  }
+
+  injectCopyButtons();
+  document.addEventListener('astro:page-load', injectCopyButtons);
+</script>
+
+<style is:global>
+  article pre,
+  .prose pre {
+    position: relative;
+  }
+  .code-copy {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    height: 1.85rem;
+    padding: 0 0.65rem;
+    border-radius: 0.4rem;
+    background: color-mix(in oklch, var(--color-surface) 80%, transparent);
+    border: 1px solid var(--color-border);
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s, background 0.15s;
+  }
+  article pre:hover .code-copy,
+  .prose pre:hover .code-copy,
+  .code-copy:focus {
+    opacity: 1;
+  }
+  .code-copy:hover {
+    color: var(--color-fg);
+    background: color-mix(in oklch, var(--color-surface) 95%, transparent);
+  }
+  .code-copy.is-copied {
+    opacity: 1;
+    color: var(--color-accent);
+    border-color: color-mix(in oklch, var(--color-accent) 40%, transparent);
+  }
+</style>

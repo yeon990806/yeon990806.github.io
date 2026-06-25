@@ -1,0 +1,376 @@
+---
+// Ctrl+K / Cmd+K command palette backed by Pagefind.
+// Pagefind index is generated post-build (see package.json `build` script)
+// and served from `/pagefind/pagefind.js` at runtime.
+// In dev there is no index — the palette shows a helpful empty state.
+---
+
+<div id="search-modal" class="search-modal" hidden aria-hidden="true" role="dialog" aria-label="검색">
+  <div class="search-backdrop" data-search-close></div>
+  <div class="search-palette glass" role="document">
+    <div class="search-input-wrap">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"></circle>
+        <path d="m20 20-3.5-3.5"></path>
+      </svg>
+      <input
+        id="search-input"
+        type="search"
+        placeholder="제목 · 본문 검색..."
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <kbd class="esc-key" data-search-close>Esc</kbd>
+    </div>
+
+    <div id="search-results" class="search-results" role="listbox" aria-label="검색 결과">
+      <div class="search-hint">키워드를 입력하면 결과가 나타납니다.</div>
+    </div>
+
+    <div class="search-footer">
+      <span><kbd>↑</kbd><kbd>↓</kbd> 이동</span>
+      <span><kbd>Enter</kbd> 열기</span>
+      <span><kbd>Esc</kbd> 닫기</span>
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  .search-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 7rem 1rem 2rem;
+  }
+  .search-modal[hidden] { display: none !important; }
+
+  .search-backdrop {
+    position: absolute;
+    inset: 0;
+    background: color-mix(in oklch, var(--bg-base) 60%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    animation: search-fade 0.15s ease;
+  }
+
+  .search-palette {
+    position: relative;
+    width: 100%;
+    max-width: 36rem;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    animation: search-pop 0.18s ease;
+    max-height: calc(100dvh - 9rem);
+  }
+
+  @keyframes search-fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes search-pop {
+    from { opacity: 0; transform: translateY(-4px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .search-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .search-icon {
+    width: 1.05rem;
+    height: 1.05rem;
+    color: var(--color-muted);
+    flex-shrink: 0;
+  }
+  #search-input {
+    flex: 1;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    font-size: 1rem;
+    color: var(--color-fg);
+    outline: 0;
+  }
+  #search-input::placeholder { color: var(--color-muted); }
+  .esc-key {
+    padding: 0.15rem 0.5rem;
+    border-radius: 0.35rem;
+    background: color-mix(in oklch, var(--color-fg) 6%, transparent);
+    border: 1px solid var(--color-border);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-muted);
+    cursor: pointer;
+  }
+
+  .search-results {
+    flex: 1;
+    min-height: 4rem;
+    max-height: 50dvh;
+    overflow-y: auto;
+    padding: 0.5rem;
+  }
+  .search-hint,
+  .search-empty {
+    padding: 1.5rem 1rem;
+    text-align: center;
+    color: var(--color-muted);
+    font-size: 0.875rem;
+  }
+
+  .search-result {
+    display: block;
+    padding: 0.65rem 0.85rem;
+    border-radius: 0.55rem;
+    color: inherit;
+    text-decoration: none;
+    transition: background 0.1s;
+  }
+  .search-result + .search-result { margin-top: 0.15rem; }
+  .search-result:hover,
+  .search-result.is-active {
+    background: color-mix(in oklch, var(--color-accent) 10%, transparent);
+  }
+  .search-result-title {
+    font-weight: 600;
+    color: var(--color-fg);
+    font-size: 0.95rem;
+    line-height: 1.35;
+    margin: 0 0 0.2rem;
+  }
+  .search-result-excerpt {
+    color: var(--color-muted);
+    font-size: 0.825rem;
+    line-height: 1.5;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .search-result-excerpt :global(mark) {
+    background: color-mix(in oklch, var(--color-accent) 25%, transparent);
+    color: var(--color-fg);
+    padding: 0 2px;
+    border-radius: 2px;
+  }
+  .search-result-url {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-muted);
+    margin: 0.25rem 0 0;
+    opacity: 0.7;
+  }
+
+  .search-footer {
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-muted);
+    font-size: 0.72rem;
+    background: color-mix(in oklch, var(--color-surface) 50%, transparent);
+  }
+  .search-footer kbd {
+    padding: 0.05rem 0.3rem;
+    border-radius: 0.25rem;
+    background: color-mix(in oklch, var(--color-fg) 6%, transparent);
+    border: 1px solid var(--color-border);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    margin-right: 0.15rem;
+  }
+
+  body.search-open { overflow: hidden; }
+
+  @media (max-width: 640px) {
+    .search-modal { padding-top: 4rem; }
+    .search-palette { max-height: calc(100dvh - 5rem); }
+  }
+</style>
+
+<script>
+  // Lazy-load Pagefind only on first search.
+  // We use `new Function` for the dynamic import so Vite's static analyzer
+  // doesn't try to resolve `/pagefind/pagefind.js` at build time — the file
+  // is only generated AFTER `astro build`, by the pagefind CLI step.
+  let pagefindPromise: Promise<any> | null = null;
+  async function loadPagefind() {
+    if (pagefindPromise) return pagefindPromise;
+    pagefindPromise = (async () => {
+      try {
+        const dynImport = new Function('p', 'return import(p)') as (p: string) => Promise<any>;
+        const mod = await dynImport('/pagefind/pagefind.js');
+        if (typeof mod.options === 'function') {
+          await mod.options({});
+        }
+        return mod;
+      } catch (e) {
+        console.warn('[search] Pagefind index not available. Run `npm run build` then `npm run preview`.', e);
+        return null;
+      }
+    })();
+    return pagefindPromise;
+  }
+
+  function setupSearchPalette() {
+    const modal = document.getElementById('search-modal');
+    const input = document.getElementById('search-input') as HTMLInputElement | null;
+    const resultsEl = document.getElementById('search-results');
+    if (!modal || !input || !resultsEl) return;
+    if ((modal as HTMLElement).dataset.bound === 'true') return;
+    (modal as HTMLElement).dataset.bound = 'true';
+
+    let activeIndex = 0;
+    let currentResults: Array<{ url: string; title: string; excerpt: string }> = [];
+    let debounceTimer: number | undefined;
+    let lastQuery = '';
+
+    function setHint(msg: string) {
+      resultsEl!.innerHTML = `<div class="search-hint">${msg}</div>`;
+      currentResults = [];
+      activeIndex = 0;
+    }
+
+    function setEmpty(query: string) {
+      resultsEl!.innerHTML = `<div class="search-empty">"${escapeHtml(query)}" 에 대한 결과가 없어요.</div>`;
+      currentResults = [];
+      activeIndex = 0;
+    }
+
+    function escapeHtml(s: string) {
+      return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
+    }
+
+    function renderResults() {
+      if (currentResults.length === 0) return;
+      resultsEl!.innerHTML = currentResults
+        .map((r, i) => `
+          <a class="search-result ${i === activeIndex ? 'is-active' : ''}" href="${r.url}" data-idx="${i}">
+            <p class="search-result-title">${escapeHtml(r.title || r.url)}</p>
+            <p class="search-result-excerpt">${r.excerpt}</p>
+            <p class="search-result-url">${escapeHtml(r.url)}</p>
+          </a>`)
+        .join('');
+      // Wire up hover-active sync
+      resultsEl!.querySelectorAll<HTMLAnchorElement>('.search-result').forEach((el) => {
+        el.addEventListener('mousemove', () => {
+          const idx = Number(el.dataset.idx);
+          if (idx !== activeIndex) {
+            activeIndex = idx;
+            updateActive();
+          }
+        });
+      });
+    }
+
+    function updateActive() {
+      resultsEl!.querySelectorAll<HTMLAnchorElement>('.search-result').forEach((el, i) => {
+        el.classList.toggle('is-active', i === activeIndex);
+        if (i === activeIndex) el.scrollIntoView({ block: 'nearest' });
+      });
+    }
+
+    async function runSearch(query: string) {
+      lastQuery = query;
+      if (!query.trim()) {
+        setHint('키워드를 입력하면 결과가 나타납니다.');
+        return;
+      }
+      const pf = await loadPagefind();
+      if (lastQuery !== query) return; // user kept typing
+      if (!pf) {
+        setHint('검색 인덱스가 아직 없어요. <br><code>npm run build</code> 후 <code>npm run preview</code>로 확인.');
+        return;
+      }
+      try {
+        const result = await pf.search(query);
+        if (lastQuery !== query) return;
+        const top = result.results.slice(0, 8);
+        const data = await Promise.all(top.map((r: any) => r.data()));
+        if (lastQuery !== query) return;
+        currentResults = data.map((d: any) => ({
+          url: d.url,
+          title: d.meta?.title ?? d.url,
+          excerpt: d.excerpt ?? '',
+        }));
+        if (currentResults.length === 0) setEmpty(query);
+        else { activeIndex = 0; renderResults(); }
+      } catch (e) {
+        console.warn('[search] error', e);
+        setHint('검색 중 오류가 발생했습니다.');
+      }
+    }
+
+    function open() {
+      modal!.removeAttribute('hidden');
+      modal!.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('search-open');
+      // Defer focus to next tick so the open animation runs first
+      requestAnimationFrame(() => input!.focus());
+    }
+
+    function close() {
+      modal!.setAttribute('hidden', '');
+      modal!.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('search-open');
+      input!.value = '';
+      setHint('키워드를 입력하면 결과가 나타납니다.');
+    }
+
+    // Event wiring
+    input.addEventListener('input', () => {
+      clearTimeout(debounceTimer);
+      const v = input.value;
+      debounceTimer = window.setTimeout(() => runSearch(v), 150);
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (currentResults.length === 0) return;
+        activeIndex = (activeIndex + 1) % currentResults.length;
+        updateActive();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (currentResults.length === 0) return;
+        activeIndex = (activeIndex - 1 + currentResults.length) % currentResults.length;
+        updateActive();
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        const active = currentResults[activeIndex];
+        if (active) window.location.href = active.url;
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        close();
+      }
+    });
+
+    modal.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (target.dataset.searchClose !== undefined ||
+          target.closest('[data-search-close]')) {
+        close();
+      }
+    });
+
+    // Global hooks (registered once per page lifetime; survive View Transitions)
+    document.addEventListener('open-search', open as EventListener);
+
+    // Close on browser back/forward
+    window.addEventListener('popstate', () => {
+      if (!modal!.hasAttribute('hidden')) close();
+    });
+  }
+
+  setupSearchPalette();
+  document.addEventListener('astro:page-load', setupSearchPalette);
+</script>

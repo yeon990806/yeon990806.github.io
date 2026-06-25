@@ -1,0 +1,66 @@
+---
+// Theme toggle button. Vanilla JS — no framework.
+// Persists choice to localStorage. Re-binds after View Transitions.
+---
+
+<button
+  type="button"
+  id="theme-toggle"
+  class="theme-toggle"
+  aria-label="테마 전환"
+  title="테마 전환 (라이트 / 다크)"
+>
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="4"></circle>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+  </svg>
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </svg>
+</button>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    border-radius: 9999px;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-fg);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .theme-toggle:hover {
+    background: color-mix(in oklch, var(--color-surface) 70%, transparent);
+    border-color: color-mix(in oklch, var(--color-fg) 25%, transparent);
+  }
+  .theme-toggle svg {
+    width: 1.05rem;
+    height: 1.05rem;
+  }
+  .icon-sun { display: none; }
+  .icon-moon { display: block; }
+  :global([data-theme="dark"]) .icon-sun { display: block; }
+  :global([data-theme="dark"]) .icon-moon { display: none; }
+</style>
+
+<script>
+  // Bind once at startup AND re-bind after each View Transition,
+  // because Astro swaps the DOM tree on navigation.
+  function bindThemeToggle() {
+    const btn = document.getElementById('theme-toggle');
+    if (!btn || btn.dataset.bound === 'true') return;
+    btn.dataset.bound = 'true';
+    btn.addEventListener('click', () => {
+      const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem('theme', next);
+    });
+  }
+  bindThemeToggle();
+  document.addEventListener('astro:page-load', bindThemeToggle);
+</script>

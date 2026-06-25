@@ -1,0 +1,79 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+
+const showDrafts = import.meta.env.DEV;
+const projects = (
+  await getCollection('portfolio', ({ data }) => showDrafts || !data.draft)
+).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<Base title="Portfolio" description="만든 것들과 그 뒤의 이야기.">
+  <section class="archive container-wide">
+    <header class="head">
+      <h1 class="title">Portfolio</h1>
+      <p class="sub">만든 것들과 그 뒤의 이야기.</p>
+    </header>
+
+    {projects.length === 0 ? (
+      <div class="glass empty">
+        <p class="empty-title">포트폴리오 정리 중</p>
+        <p class="empty-sub">곧 진행한 프로젝트와 케이스 스터디를 올릴게요.</p>
+      </div>
+    ) : (
+      <div class="grid">
+        {projects.map((p) => (
+          <ProjectCard
+            href={`/portfolio/${p.id}/`}
+            title={p.data.title}
+            description={p.data.description}
+            period={p.data.period}
+            role={p.data.role}
+            status={p.data.status}
+            tags={p.data.tags}
+            heroImage={p.data.heroImage}
+          />
+        ))}
+      </div>
+    )}
+  </section>
+</Base>
+
+<style>
+  .archive { padding: 4rem 1.25rem; }
+  .head { margin-bottom: 2.5rem; text-align: center; }
+  .title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 1.5rem + 2vw, 2.75rem);
+    margin: 0 0 0.35rem;
+    letter-spacing: -0.02em;
+  }
+  .sub { margin: 0; color: var(--color-muted); }
+
+  .empty {
+    padding: 3rem 2rem;
+    border-radius: var(--radius-lg);
+    text-align: center;
+    color: var(--color-muted);
+    max-width: 32rem;
+    margin: 0 auto;
+  }
+  .empty-title {
+    color: var(--color-fg);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin: 0 0 0.25rem;
+  }
+  .empty-sub { font-size: 0.9rem; margin: 0; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+  @media (max-width: 768px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>

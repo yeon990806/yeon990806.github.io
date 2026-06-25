@@ -1,0 +1,113 @@
+---
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+}
+
+const { headings } = Astro.props;
+// Show only h2 and h3 — h1 is the post title, h4+ usually too granular.
+const tocItems = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
+---
+
+{tocItems.length > 0 && (
+  <nav class="toc glass" aria-label="목차">
+    <p class="toc-label">목차</p>
+    <ol class="toc-list">
+      {tocItems.map((h) => (
+        <li class:list={['toc-item', `depth-${h.depth}`]}>
+          <a href={`#${h.slug}`} data-toc-link={h.slug}>{h.text}</a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+)}
+
+<style>
+  .toc {
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-lg);
+    font-size: 0.875rem;
+  }
+  .toc-label {
+    margin: 0 0 0.5rem;
+    color: var(--color-muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+  }
+  .toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .toc-item.depth-3 { padding-left: 1rem; }
+  .toc-item a {
+    display: block;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.35rem;
+    color: var(--color-muted);
+    text-decoration: none;
+    line-height: 1.4;
+    border-left: 2px solid transparent;
+    transition: color 0.15s, background 0.15s, border-color 0.15s;
+  }
+  .toc-item a:hover {
+    color: var(--color-fg);
+    background: color-mix(in oklch, var(--color-surface) 60%, transparent);
+  }
+  .toc-item a.is-active {
+    color: var(--color-fg);
+    border-left-color: var(--color-accent);
+    background: color-mix(in oklch, var(--color-accent) 8%, transparent);
+  }
+</style>
+
+<script>
+  // Highlight TOC item for currently visible heading.
+  function setupToc() {
+    const links = document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]');
+    if (links.length === 0) return;
+
+    const slugs = Array.from(links).map((a) => a.getAttribute('data-toc-link')!);
+    const targets = slugs
+      .map((s) => document.getElementById(s))
+      .filter((el): el is HTMLElement => el !== null);
+    if (targets.length === 0) return;
+
+    const setActive = (slug: string) => {
+      links.forEach((a) => {
+        a.classList.toggle('is-active', a.getAttribute('data-toc-link') === slug);
+      });
+    };
+
+    const visible = new Set<string>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) visible.add(entry.target.id);
+          else visible.delete(entry.target.id);
+        }
+        // Pick the first slug that's currently visible (top-most heading in viewport).
+        const firstVisible = slugs.find((s) => visible.has(s));
+        if (firstVisible) setActive(firstVisible);
+      },
+      { rootMargin: '-10% 0px -70% 0px', threshold: 0 },
+    );
+
+    targets.forEach((el) => observer.observe(el));
+    // Initial state
+    if (slugs[0]) setActive(slugs[0]);
+  }
+
+  setupToc();
+  document.addEventListener('astro:page-load', setupToc);
+</script>

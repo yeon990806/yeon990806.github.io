@@ -1,49 +1,268 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PostCard from '../components/PostCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+
+const showDrafts = import.meta.env.DEV;
+
+const allPosts = (
+  await getCollection('posts', ({ data }) => showDrafts || !data.draft)
+).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const latestPosts = allPosts.slice(0, 3);
+
+// Featured projects first; fall back to most recent. Cap at 2 for home preview.
+const allProjects = await getCollection('portfolio', ({ data }) => showDrafts || !data.draft);
+const featuredProjects = allProjects
+  .sort((a, b) => {
+    if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
+    return b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
+  })
+  .slice(0, 2);
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
-</html>
+<Base>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="container-wide hero-inner">
+      <p class="kicker"><span class="dot"></span>지금, 쌓아 올리는 중</p>
+      <h1 class="title">yeon<span class="tld">.dev</span></h1>
+    </div>
+  </section>
+
+  <!-- Latest posts -->
+  <section class="section container-wide">
+    <header class="section-head">
+      <h2 class="section-title">최근에 쓴 글</h2>
+      <a href="/posts" class="see-all">전체 보기 →</a>
+    </header>
+
+    {latestPosts.length === 0 ? (
+      <div class="surface empty">
+        <p>아직 글이 없어요. 곧 첫 글이 올라옵니다.</p>
+      </div>
+    ) : (
+      <div class="post-grid">
+        {latestPosts.map((post, i) => (
+          <div class="reveal" style={`transition-delay: ${i * 70}ms`}>
+            <PostCard
+              href={`/posts/${post.id}/`}
+              title={post.data.title}
+              description={post.data.description}
+              pubDate={post.data.pubDate}
+              heroImage={post.data.heroImage}
+            />
+          </div>
+        ))}
+      </div>
+    )}
+  </section>
+
+  <!-- Portfolio preview (empty state for now) -->
+  <section class="section container-wide">
+    <header class="section-head">
+      <h2 class="section-title">최근 작업</h2>
+      <a href="/portfolio" class="see-all">전체 보기 →</a>
+    </header>
+
+    {featuredProjects.length === 0 ? (
+      <div class="surface empty empty-portfolio">
+        <p class="empty-title">포트폴리오 정리 중</p>
+        <p class="empty-sub">곧 진행한 프로젝트와 케이스 스터디를 올릴게요.</p>
+      </div>
+    ) : (
+      <div class="project-grid">
+        {featuredProjects.map((p, i) => (
+          <div class="reveal" style={`transition-delay: ${i * 80}ms`}>
+            <ProjectCard
+              href={`/portfolio/${p.id}/`}
+              title={p.data.title}
+              description={p.data.description}
+              period={p.data.period}
+              role={p.data.role}
+              status={p.data.status}
+              tags={p.data.tags}
+              heroImage={p.data.heroImage}
+            />
+          </div>
+        ))}
+      </div>
+    )}
+  </section>
+</Base>
+
+<style>
+  /* Hero — glow bleeds freely, no clipping, no mask seams. */
+  .hero {
+    position: relative;
+    padding: 7rem 0 5rem;
+    text-align: center;
+    isolation: isolate;
+  }
+  .hero-glow {
+    position: absolute;
+    top: -8rem;
+    left: 0;
+    right: 0;
+    height: 40rem;
+    background:
+      radial-gradient(35% 50% at 28% 45%, color-mix(in oklch, var(--color-accent) 28%, transparent) 0%, transparent 80%),
+      radial-gradient(35% 50% at 72% 45%, color-mix(in oklch, oklch(60% 0.2 200) 24%, transparent) 0%, transparent 80%);
+    filter: blur(80px);
+    z-index: -1;
+    pointer-events: none;
+    animation: hero-drift 18s ease-in-out infinite;
+    transform-origin: center;
+  }
+  @keyframes hero-drift {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+      opacity: 0.95;
+    }
+    33% {
+      transform: translate(-3%, 1.5%) scale(1.06);
+      opacity: 1;
+    }
+    66% {
+      transform: translate(2.5%, -1%) scale(1.03);
+      opacity: 0.9;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-glow { animation: none; }
+  }
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+  }
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 1.5rem;
+    padding: 0.3rem 0.85rem;
+    border-radius: 9999px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-muted);
+    font-size: 0.825rem;
+    font-weight: 500;
+    box-shadow: var(--shadow-1);
+  }
+  .kicker .dot {
+    display: inline-block;
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 9999px;
+    background: oklch(72% 0.18 145);
+    box-shadow: 0 0 0 3px color-mix(in oklch, oklch(72% 0.18 145) 25%, transparent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .title {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 2.5rem + 7vw, 7rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin: 0;
+    background: linear-gradient(180deg, var(--color-fg) 0%, color-mix(in oklch, var(--color-fg) 75%, var(--color-accent)) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+  .title .tld {
+    color: var(--color-muted);
+    font-weight: 400;
+    -webkit-text-fill-color: var(--color-muted);
+  }
+
+  /* Section frame */
+  .section {
+    padding: 2rem 1.25rem;
+  }
+  .section + .section { padding-top: 0; }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-inline: 0.25rem;
+  }
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 650;
+    letter-spacing: -0.015em;
+    margin: 0;
+  }
+  .section-title::before {
+    content: "";
+    display: inline-block;
+    width: 0.4rem;
+    height: 1.1rem;
+    border-radius: 2px;
+    background: linear-gradient(180deg, var(--color-accent), oklch(60% 0.2 200));
+  }
+  .see-all {
+    color: var(--color-muted);
+    font-size: 0.875rem;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .see-all:hover { color: var(--color-fg); }
+
+  /* Posts grid */
+  .post-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+  @media (max-width: 900px) {
+    .post-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 600px) {
+    .post-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Empty state */
+  .empty {
+    padding: 2.5rem 2rem;
+    border-radius: var(--radius-lg);
+    text-align: center;
+    color: var(--color-muted);
+  }
+  .empty p { margin: 0; }
+
+  .empty-portfolio {
+    padding: 3.5rem 2rem;
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+  @media (max-width: 768px) {
+    .project-grid { grid-template-columns: 1fr; }
+  }
+  .empty-title {
+    color: var(--color-fg);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin-bottom: 0.25rem !important;
+  }
+  .empty-sub {
+    font-size: 0.9rem;
+  }
+</style>

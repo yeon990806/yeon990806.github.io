@@ -1,0 +1,59 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ThemeScript from '../components/ThemeScript.astro';
+import SearchPalette from '../components/SearchPalette.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { ClientRouter } from 'astro:transitions';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Optional absolute/site-relative URL for the OG image. */
+  ogImage?: string;
+}
+
+const { title = SITE_TITLE, description = SITE_DESCRIPTION, ogImage } = Astro.props;
+const fullTitle = title === SITE_TITLE ? title : `${title} · ${SITE_TITLE}`;
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <ThemeScript />
+    <BaseHead title={fullTitle} description={description} image={ogImage} />
+    <ClientRouter />
+  </head>
+  <body>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <SearchPalette />
+
+    <script>
+      // Scroll reveal — any element with .reveal class fades up on entry.
+      // Reuses an IntersectionObserver and re-scans after View Transitions.
+      function setupReveal() {
+        const items = document.querySelectorAll<HTMLElement>('.reveal:not(.is-visible)');
+        if (items.length === 0) return;
+        const io = new IntersectionObserver(
+          (entries, observer) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+              }
+            }
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
+        );
+        items.forEach((el) => io.observe(el));
+      }
+      setupReveal();
+      document.addEventListener('astro:page-load', setupReveal);
+    </script>
+  </body>
+</html>

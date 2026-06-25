@@ -1,0 +1,61 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  prev?: CollectionEntry<'posts'>;
+  next?: CollectionEntry<'posts'>;
+}
+
+const { prev, next } = Astro.props;
+---
+
+{(prev || next) && (
+  <nav class="post-nav" aria-label="시리즈 네비게이션">
+    {prev ? (
+      <a class="nav-link prev surface surface-hover" href={`/posts/${prev.id}/`}>
+        <span class="dir">← 이전</span>
+        <span class="title">{prev.data.title}</span>
+      </a>
+    ) : <span />}
+    {next ? (
+      <a class="nav-link next surface surface-hover" href={`/posts/${next.id}/`}>
+        <span class="dir">다음 →</span>
+        <span class="title">{next.data.title}</span>
+      </a>
+    ) : <span />}
+  </nav>
+)}
+
+<style>
+  .post-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 3rem 0 1rem;
+  }
+  .nav-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-lg);
+    color: inherit;
+    text-decoration: none;
+  }
+  .nav-link.next {
+    text-align: right;
+    align-items: flex-end;
+  }
+  .dir {
+    color: var(--color-muted);
+    font-size: 0.8rem;
+  }
+  .title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  @media (max-width: 600px) {
+    .post-nav { grid-template-columns: 1fr; }
+  }
+</style>

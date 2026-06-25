@@ -1,0 +1,88 @@
+---
+// Ctrl+K / Cmd+K search trigger button. Wired up to actual search in Task #10.
+// For now: just renders the button, registers the keyboard shortcut, no-op click.
+---
+
+<button
+  type="button"
+  id="search-trigger"
+  class="search-trigger"
+  aria-label="검색 (Ctrl+K)"
+>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="11" cy="11" r="7"></circle>
+    <path d="m20 20-3.5-3.5"></path>
+  </svg>
+  <span class="label">검색</span>
+  <kbd class="kbd"><span class="mod">Ctrl</span><span>K</span></kbd>
+</button>
+
+<style>
+  .search-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2.25rem;
+    padding: 0 0.5rem 0 0.75rem;
+    border-radius: 9999px;
+    background: color-mix(in oklch, var(--color-surface) 60%, transparent);
+    border: 1px solid var(--color-border);
+    color: var(--color-muted);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .search-trigger:hover {
+    color: var(--color-fg);
+    border-color: color-mix(in oklch, var(--color-fg) 25%, transparent);
+    background: color-mix(in oklch, var(--color-surface) 85%, transparent);
+  }
+  .search-trigger svg { width: 0.95rem; height: 0.95rem; }
+  .label { display: inline; }
+  .kbd {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 0.35rem;
+    background: color-mix(in oklch, var(--color-fg) 6%, transparent);
+    border: 1px solid var(--color-border);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-muted);
+  }
+  @media (max-width: 640px) {
+    .label, .kbd { display: none; }
+    .search-trigger { padding: 0; width: 2.25rem; justify-content: center; }
+  }
+</style>
+
+<script>
+  function openSearch() {
+    document.dispatchEvent(new CustomEvent('open-search'));
+  }
+
+  function bindSearch() {
+    const btn = document.getElementById('search-trigger');
+    if (btn && btn.dataset.bound !== 'true') {
+      btn.dataset.bound = 'true';
+      btn.addEventListener('click', openSearch);
+    }
+  }
+
+  function handleShortcut(e) {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      openSearch();
+    }
+  }
+
+  bindSearch();
+  // Re-bind button after each View Transition; keyboard listener survives.
+  document.addEventListener('astro:page-load', bindSearch);
+  // Keyboard listener is registered once and persists across navigations.
+  if (!window.__searchKeyBound) {
+    window.__searchKeyBound = true;
+    document.addEventListener('keydown', handleShortcut);
+  }
+</script>

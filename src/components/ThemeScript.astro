@@ -1,0 +1,43 @@
+---
+// Inline, render-blocking script that runs BEFORE first paint.
+// Reads the stored theme (or system preference) and sets data-theme
+// on <html> to prevent the flash-of-wrong-theme (FOIT).
+//
+// View Transitions (ClientRouter) swap <html> attributes to match the
+// incoming page on navigation, which resets data-theme. The second
+// script re-applies the stored theme on every transition.
+---
+
+<script is:inline>
+  (() => {
+    const stored = localStorage.getItem('theme');
+    const theme =
+      stored === 'light' || stored === 'dark'
+        ? stored
+        : window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light';
+    document.documentElement.dataset.theme = theme;
+  })();
+</script>
+
+<script>
+  // Re-apply on every View Transition so the toggled theme survives navigation.
+  // `astro:before-swap` lets us set it on the incoming document BEFORE the swap,
+  // which avoids any flash. Falls back to after-swap if needed.
+  function applyTheme(target: Document) {
+    const stored = localStorage.getItem('theme');
+    const theme =
+      stored === 'light' || stored === 'dark'
+        ? stored
+        : window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light';
+    target.documentElement.dataset.theme = theme;
+  }
+
+  document.addEventListener('astro:before-swap', (e: any) => {
+    if (e.newDocument) applyTheme(e.newDocument);
+  });
+  document.addEventListener('astro:after-swap', () => applyTheme(document));
+</script>

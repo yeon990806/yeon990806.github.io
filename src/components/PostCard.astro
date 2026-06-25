@@ -1,0 +1,108 @@
+---
+import { Image } from 'astro:assets';
+import FormattedDate from './FormattedDate.astro';
+
+interface Props {
+  href: string;
+  title: string;
+  description?: string;
+  pubDate: Date;
+  heroImage?: ImageMetadata;
+  /** Visual variant: `compact` is denser, used in dense grids. */
+  variant?: 'default' | 'compact';
+}
+
+const {
+  href,
+  title,
+  description,
+  pubDate,
+  heroImage,
+  variant = 'default',
+} = Astro.props;
+---
+
+<a href={href} class:list={['post-card surface surface-hover', variant]}>
+  {heroImage && (
+    <div class="hero">
+      <Image src={heroImage} alt="" widths={[320, 640]} sizes="(max-width: 768px) 100vw, 33vw" />
+    </div>
+  )}
+  <div class="body">
+    <div class="meta">
+      <FormattedDate date={pubDate} />
+    </div>
+    <h3 class="title">{title}</h3>
+    {description && <p class="desc">{description}</p>}
+  </div>
+</a>
+
+<style>
+  .post-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    color: inherit;
+    text-decoration: none;
+    height: 100%;
+  }
+
+  .hero {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: color-mix(in oklch, var(--color-surface) 70%, transparent);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .hero :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+    border-radius: 0;
+  }
+  .post-card:hover .hero :global(img) {
+    transform: scale(1.04);
+  }
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.25rem 1.25rem 1.5rem;
+    flex: 1;
+  }
+
+  .meta {
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+  }
+
+  .title {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    margin: 0;
+    color: var(--color-fg);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .desc {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    line-height: 1.55;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .compact .hero { display: none; }
+  .compact .body { padding: 1rem 1.1rem 1.15rem; }
+</style>

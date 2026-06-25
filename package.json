@@ -1,5 +1,5 @@
 {
-  "name": "d-projects-yeon990806-astro",
+  "name": "yeon990806-blog",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -15,7 +15,17 @@
     "@astrojs/mdx": "^6.0.3",
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.3",
+    "@fontsource/noto-sans-kr": "^5.2.9",
+    "@fontsource/pretendard": "^5.2.5",
+    "@resvg/resvg-js": "^2.6.2",
+    "@tailwindcss/vite": "^4.3.1",
     "astro": "^6.4.7",
-    "sharp": "^0.34.3"
+    "satori": "^0.26.0",
+    "satori-html": "^0.3.2",
+    "sharp": "^0.34.3",
+    "tailwindcss": "^4.3.1"
+  },
+  "devDependencies": {
+    "pagefind": "^1.5.2"
   }
 }

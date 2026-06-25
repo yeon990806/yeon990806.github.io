@@ -1,0 +1,109 @@
+---
+/* ============================================================
+   Giscus comments — GitHub Discussions 기반.
+
+   셋업 (한 번만):
+   1. GitHub 레포 Settings → General → Features → Discussions 활성화
+   2. https://github.com/apps/giscus 에서 본인 레포에 앱 설치
+   3. https://giscus.app/ko 접속 → 본인 레포 선택 → 카테고리 선택
+      → 페이지 ↔ Discussion 매핑: pathname 권장
+   4. 페이지 하단 생성된 <script> 태그의 data-* 값을 아래 GISCUS에 복사
+
+   data-repo-id / data-category-id가 placeholder인 동안엔
+   안내 카드가 대신 렌더됩니다 (UI 안 깨짐).
+   ============================================================ */
+const GISCUS = {
+  repo: 'yeon990806/yeon990806.github.io',
+  repoId: '[REPO_ID]',
+  category: 'General',
+  categoryId: '[CATEGORY_ID]',
+  mapping: 'pathname',
+  strict: '0',
+  reactionsEnabled: '1',
+  emitMetadata: '0',
+  inputPosition: 'top',
+  lang: 'ko',
+};
+
+const isConfigured = !GISCUS.repoId.startsWith('[') && !GISCUS.categoryId.startsWith('[');
+---
+
+{isConfigured ? (
+  <div class="giscus-wrap" data-giscus-mount>
+    <script
+      src="https://giscus.app/client.js"
+      data-repo={GISCUS.repo}
+      data-repo-id={GISCUS.repoId}
+      data-category={GISCUS.category}
+      data-category-id={GISCUS.categoryId}
+      data-mapping={GISCUS.mapping}
+      data-strict={GISCUS.strict}
+      data-reactions-enabled={GISCUS.reactionsEnabled}
+      data-emit-metadata={GISCUS.emitMetadata}
+      data-input-position={GISCUS.inputPosition}
+      data-theme="preferred_color_scheme"
+      data-lang={GISCUS.lang}
+      data-loading="lazy"
+      crossorigin="anonymous"
+      async
+    ></script>
+  </div>
+) : (
+  <div class="giscus-placeholder glass">
+    <p class="ph-title">💬 댓글 셋업 대기 중</p>
+    <p class="ph-body">
+      <code>src/components/Giscus.astro</code> 상단의 <code>GISCUS</code> 값을 채우면 GitHub Discussions 댓글이 자동으로 렌더됩니다.
+      셋업 가이드는 같은 파일 상단 주석 참고.
+    </p>
+  </div>
+)}
+
+<style>
+  .giscus-wrap { margin-top: 0.5rem; }
+  .giscus-placeholder {
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--radius-lg);
+    color: var(--color-muted);
+  }
+  .ph-title {
+    margin: 0 0 0.35rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--color-fg);
+  }
+  .ph-body {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+  .ph-body code {
+    padding: 0.1rem 0.35rem;
+    background: color-mix(in oklch, var(--color-surface) 80%, transparent);
+    border: 1px solid var(--color-border);
+    border-radius: 0.25rem;
+    font-size: 0.85em;
+  }
+</style>
+
+<script define:vars={{ isConfigured: isConfigured }}>
+  // Sync Giscus theme with our [data-theme] toggle.
+  // Giscus accepts light/dark via postMessage to its iframe.
+  function syncGiscusTheme() {
+    if (!isConfigured) return;
+    const theme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+    const iframe = document.querySelector('iframe.giscus-frame');
+    if (!iframe) return;
+    iframe.contentWindow?.postMessage(
+      { giscus: { setConfig: { theme } } },
+      'https://giscus.app',
+    );
+  }
+
+  // Observe data-theme changes on <html>.
+  const observer = new MutationObserver(syncGiscusTheme);
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  // Initial sync after iframe loads.
+  document.addEventListener('astro:page-load', () => setTimeout(syncGiscusTheme, 500));
+  setTimeout(syncGiscusTheme, 800);
+</script>

@@ -1,0 +1,94 @@
+---
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import Base from '../../layouts/Base.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+
+export const getStaticPaths = (async () => {
+  const showDrafts = import.meta.env.DEV;
+  const posts = await getCollection('posts', ({ data }) => showDrafts || !data.draft);
+  const tagSet = new Set<string>();
+  for (const p of posts) for (const t of p.data.tags) tagSet.add(t);
+  return Array.from(tagSet).map((tag) => ({
+    params: { tag },
+    props: {
+      tag,
+      posts: posts
+        .filter((p) => p.data.tags.includes(tag))
+        .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+const { tag, posts } = Astro.props;
+---
+
+<Base title={`#${tag}`} description={`#${tag} 태그가 붙은 글 모음.`}>
+  <section class="container-wide page">
+    <header class="head">
+      <p class="back"><a href="/tags/">← Tags &amp; Series</a></p>
+      <h1 class="title">#{tag}</h1>
+      <p class="sub">{posts.length}편의 글</p>
+    </header>
+
+    <ul class="post-list">
+      {posts.map((p) => (
+        <li class="row">
+          <a href={`/posts/${p.id}/`} class="row-link">
+            <span class="row-date"><FormattedDate date={p.data.pubDate} /></span>
+            <span class="row-title">
+              {p.data.series && <span class="row-series">{p.data.series} ·</span>}
+              {p.data.title}
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .page { max-width: 52rem; padding: 4rem 1.25rem; }
+  .head { margin-bottom: 2.5rem; }
+  .back {
+    margin: 0 0 1rem;
+    font-size: 0.875rem;
+  }
+  .back a {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  .back a:hover { color: var(--color-fg); }
+  .title {
+    font-family: var(--font-mono);
+    font-size: clamp(1.75rem, 1.25rem + 1.5vw, 2.25rem);
+    margin: 0 0 0.35rem;
+    color: var(--color-accent);
+  }
+  .sub { margin: 0; color: var(--color-muted); }
+
+  .post-list { list-style: none; padding: 0; margin: 0; }
+  .row { border-top: 1px solid var(--color-border); }
+  .row:last-child { border-bottom: 1px solid var(--color-border); }
+  .row-link {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr;
+    gap: 1rem;
+    align-items: baseline;
+    padding: 1rem 0.5rem;
+    color: inherit;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+  .row-link:hover { background: color-mix(in oklch, var(--color-surface) 50%, transparent); }
+  .row-date {
+    color: var(--color-muted);
+    font-size: 0.85rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .row-title { font-size: 1rem; line-height: 1.4; }
+  .row-series { color: var(--color-accent); font-size: 0.85rem; margin-right: 0.35rem; }
+  @media (max-width: 640px) {
+    .row-link { grid-template-columns: 1fr; gap: 0.35rem; }
+  }
+</style>

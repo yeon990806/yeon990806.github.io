@@ -1,0 +1,164 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+
+const showDrafts = import.meta.env.DEV;
+const allPosts = (
+  await getCollection('posts', ({ data }) => showDrafts || !data.draft)
+).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Group by year for sticky year headers
+const byYear = new Map<number, typeof allPosts>();
+for (const post of allPosts) {
+  const y = post.data.pubDate.getFullYear();
+  if (!byYear.has(y)) byYear.set(y, []);
+  byYear.get(y)!.push(post);
+}
+const years = Array.from(byYear.keys()).sort((a, b) => b - a);
+---
+
+<Base title="Posts" description="yeon.dev에 쓰는 모든 글.">
+  <section class="archive container-wide">
+    <header class="head">
+      <h1 class="title">Posts</h1>
+      <p class="sub">{allPosts.length}편의 글.</p>
+    </header>
+
+    {allPosts.length === 0 ? (
+      <div class="glass empty">
+        <p>아직 글이 없어요. 곧 첫 글이 올라옵니다.</p>
+      </div>
+    ) : (
+      <div class="years">
+        {years.map((year) => (
+          <section class="year-group">
+            <h2 class="year">{year}</h2>
+            <ul class="post-list">
+              {byYear.get(year)!.map((post) => (
+                <li class="row">
+                  <a href={`/posts/${post.id}/`} class="row-link">
+                    <span class="row-date">
+                      <FormattedDate date={post.data.pubDate} />
+                    </span>
+                    <span class="row-title">
+                      {post.data.series && (
+                        <span class="row-series" title="시리즈">{post.data.series} ·</span>
+                      )}
+                      {post.data.title}
+                    </span>
+                    {post.data.tags.length > 0 && (
+                      <ul class="row-tags">
+                        {post.data.tags.slice(0, 3).map((t) => (
+                          <li class="row-tag">#{t}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    )}
+  </section>
+</Base>
+
+<style>
+  .archive {
+    max-width: 52rem;
+    padding: 4rem 1.25rem;
+  }
+  .head { margin-bottom: 3rem; }
+  .title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 1.5rem + 2vw, 2.75rem);
+    margin: 0 0 0.35rem;
+    letter-spacing: -0.02em;
+  }
+  .sub { margin: 0; color: var(--color-muted); }
+
+  .empty {
+    padding: 2.5rem 2rem;
+    border-radius: var(--radius-lg);
+    text-align: center;
+    color: var(--color-muted);
+  }
+  .empty p { margin: 0; }
+
+  .years {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+  .year-group { position: relative; }
+  .year {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-muted);
+    letter-spacing: 0.05em;
+    margin: 0 0 0.5rem;
+    text-transform: uppercase;
+  }
+
+  .post-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .row {
+    border-top: 1px solid var(--color-border);
+  }
+  .row:last-child { border-bottom: 1px solid var(--color-border); }
+
+  .row-link {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr auto;
+    gap: 1rem;
+    align-items: baseline;
+    padding: 1rem 0.5rem;
+    color: inherit;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+  .row-link:hover {
+    background: color-mix(in oklch, var(--color-surface) 50%, transparent);
+  }
+
+  .row-date {
+    color: var(--color-muted);
+    font-size: 0.85rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .row-title {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+  .row-series {
+    color: var(--color-accent);
+    font-size: 0.85rem;
+    margin-right: 0.35rem;
+  }
+  .row-tags {
+    display: flex;
+    gap: 0.4rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .row-tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-muted);
+  }
+
+  @media (max-width: 640px) {
+    .row-link {
+      grid-template-columns: 1fr;
+      gap: 0.35rem;
+    }
+    .row-date { font-size: 0.8rem; }
+  }
+</style>

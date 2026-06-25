@@ -1,0 +1,191 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const showDrafts = import.meta.env.DEV;
+const posts = await getCollection('posts', ({ data }) => showDrafts || !data.draft);
+
+// Tag counts
+const tagCounts = new Map<string, number>();
+for (const p of posts) {
+  for (const t of p.data.tags) {
+    tagCounts.set(t, (tagCounts.get(t) ?? 0) + 1);
+  }
+}
+// Sort by count desc, then alpha
+const tags = Array.from(tagCounts.entries()).sort(
+  (a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'ko'),
+);
+
+// Series: collect unique series names with their post counts and date span
+const seriesMap = new Map<string, { count: number; first: Date; last: Date }>();
+for (const p of posts) {
+  const s = p.data.series;
+  if (!s) continue;
+  const cur = seriesMap.get(s);
+  if (!cur) {
+    seriesMap.set(s, { count: 1, first: p.data.pubDate, last: p.data.pubDate });
+  } else {
+    cur.count++;
+    if (p.data.pubDate < cur.first) cur.first = p.data.pubDate;
+    if (p.data.pubDate > cur.last) cur.last = p.data.pubDate;
+  }
+}
+const series = Array.from(seriesMap.entries()).sort((a, b) =>
+  b[1].last.valueOf() - a[1].last.valueOf(),
+);
+
+const fmtMonth = (d: Date) =>
+  d.toLocaleDateString('ko-KR', { year: 'numeric', month: 'short' });
+---
+
+<Base title="Tags & Series" description="태그와 시리즈로 보기.">
+  <section class="container-wide page">
+    <header class="head">
+      <h1 class="title">Tags &amp; Series</h1>
+      <p class="sub">{tags.length}개 태그 · {series.length}개 시리즈</p>
+    </header>
+
+    <!-- Tags -->
+    <section class="block">
+      <h2 class="block-title">태그</h2>
+      {tags.length === 0 ? (
+        <p class="empty">아직 태그가 없어요.</p>
+      ) : (
+        <ul class="tag-cloud">
+          {tags.map(([tag, count]) => (
+            <li>
+              <a href={`/tags/${encodeURIComponent(tag)}/`} class="tag-chip">
+                <span class="tag-name">#{tag}</span>
+                <span class="tag-count">{count}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+
+    <!-- Series -->
+    <section class="block">
+      <h2 class="block-title">시리즈</h2>
+      {series.length === 0 ? (
+        <p class="empty">아직 시리즈가 없어요.</p>
+      ) : (
+        <ul class="series-list">
+          {series.map(([name, info]) => (
+            <li>
+              <a href={`/series/${encodeURIComponent(name)}/`} class="series-card surface surface-hover">
+                <div class="series-row">
+                  <span class="series-name">{name}</span>
+                  <span class="series-count">{info.count}편</span>
+                </div>
+                <p class="series-span">
+                  {fmtMonth(info.first)}{info.first.valueOf() !== info.last.valueOf() && ` — ${fmtMonth(info.last)}`}
+                </p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  </section>
+</Base>
+
+<style>
+  .page { max-width: 52rem; padding: 4rem 1.25rem; }
+  .head { margin-bottom: 3rem; }
+  .title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 1.5rem + 2vw, 2.75rem);
+    margin: 0 0 0.35rem;
+    letter-spacing: -0.02em;
+  }
+  .sub { margin: 0; color: var(--color-muted); }
+
+  .block + .block { margin-top: 3rem; }
+  .block-title {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 650;
+    margin: 0 0 1.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .empty { color: var(--color-muted); }
+
+  /* Tag cloud */
+  .tag-cloud {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .tag-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.85rem;
+    border-radius: 9999px;
+    background: color-mix(in oklch, var(--color-surface) 60%, transparent);
+    border: 1px solid var(--color-border);
+    color: var(--color-fg);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+  }
+  .tag-chip:hover {
+    border-color: color-mix(in oklch, var(--color-accent) 50%, transparent);
+    color: var(--color-accent);
+  }
+  .tag-name { font-family: var(--font-mono); }
+  .tag-count {
+    padding: 0 0.4rem;
+    border-radius: 9999px;
+    background: color-mix(in oklch, var(--color-fg) 6%, transparent);
+    font-size: 0.72rem;
+    color: var(--color-muted);
+  }
+
+  /* Series list */
+  .series-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+  @media (max-width: 640px) {
+    .series-list { grid-template-columns: 1fr; }
+  }
+  .series-card {
+    display: block;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-lg);
+    color: inherit;
+    text-decoration: none;
+  }
+  .series-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  .series-name {
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+  .series-count {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .series-span {
+    margin: 0.25rem 0 0;
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    font-variant-numeric: tabular-nums;
+  }
+</style>

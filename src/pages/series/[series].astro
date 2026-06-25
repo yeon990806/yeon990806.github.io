@@ -1,0 +1,124 @@
+---
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import Base from '../../layouts/Base.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+
+export const getStaticPaths = (async () => {
+  const showDrafts = import.meta.env.DEV;
+  const posts = await getCollection('posts', ({ data }) => showDrafts || !data.draft);
+  const seriesMap = new Map<string, typeof posts>();
+  for (const p of posts) {
+    if (!p.data.series) continue;
+    if (!seriesMap.has(p.data.series)) seriesMap.set(p.data.series, []);
+    seriesMap.get(p.data.series)!.push(p);
+  }
+  return Array.from(seriesMap.entries()).map(([name, list]) => ({
+    params: { series: name },
+    props: {
+      series: name,
+      posts: list.sort(
+        (a, b) => (a.data.seriesOrder ?? 0) - (b.data.seriesOrder ?? 0),
+      ),
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+const { series, posts } = Astro.props;
+---
+
+<Base title={series} description={`${series} 시리즈 — ${posts.length}편.`}>
+  <section class="container-wide page">
+    <header class="head">
+      <p class="back"><a href="/tags/">← Tags &amp; Series</a></p>
+      <p class="kicker">시리즈</p>
+      <h1 class="title">{series}</h1>
+      <p class="sub">{posts.length}편</p>
+    </header>
+
+    <ol class="series-posts">
+      {posts.map((p, i) => (
+        <li class="row">
+          <a href={`/posts/${p.id}/`} class="row-link">
+            <span class="row-index">{(p.data.seriesOrder ?? i + 1).toString().padStart(2, '0')}</span>
+            <div class="row-body">
+              <p class="row-title">{p.data.title}</p>
+              <p class="row-meta">
+                <FormattedDate date={p.data.pubDate} />
+                {p.data.description && <span class="row-desc"> · {p.data.description}</span>}
+              </p>
+            </div>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+</Base>
+
+<style>
+  .page { max-width: 52rem; padding: 4rem 1.25rem; }
+  .head { margin-bottom: 2.5rem; }
+  .back { margin: 0 0 1rem; font-size: 0.875rem; }
+  .back a { color: var(--color-muted); text-decoration: none; }
+  .back a:hover { color: var(--color-fg); }
+  .kicker {
+    color: var(--color-accent);
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 0 0 0.4rem;
+    font-weight: 500;
+  }
+  .title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 1.5rem + 1.5vw, 2.5rem);
+    margin: 0 0 0.35rem;
+    letter-spacing: -0.02em;
+  }
+  .sub { margin: 0; color: var(--color-muted); }
+
+  .series-posts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: post;
+  }
+  .row { border-top: 1px solid var(--color-border); }
+  .row:last-child { border-bottom: 1px solid var(--color-border); }
+  .row-link {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 1rem;
+    align-items: baseline;
+    padding: 1.1rem 0.5rem;
+    color: inherit;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+  .row-link:hover { background: color-mix(in oklch, var(--color-surface) 50%, transparent); }
+  .row-index {
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    color: var(--color-muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .row-body { min-width: 0; }
+  .row-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.05rem;
+    line-height: 1.35;
+  }
+  .row-meta {
+    margin: 0.2rem 0 0;
+    font-size: 0.825rem;
+    color: var(--color-muted);
+  }
+  .row-desc {
+    display: inline;
+  }
+  @media (max-width: 640px) {
+    .row-link { grid-template-columns: 2.5rem 1fr; }
+  }
+</style>

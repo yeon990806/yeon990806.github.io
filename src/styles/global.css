@@ -47,8 +47,8 @@
   --shadow-3: 0 2px 4px oklch(20% 0.01 270 / 6%), 0 12px 32px oklch(20% 0.01 270 / 8%);
 
   /* Layout widths */
-  --reading-width: 42rem;   /* 672px */
-  --content-width: 64rem;   /* 1024px — tighter than before */
+  --reading-width: 48rem;   /* 768px — Medium / Tailwind prose 표준 */
+  --content-width: 72rem;   /* 1152px */
 }
 
 [data-theme="dark"] {

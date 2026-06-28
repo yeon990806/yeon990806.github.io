@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" font-family="Inter, system-ui, sans-serif">
+  <rect width="1200" height="640" fill="#FAFAF9" />
+
+  <!-- 제목 -->
+  <text x="600" y="50" text-anchor="middle" fill="#262626" font-size="22" font-weight="800">같은 행동을 하는 두 사용자</text>
+
+  <!-- 페르소나 A — 홈바 호스트 -->
+  <g transform="translate(60 100)">
+    <rect width="500" height="400" rx="20" fill="#fff" stroke="#E5E5E5" stroke-width="2" />
+
+    <!-- A 칩 -->
+    <g transform="translate(24 24)">
+      <rect width="48" height="22" rx="11" fill="#DBEAFE" />
+      <text x="24" y="15" text-anchor="middle" fill="#1D4ED8" font-size="11" font-weight="800">A</text>
+    </g>
+
+    <text x="24" y="92" fill="#262626" font-size="22" font-weight="800">홈바 호스트 '지운'</text>
+    <text x="24" y="118" fill="#737373" font-size="13">32세 · 취미 칵테일</text>
+
+    <text x="24" y="166" fill="#525252" font-size="12" font-weight="800" letter-spacing="1">상황</text>
+    <text x="24" y="192" fill="#404040" font-size="14">집에 술 20~40병. 위스키부터 베르무트까지</text>
+    <text x="24" y="214" fill="#404040" font-size="14">선반에 빼곡히 있다.</text>
+
+    <text x="24" y="256" fill="#525252" font-size="12" font-weight="800" letter-spacing="1">니즈</text>
+    <text x="24" y="282" fill="#404040" font-size="14">"지금 내 술로 만들 수 있는 칵테일은?"</text>
+    <text x="24" y="304" fill="#404040" font-size="14">"이거 하나 사면 뭘 더 만들 수 있지?"</text>
+
+    <text x="24" y="346" fill="#525252" font-size="12" font-weight="800" letter-spacing="1">필요한 것</text>
+    <g transform="translate(24 360)">
+      <rect width="120" height="24" rx="6" fill="#F5F5F5" />
+      <text x="60" y="16" text-anchor="middle" fill="#525252" font-size="11" font-weight="700">재고 관리</text>
+    </g>
+    <g transform="translate(152 360)">
+      <rect width="120" height="24" rx="6" fill="#F5F5F5" />
+      <text x="60" y="16" text-anchor="middle" fill="#525252" font-size="11" font-weight="700">레시피 추천</text>
+    </g>
+  </g>
+
+  <!-- 페르소나 B — 바 사장 -->
+  <g transform="translate(640 100)">
+    <rect width="500" height="400" rx="20" fill="#fff" stroke="#E5E5E5" stroke-width="2" />
+
+    <g transform="translate(24 24)">
+      <rect width="48" height="22" rx="11" fill="#FEF3C7" />
+      <text x="24" y="15" text-anchor="middle" fill="#B45309" font-size="11" font-weight="800">B</text>
+    </g>
+
+    <text x="24" y="92" fill="#262626" font-size="22" font-weight="800">소규모 바 사장 '현우'</text>
+    <text x="24" y="118" fill="#737373" font-size="13">41세 · 시그니처 10~20종 운영</text>
+
+    <text x="24" y="166" fill="#525252" font-size="12" font-weight="800" letter-spacing="1">상황</text>
+    <text x="24" y="192" fill="#404040" font-size="14">마감마다 손으로 재고를 세고,</text>
+    <text x="24" y="214" fill="#404040" font-size="14">원가율은 감으로 때린다.</text>
+
+    <text x="24" y="256" fill="#525252" font-size="12" font-weight="800" letter-spacing="1">니즈</text>
+    <text x="24" y="282" fill="#404040" font-size="14">판매 시 재고 자동 차감,</text>
+    <text x="24" y="304" fill="#404040" font-size="14">원가·마진·발주 목록까지.</text>
+
+    <text x="24" y="346" fill="#525252" font-size="12" font-weight="800" letter-spacing="1">필요한 것</text>
+    <g transform="translate(24 360)">
+      <rect width="84" height="24" rx="6" fill="#F5F5F5" />
+      <text x="42" y="16" text-anchor="middle" fill="#525252" font-size="11" font-weight="700">+ 주문</text>
+    </g>
+    <g transform="translate(116 360)">
+      <rect width="84" height="24" rx="6" fill="#F5F5F5" />
+      <text x="42" y="16" text-anchor="middle" fill="#525252" font-size="11" font-weight="700">+ 예약</text>
+    </g>
+    <g transform="translate(208 360)">
+      <rect width="84" height="24" rx="6" fill="#F5F5F5" />
+      <text x="42" y="16" text-anchor="middle" fill="#525252" font-size="11" font-weight="700">+ 정산</text>
+    </g>
+  </g>
+
+  <!-- 화살표 (페르소나 → 코어) -->
+  <path d="M 310 502 L 450 558" stroke="#9CA3AF" stroke-width="2" fill="none" />
+  <path d="M 890 502 L 750 558" stroke="#9CA3AF" stroke-width="2" fill="none" />
+
+  <!-- 공통 코어 -->
+  <g transform="translate(300 540)">
+    <rect width="600" height="76" rx="14" fill="#2563EB" />
+    <text x="300" y="32" text-anchor="middle" fill="#fff" font-size="11" font-weight="800" letter-spacing="3" opacity="0.9">COMMON CORE</text>
+    <text x="300" y="60" text-anchor="middle" fill="#fff" font-size="18" font-weight="800">"칵테일 한 잔 = 재료 N개 소비"</text>
+  </g>
+</svg>

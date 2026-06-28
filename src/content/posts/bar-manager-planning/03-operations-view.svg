@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" font-family="Inter, system-ui, sans-serif">
+  <rect width="1200" height="760" fill="#FAFAF9" />
+
+  <!-- 헤더 -->
+  <g transform="translate(60 50)">
+    <text fill="#262626" font-size="24" font-weight="800">좌석</text>
+    <text y="28" fill="#737373" font-size="13">진행 중 주문을 보고 결제해요</text>
+  </g>
+
+  <!-- 탭 -->
+  <g transform="translate(60 110)">
+    <rect width="220" height="42" rx="10" fill="#F5F5F5" stroke="#E5E5E5" />
+    <rect x="4" y="4" width="70" height="34" rx="8" fill="#fff" />
+    <text x="39" y="26" text-anchor="middle" fill="#262626" font-size="13" font-weight="800">운영</text>
+    <text x="113" y="26" text-anchor="middle" fill="#737373" font-size="13" font-weight="700">현황</text>
+    <text x="183" y="26" text-anchor="middle" fill="#737373" font-size="13" font-weight="700">관리</text>
+  </g>
+
+  <!-- KPI 바 -->
+  <g transform="translate(60 175)">
+    <rect width="1080" height="92" rx="14" fill="#fff" stroke="#E5E5E5" />
+    <g transform="translate(32 22)">
+      <text fill="#737373" font-size="11" font-weight="800">진행 중</text>
+      <text y="32" fill="#262626" font-size="26" font-weight="800">3건</text>
+    </g>
+    <line x1="220" y1="22" x2="220" y2="70" stroke="#E5E5E5" />
+    <g transform="translate(252 22)">
+      <text fill="#737373" font-size="11" font-weight="800">미수금</text>
+      <text y="32" fill="#2563EB" font-size="26" font-weight="800">₩87,000</text>
+    </g>
+  </g>
+
+  <!-- 좌석 섹션 헤더 -->
+  <g transform="translate(60 310)">
+    <text fill="#525252" font-size="14" font-weight="800">좌석 <tspan fill="#A3A3A3" font-weight="600">5개</tspan></text>
+  </g>
+
+  <!-- 좌석 카드 그리드 — 3 columns, gap 20 -->
+  <!-- Row 1 -->
+  <!-- Card 1 — 진행 중 -->
+  <g transform="translate(60 335)">
+    <rect width="340" height="150" rx="14" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="2" />
+    <text x="22" y="36" fill="#262626" font-size="18" font-weight="800">T1 홀 좌석</text>
+    <text x="318" y="36" text-anchor="end" fill="#1D4ED8" font-size="18" font-weight="800">₩42,000</text>
+    <text x="22" y="60" fill="#737373" font-size="12">3명 · 32분</text>
+    <text x="22" y="124" fill="#737373" font-size="11">3건 · 4잔 누적</text>
+  </g>
+
+  <!-- Card 2 — 진행 중 -->
+  <g transform="translate(420 335)">
+    <rect width="340" height="150" rx="14" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="2" />
+    <text x="22" y="36" fill="#262626" font-size="18" font-weight="800">T2 홀 좌석</text>
+    <text x="318" y="36" text-anchor="end" fill="#1D4ED8" font-size="18" font-weight="800">₩28,000</text>
+    <text x="22" y="60" fill="#737373" font-size="12">2명 · 1시간 8분</text>
+    <text x="22" y="124" fill="#737373" font-size="11">2건 · 3잔 누적</text>
+  </g>
+
+  <!-- Card 3 — 빈 좌석 -->
+  <g transform="translate(780 335)">
+    <rect width="340" height="150" rx="14" fill="#fff" stroke="#D4D4D4" stroke-width="2" stroke-dasharray="6 4" />
+    <text x="22" y="36" fill="#525252" font-size="18" font-weight="800">바석 1</text>
+    <text x="22" y="60" fill="#A3A3A3" font-size="12">비어 있음 · 1인석</text>
+    <text x="22" y="124" fill="#2563EB" font-size="13" font-weight="800">+ 새 주문 시작</text>
+  </g>
+
+  <!-- Row 2 -->
+  <!-- Card 4 — 진행 중 -->
+  <g transform="translate(60 505)">
+    <rect width="340" height="150" rx="14" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="2" />
+    <text x="22" y="36" fill="#262626" font-size="18" font-weight="800">바석 2</text>
+    <text x="318" y="36" text-anchor="end" fill="#1D4ED8" font-size="18" font-weight="800">₩17,000</text>
+    <text x="22" y="60" fill="#737373" font-size="12">1명 · 18분</text>
+    <text x="22" y="124" fill="#737373" font-size="11">1건 · 1잔 누적</text>
+  </g>
+
+  <!-- Card 5 — 빈 좌석 -->
+  <g transform="translate(420 505)">
+    <rect width="340" height="150" rx="14" fill="#fff" stroke="#D4D4D4" stroke-width="2" stroke-dasharray="6 4" />
+    <text x="22" y="36" fill="#525252" font-size="18" font-weight="800">룸</text>
+    <text x="22" y="60" fill="#A3A3A3" font-size="12">비어 있음 · 6인석</text>
+    <text x="22" y="124" fill="#2563EB" font-size="13" font-weight="800">+ 새 주문 시작</text>
+  </g>
+
+  <!-- Card 6 — 빈 좌석 -->
+  <g transform="translate(780 505)">
+    <rect width="340" height="150" rx="14" fill="#fff" stroke="#D4D4D4" stroke-width="2" stroke-dasharray="6 4" />
+    <text x="22" y="36" fill="#525252" font-size="18" font-weight="800">바석 3</text>
+    <text x="22" y="60" fill="#A3A3A3" font-size="12">비어 있음 · 1인석</text>
+    <text x="22" y="124" fill="#2563EB" font-size="13" font-weight="800">+ 새 주문 시작</text>
+  </g>
+</svg>

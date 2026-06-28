@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300 760" font-family="Inter, system-ui, sans-serif">
+  <rect width="1300" height="760" fill="#FAFAF9" />
+
+  <!-- 제목 -->
+  <text x="650" y="50" text-anchor="middle" fill="#262626" font-size="22" font-weight="800">QR 주문 사장 승인 흐름</text>
+
+  <!-- 1. 손님 휴대폰 -->
+  <g transform="translate(60 130)">
+    <rect width="240" height="430" rx="20" fill="#fff" stroke="#262626" stroke-width="2" />
+    <rect x="94" y="10" width="52" height="14" rx="7" fill="#262626" />
+    <text x="120" y="58" text-anchor="middle" fill="#A3A3A3" font-size="9" font-weight="800" letter-spacing="2">손님</text>
+
+    <text x="120" y="100" text-anchor="middle" fill="#262626" font-size="14" font-weight="800">메뉴 페이지</text>
+
+    <!-- QR 좌석 칩 -->
+    <g transform="translate(50 116)">
+      <rect width="140" height="24" rx="12" fill="#EFF6FF" />
+      <text x="70" y="16" text-anchor="middle" fill="#1D4ED8" font-size="10" font-weight="800">좌석 T1 (QR)</text>
+    </g>
+
+    <!-- 카트 -->
+    <g transform="translate(20 162)">
+      <rect width="200" height="80" rx="10" fill="#F5F5F5" />
+      <text x="14" y="22" fill="#404040" font-size="11" font-weight="700">올드 패션드 × 1</text>
+      <text x="14" y="42" fill="#404040" font-size="11" font-weight="700">진토닉 × 2</text>
+      <line x1="14" y1="50" x2="186" y2="50" stroke="#D4D4D4" />
+      <text x="14" y="68" fill="#262626" font-size="11" font-weight="800">합계</text>
+      <text x="186" y="68" text-anchor="end" fill="#262626" font-size="13" font-weight="800">₩28,000</text>
+    </g>
+
+    <!-- 주문 버튼 -->
+    <g transform="translate(20 264)">
+      <rect width="200" height="44" rx="12" fill="#2563EB" />
+      <text x="100" y="28" text-anchor="middle" fill="#fff" font-size="13" font-weight="800">주문하기</text>
+    </g>
+
+    <!-- 안내 -->
+    <text x="120" y="346" text-anchor="middle" fill="#737373" font-size="11" font-weight="700">주문이 접수됐어요</text>
+    <text x="120" y="368" text-anchor="middle" fill="#737373" font-size="11" font-weight="700">사장님 확인 후 만들어드릴게요</text>
+  </g>
+
+  <!-- 화살표 1 -->
+  <g transform="translate(310 340)">
+    <line x1="0" y1="0" x2="120" y2="0" stroke="#9CA3AF" stroke-width="2" />
+    <path d="M 114 -6 l 8 6 l -8 6" fill="none" stroke="#9CA3AF" stroke-width="2" />
+    <g transform="translate(60 -22)">
+      <rect x="-58" y="-12" width="116" height="22" rx="11" fill="#FEF3C7" />
+      <text y="3" text-anchor="middle" fill="#B45309" font-size="10" font-weight="800">POST /order</text>
+    </g>
+  </g>
+
+  <!-- 2. 백엔드 -->
+  <g transform="translate(450 130)">
+    <rect width="320" height="430" rx="14" fill="#fff" stroke="#E5E5E5" />
+    <text x="160" y="40" text-anchor="middle" fill="#A3A3A3" font-size="9" font-weight="800" letter-spacing="2">백엔드</text>
+    <text x="160" y="68" text-anchor="middle" fill="#262626" font-size="14" font-weight="800">주문 생성</text>
+
+    <!-- 상태 -->
+    <g transform="translate(40 96)">
+      <rect width="240" height="32" rx="16" fill="#FEF3C7" />
+      <text x="120" y="22" text-anchor="middle" fill="#B45309" font-size="12" font-weight="800">status = PENDING</text>
+    </g>
+
+    <!-- 리스트 -->
+    <g transform="translate(40 156)">
+      <text x="0" y="14" fill="#404040" font-size="13" font-weight="700">✓ Order 생성</text>
+      <text x="0" y="42" fill="#404040" font-size="13" font-weight="700">✓ OrderItem 저장</text>
+
+      <text x="0" y="84" fill="#DC2626" font-size="13" font-weight="700">✗ 재고 차감 — 보류</text>
+      <text x="0" y="112" fill="#DC2626" font-size="13" font-weight="700">✗ 합계 가산 — 보류</text>
+    </g>
+
+    <!-- dedup 안내 -->
+    <g transform="translate(40 300)">
+      <rect width="240" height="76" rx="8" fill="#F5F5F5" />
+      <text x="14" y="22" fill="#525252" font-size="10" font-weight="800" letter-spacing="1">중복 방어</text>
+      <text x="14" y="42" fill="#737373" font-size="10">• 5초 내 동일 시그니처 reject</text>
+      <text x="14" y="60" fill="#737373" font-size="10">• 클라이언트 3초 쿨다운</text>
+    </g>
+  </g>
+
+  <!-- 화살표 2 -->
+  <g transform="translate(780 340)">
+    <line x1="0" y1="0" x2="120" y2="0" stroke="#9CA3AF" stroke-width="2" />
+    <path d="M 114 -6 l 8 6 l -8 6" fill="none" stroke="#9CA3AF" stroke-width="2" />
+    <g transform="translate(60 -22)">
+      <rect x="-58" y="-12" width="116" height="22" rx="11" fill="#DBEAFE" />
+      <text y="3" text-anchor="middle" fill="#1D4ED8" font-size="10" font-weight="800">실시간 표시</text>
+    </g>
+  </g>
+
+  <!-- 3. 사장 화면 -->
+  <g transform="translate(920 130)">
+    <rect width="320" height="430" rx="14" fill="#fff" stroke="#E5E5E5" />
+    <text x="160" y="40" text-anchor="middle" fill="#A3A3A3" font-size="9" font-weight="800" letter-spacing="2">사장 OrdersPage</text>
+    <text x="160" y="68" text-anchor="middle" fill="#262626" font-size="14" font-weight="800">T1 새 주문</text>
+
+    <!-- PENDING 칩 -->
+    <g transform="translate(94 90)">
+      <rect width="132" height="26" rx="13" fill="#FEF3C7" />
+      <text x="66" y="18" text-anchor="middle" fill="#B45309" font-size="11" font-weight="800">승인 대기</text>
+    </g>
+
+    <!-- 항목 -->
+    <g transform="translate(40 146)">
+      <text fill="#404040" font-size="12" font-weight="700">올드 패션드 × 1</text>
+      <text x="0" y="22" fill="#404040" font-size="12" font-weight="700">진토닉 × 2</text>
+      <line x1="0" y1="38" x2="240" y2="38" stroke="#E5E5E5" />
+      <text x="0" y="62" fill="#262626" font-size="13" font-weight="800">합계</text>
+      <text x="240" y="62" text-anchor="end" fill="#1D4ED8" font-size="14" font-weight="800">₩28,000</text>
+    </g>
+
+    <!-- 액션 버튼 -->
+    <g transform="translate(40 246)">
+      <rect width="114" height="44" rx="12" fill="#2563EB" />
+      <text x="57" y="29" text-anchor="middle" fill="#fff" font-size="13" font-weight="800">수락</text>
+
+      <rect x="126" y="0" width="114" height="44" rx="12" fill="#fff" stroke="#E5E5E5" />
+      <text x="183" y="29" text-anchor="middle" fill="#525252" font-size="13" font-weight="800">거부</text>
+    </g>
+
+    <text x="160" y="340" text-anchor="middle" fill="#737373" font-size="11">수락 → 재고 차감</text>
+    <text x="160" y="360" text-anchor="middle" fill="#737373" font-size="11">거부 → 상태만 CANCELLED</text>
+  </g>
+
+  <!-- 하단 설명 -->
+  <g transform="translate(60 620)">
+    <rect width="1180" height="100" rx="14" fill="#fff" stroke="#E5E5E5" />
+    <text x="24" y="34" fill="#262626" font-size="14" font-weight="800">왜 PENDING 단계가 필요한가</text>
+    <text x="24" y="60" fill="#525252" font-size="13">QR이 풀린 순간 누구나 주문 가능. 가게 밖에서 사진 찍어서 가짜 주문, 다른 손님 좌석에 떠넘기기 모두 가능.</text>
+    <text x="24" y="82" fill="#525252" font-size="13">사장이 수락하기 전엔 재고가 안 깎이니, 가짜 주문은 거부 한 번으로 무력화된다.</text>
+  </g>
+</svg>

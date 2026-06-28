@@ -2,8 +2,16 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
+// Convention: filenames starting with `_` or all-caps names like `IMAGES.md`
+// are treated as internal notes (planning docs, image guides) and are NOT
+// loaded as posts. Use a normal lowercase slug for actual content.
+const POST_IGNORE = ['**/_*', '**/[A-Z][A-Z]*.{md,mdx}'];
+
 const posts = defineCollection({
-  loader: glob({ base: './src/content/posts', pattern: '**/*.{md,mdx}' }),
+  loader: glob({
+    base: './src/content/posts',
+    pattern: ['**/*.{md,mdx}', ...POST_IGNORE.map((p) => '!' + p)],
+  }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
@@ -19,7 +27,10 @@ const posts = defineCollection({
 });
 
 const portfolio = defineCollection({
-  loader: glob({ base: './src/content/portfolio', pattern: '**/*.{md,mdx}' }),
+  loader: glob({
+    base: './src/content/portfolio',
+    pattern: ['**/*.{md,mdx}', ...POST_IGNORE.map((p) => '!' + p)],
+  }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),

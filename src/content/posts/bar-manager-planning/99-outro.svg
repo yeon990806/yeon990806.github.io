@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 800" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg99" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e3a8a" />
+      <stop offset="100%" stop-color="#0c1a3a" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="800" fill="url(#bg99)" />
+
+  <!-- 중앙 텍스트 -->
+  <g transform="translate(800 200)">
+    <text text-anchor="middle" fill="#fbbf24" font-family="Georgia, serif" font-size="14" font-style="italic" letter-spacing="6" opacity="0.8">CONCLUSION</text>
+    <text y="64" text-anchor="middle" fill="#f8fafc" font-family="Georgia, serif" font-size="40" font-weight="700" letter-spacing="-1">한 잔 = 재료 소비</text>
+    <line x1="-80" y1="92" x2="80" y2="92" stroke="#fbbf24" stroke-width="2" />
+  </g>
+
+  <!-- 양쪽 카드 -->
+  <g transform="translate(180 380)">
+    <!-- 사장 -->
+    <rect width="540" height="260" rx="20" fill="#fff" fill-opacity="0.06" stroke="#fff" stroke-opacity="0.18" stroke-width="2" />
+    <text x="30" y="44" fill="#fbbf24" font-family="Inter, sans-serif" font-size="11" font-weight="800" letter-spacing="3">사장 화면</text>
+    <text x="30" y="78" fill="#f8fafc" font-family="Inter, sans-serif" font-size="22" font-weight="800">좌석·주문·매출</text>
+    <text x="30" y="108" fill="#cbd5e1" font-family="Inter, sans-serif" font-size="13" opacity="0.8">visit으로 묶인 운영 흐름</text>
+
+    <!-- mockup -->
+    <g transform="translate(30 134)">
+      <rect width="478" height="100" rx="10" fill="#fff" fill-opacity="0.08" />
+      <rect x="14" y="14" width="140" height="72" rx="8" fill="#fff" fill-opacity="0.12" />
+      <text x="84" y="38" text-anchor="middle" fill="#fff" font-family="Inter, sans-serif" font-size="9" font-weight="800" opacity="0.7">T1</text>
+      <text x="84" y="64" text-anchor="middle" fill="#fbbf24" font-family="Inter, sans-serif" font-size="14" font-weight="800">₩42,000</text>
+
+      <rect x="166" y="14" width="140" height="72" rx="8" fill="#fff" fill-opacity="0.12" />
+      <text x="236" y="38" text-anchor="middle" fill="#fff" font-family="Inter, sans-serif" font-size="9" font-weight="800" opacity="0.7">T2</text>
+      <text x="236" y="64" text-anchor="middle" fill="#fbbf24" font-family="Inter, sans-serif" font-size="14" font-weight="800">₩28,000</text>
+
+      <rect x="318" y="14" width="140" height="72" rx="8" fill="#fff" fill-opacity="0.05" stroke="#fff" stroke-opacity="0.18" stroke-dasharray="4 4" />
+      <text x="388" y="50" text-anchor="middle" fill="#cbd5e1" font-family="Inter, sans-serif" font-size="11" font-weight="700" opacity="0.6">빈자리</text>
+    </g>
+  </g>
+
+  <g transform="translate(880 380)">
+    <!-- 손님 -->
+    <rect width="540" height="260" rx="20" fill="#fff" fill-opacity="0.06" stroke="#fff" stroke-opacity="0.18" stroke-width="2" />
+    <text x="30" y="44" fill="#fbbf24" font-family="Inter, sans-serif" font-size="11" font-weight="800" letter-spacing="3">손님 화면</text>
+    <text x="30" y="78" fill="#f8fafc" font-family="Inter, sans-serif" font-size="22" font-weight="800">QR · 메뉴 · 카트</text>
+    <text x="30" y="108" fill="#cbd5e1" font-family="Inter, sans-serif" font-size="13" opacity="0.8">좌석으로 식별 — 클릭 한 번 주문</text>
+
+    <!-- mockup -->
+    <g transform="translate(30 134)">
+      <rect width="478" height="100" rx="10" fill="#fff" fill-opacity="0.08" />
+      <rect x="14" y="14" width="290" height="72" rx="8" fill="#fff" fill-opacity="0.12" />
+      <text x="28" y="40" fill="#fff" font-family="Inter, sans-serif" font-size="13" font-weight="800">올드 패션드 × 2</text>
+      <text x="28" y="60" fill="#fff" font-family="Inter, sans-serif" font-size="13" font-weight="800">맨해튼 × 1</text>
+      <text x="290" y="50" text-anchor="end" fill="#fbbf24" font-family="Inter, sans-serif" font-size="18" font-weight="800">₩38,000</text>
+
+      <rect x="318" y="14" width="140" height="72" rx="10" fill="#fbbf24" />
+      <text x="388" y="58" text-anchor="middle" fill="#0c1a3a" font-family="Inter, sans-serif" font-size="15" font-weight="800">주문하기</text>
+    </g>
+  </g>
+
+  <!-- 중앙 차감 엔진 -->
+  <g transform="translate(800 680)">
+    <rect x="-200" y="-26" width="400" height="52" rx="26" fill="#fbbf24" />
+    <text text-anchor="middle" y="8" fill="#0c1a3a" font-family="Inter, sans-serif" font-size="15" font-weight="800">COMMON CORE · 차감 엔진</text>
+  </g>
+
+  <!-- 연결선 -->
+  <line x1="450" y1="640" x2="700" y2="668" stroke="#fbbf24" stroke-width="2" opacity="0.5" />
+  <line x1="1150" y1="640" x2="900" y2="668" stroke="#fbbf24" stroke-width="2" opacity="0.5" />
+</svg>

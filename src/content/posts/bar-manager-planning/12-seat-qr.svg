@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
+  <rect width="800" height="1000" fill="#FAFAF9" />
+
+  <!-- 인쇄 종이 -->
+  <g transform="translate(160 60)">
+    <rect width="480" height="880" rx="8" fill="#fff" stroke="#E5E5E5" stroke-width="2" />
+
+    <!-- 좌석 이름 -->
+    <text x="240" y="100" text-anchor="middle" fill="#262626" font-family="Inter, sans-serif" font-size="48" font-weight="800">T1</text>
+
+    <!-- QR 코드 — 단순 격자 mockup -->
+    <g transform="translate(60 160)">
+      <rect width="360" height="360" rx="14" fill="#fff" stroke="#262626" stroke-width="3" />
+
+      <!-- QR 패턴 (단순 mockup, 실제 QR 아님) -->
+      <g transform="translate(20 20)" fill="#262626">
+        <!-- 모서리 마커 -->
+        <rect x="0" y="0" width="60" height="60" />
+        <rect x="6" y="6" width="48" height="48" fill="#fff" />
+        <rect x="14" y="14" width="32" height="32" />
+        <rect x="260" y="0" width="60" height="60" />
+        <rect x="266" y="6" width="48" height="48" fill="#fff" />
+        <rect x="274" y="14" width="32" height="32" />
+        <rect x="0" y="260" width="60" height="60" />
+        <rect x="6" y="266" width="48" height="48" fill="#fff" />
+        <rect x="14" y="274" width="32" height="32" />
+
+        <!-- 데이터 격자 (랜덤한 패턴) -->
+        <g>
+          <rect x="80" y="10" width="10" height="10" /><rect x="100" y="10" width="10" height="10" /><rect x="130" y="10" width="10" height="10" /><rect x="160" y="10" width="10" height="10" /><rect x="180" y="10" width="10" height="10" /><rect x="220" y="10" width="10" height="10" />
+          <rect x="80" y="30" width="10" height="10" /><rect x="110" y="30" width="10" height="10" /><rect x="140" y="30" width="10" height="10" /><rect x="170" y="30" width="10" height="10" /><rect x="200" y="30" width="10" height="10" /><rect x="220" y="30" width="10" height="10" />
+          <rect x="90" y="50" width="10" height="10" /><rect x="120" y="50" width="10" height="10" /><rect x="150" y="50" width="10" height="10" /><rect x="180" y="50" width="10" height="10" /><rect x="200" y="50" width="10" height="10" /><rect x="230" y="50" width="10" height="10" />
+          <rect x="80" y="70" width="10" height="10" /><rect x="100" y="70" width="10" height="10" /><rect x="130" y="70" width="10" height="10" /><rect x="160" y="70" width="10" height="10" /><rect x="190" y="70" width="10" height="10" /><rect x="210" y="70" width="10" height="10" /><rect x="240" y="70" width="10" height="10" /><rect x="270" y="70" width="10" height="10" /><rect x="290" y="70" width="10" height="10" /><rect x="310" y="70" width="10" height="10" />
+          <rect x="10" y="80" width="10" height="10" /><rect x="40" y="80" width="10" height="10" /><rect x="70" y="80" width="10" height="10" /><rect x="100" y="80" width="10" height="10" /><rect x="120" y="80" width="10" height="10" /><rect x="160" y="80" width="10" height="10" /><rect x="190" y="80" width="10" height="10" /><rect x="220" y="80" width="10" height="10" /><rect x="250" y="80" width="10" height="10" /><rect x="280" y="80" width="10" height="10" /><rect x="310" y="80" width="10" height="10" />
+          <rect x="20" y="100" width="10" height="10" /><rect x="50" y="100" width="10" height="10" /><rect x="80" y="100" width="10" height="10" /><rect x="110" y="100" width="10" height="10" /><rect x="140" y="100" width="10" height="10" /><rect x="170" y="100" width="10" height="10" /><rect x="200" y="100" width="10" height="10" /><rect x="220" y="100" width="10" height="10" /><rect x="260" y="100" width="10" height="10" /><rect x="290" y="100" width="10" height="10" />
+          <rect x="0" y="120" width="10" height="10" /><rect x="30" y="120" width="10" height="10" /><rect x="70" y="120" width="10" height="10" /><rect x="100" y="120" width="10" height="10" /><rect x="130" y="120" width="10" height="10" /><rect x="170" y="120" width="10" height="10" /><rect x="190" y="120" width="10" height="10" /><rect x="220" y="120" width="10" height="10" /><rect x="250" y="120" width="10" height="10" /><rect x="280" y="120" width="10" height="10" /><rect x="310" y="120" width="10" height="10" />
+          <rect x="20" y="140" width="10" height="10" /><rect x="50" y="140" width="10" height="10" /><rect x="90" y="140" width="10" height="10" /><rect x="110" y="140" width="10" height="10" /><rect x="140" y="140" width="10" height="10" /><rect x="180" y="140" width="10" height="10" /><rect x="210" y="140" width="10" height="10" /><rect x="240" y="140" width="10" height="10" /><rect x="270" y="140" width="10" height="10" /><rect x="300" y="140" width="10" height="10" />
+          <rect x="40" y="160" width="10" height="10" /><rect x="70" y="160" width="10" height="10" /><rect x="100" y="160" width="10" height="10" /><rect x="120" y="160" width="10" height="10" /><rect x="150" y="160" width="10" height="10" /><rect x="190" y="160" width="10" height="10" /><rect x="220" y="160" width="10" height="10" /><rect x="250" y="160" width="10" height="10" /><rect x="280" y="160" width="10" height="10" /><rect x="310" y="160" width="10" height="10" />
+          <rect x="0" y="180" width="10" height="10" /><rect x="30" y="180" width="10" height="10" /><rect x="60" y="180" width="10" height="10" /><rect x="90" y="180" width="10" height="10" /><rect x="120" y="180" width="10" height="10" /><rect x="160" y="180" width="10" height="10" /><rect x="200" y="180" width="10" height="10" /><rect x="230" y="180" width="10" height="10" /><rect x="260" y="180" width="10" height="10" /><rect x="290" y="180" width="10" height="10" />
+          <rect x="20" y="200" width="10" height="10" /><rect x="50" y="200" width="10" height="10" /><rect x="80" y="200" width="10" height="10" /><rect x="110" y="200" width="10" height="10" /><rect x="140" y="200" width="10" height="10" /><rect x="180" y="200" width="10" height="10" /><rect x="210" y="200" width="10" height="10" /><rect x="240" y="200" width="10" height="10" /><rect x="280" y="200" width="10" height="10" /><rect x="310" y="200" width="10" height="10" />
+          <rect x="40" y="220" width="10" height="10" /><rect x="70" y="220" width="10" height="10" /><rect x="100" y="220" width="10" height="10" /><rect x="130" y="220" width="10" height="10" /><rect x="170" y="220" width="10" height="10" /><rect x="200" y="220" width="10" height="10" /><rect x="220" y="220" width="10" height="10" /><rect x="250" y="220" width="10" height="10" /><rect x="280" y="220" width="10" height="10" /><rect x="310" y="220" width="10" height="10" />
+          <rect x="10" y="240" width="10" height="10" /><rect x="60" y="240" width="10" height="10" /><rect x="90" y="240" width="10" height="10" /><rect x="120" y="240" width="10" height="10" /><rect x="160" y="240" width="10" height="10" /><rect x="190" y="240" width="10" height="10" /><rect x="220" y="240" width="10" height="10" /><rect x="260" y="240" width="10" height="10" /><rect x="290" y="240" width="10" height="10" />
+          <rect x="80" y="260" width="10" height="10" /><rect x="120" y="260" width="10" height="10" /><rect x="150" y="260" width="10" height="10" /><rect x="180" y="260" width="10" height="10" /><rect x="210" y="260" width="10" height="10" /><rect x="240" y="260" width="10" height="10" /><rect x="270" y="260" width="10" height="10" /><rect x="300" y="260" width="10" height="10" />
+          <rect x="70" y="280" width="10" height="10" /><rect x="100" y="280" width="10" height="10" /><rect x="130" y="280" width="10" height="10" /><rect x="160" y="280" width="10" height="10" /><rect x="180" y="280" width="10" height="10" /><rect x="220" y="280" width="10" height="10" /><rect x="240" y="280" width="10" height="10" /><rect x="270" y="280" width="10" height="10" /><rect x="300" y="280" width="10" height="10" />
+          <rect x="80" y="300" width="10" height="10" /><rect x="110" y="300" width="10" height="10" /><rect x="140" y="300" width="10" height="10" /><rect x="170" y="300" width="10" height="10" /><rect x="200" y="300" width="10" height="10" /><rect x="230" y="300" width="10" height="10" /><rect x="270" y="300" width="10" height="10" /><rect x="290" y="300" width="10" height="10" /><rect x="310" y="300" width="10" height="10" />
+        </g>
+      </g>
+    </g>
+
+    <!-- 안내문 -->
+    <line x1="60" y1="580" x2="420" y2="580" stroke="#E5E5E5" />
+    <text x="240" y="630" text-anchor="middle" fill="#262626" font-family="Inter, sans-serif" font-size="18" font-weight="800">메뉴를 보고 주문하려면</text>
+    <text x="240" y="660" text-anchor="middle" fill="#262626" font-family="Inter, sans-serif" font-size="18" font-weight="800">카메라로 QR 코드를 스캔하세요</text>
+
+    <!-- 보조 -->
+    <g transform="translate(60 720)">
+      <text x="180" y="14" text-anchor="middle" fill="#A3A3A3" font-family="Inter, sans-serif" font-size="11">또는 직접 주소 입력</text>
+      <rect y="28" width="360" height="40" rx="8" fill="#FAFAF9" stroke="#E5E5E5" />
+      <text x="180" y="54" text-anchor="middle" fill="#737373" font-family="Menlo, monospace" font-size="13">mybar.app/mybar/menu?table=T1</text>
+    </g>
+
+    <!-- footer -->
+    <text x="240" y="840" text-anchor="middle" fill="#A3A3A3" font-family="Inter, sans-serif" font-size="10">powered by Bar Manager</text>
+  </g>
+</svg>

@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1100" font-family="Inter, system-ui, sans-serif">
+  <rect width="800" height="1100" fill="#FAFAF9" />
+
+  <!-- 모바일 프레임 -->
+  <g transform="translate(180 30)">
+    <rect width="440" height="1040" rx="40" fill="#FAFAF9" stroke="#262626" stroke-width="3" />
+    <rect x="170" y="14" width="100" height="22" rx="11" fill="#262626" />
+
+    <!-- 배경 hero 흐릿 -->
+    <ellipse cx="220" cy="220" rx="280" ry="140" fill="#2563EB" fill-opacity="0.05" />
+
+    <!-- 로고 -->
+    <g transform="translate(220 150)">
+      <circle r="36" fill="#2563EB" />
+      <text y="8" text-anchor="middle" fill="#fff" font-size="32">🍸</text>
+    </g>
+
+    <!-- 바 이름 -->
+    <text x="220" y="244" text-anchor="middle" fill="#262626" font-family="Georgia, serif" font-size="34" font-weight="800">지운의 홈바</text>
+    <text x="220" y="276" text-anchor="middle" fill="#525252" font-size="13">환영합니다. 오늘도 좋은 한 잔 드세요.</text>
+
+    <!-- 디바이더 -->
+    <line x1="190" y1="298" x2="250" y2="298" stroke="#2563EB" stroke-width="2" />
+
+    <!-- 공지 -->
+    <g transform="translate(40 326)">
+      <rect width="360" height="84" rx="12" fill="#fff" stroke="#2563EB" stroke-opacity="0.2" />
+      <text x="20" y="26" fill="#525252" font-size="9" font-weight="800" letter-spacing="2" opacity="0.6">공지</text>
+      <text x="20" y="50" fill="#404040" font-size="13">운영시간: 18:00 - 02:00</text>
+      <text x="20" y="70" fill="#404040" font-size="13">월요일 휴무</text>
+    </g>
+
+    <!-- 메뉴 카드 -->
+    <g transform="translate(40 442)">
+      <rect width="360" height="120" rx="20" fill="#fff" stroke="#2563EB" stroke-opacity="0.2" />
+      <text x="24" y="38" fill="#2563EB" font-size="10" font-weight="800" letter-spacing="3" opacity="0.6">MENU</text>
+      <text x="24" y="70" fill="#262626" font-size="22" font-weight="800">메뉴 보기</text>
+      <text x="24" y="92" fill="#737373" font-size="12">오늘의 칵테일을 둘러보고 주문해요</text>
+
+      <!-- 화살표 -->
+      <g transform="translate(308 50)">
+        <line x1="0" y1="14" x2="22" y2="14" stroke="#2563EB" stroke-width="2" stroke-linecap="round" />
+        <path d="M 16 8 l 6 6 l -6 6" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </g>
+    </g>
+
+    <!-- 예약 카드 -->
+    <g transform="translate(40 590)">
+      <rect width="360" height="120" rx="20" fill="#fff" stroke="#2563EB" stroke-opacity="0.2" />
+      <text x="24" y="38" fill="#2563EB" font-size="10" font-weight="800" letter-spacing="3" opacity="0.6">RESERVATION</text>
+      <text x="24" y="70" fill="#262626" font-size="22" font-weight="800">예약하기</text>
+      <text x="24" y="92" fill="#737373" font-size="12">원하는 날짜와 시간에 자리를 잡아두세요</text>
+
+      <g transform="translate(308 50)">
+        <line x1="0" y1="14" x2="22" y2="14" stroke="#2563EB" stroke-width="2" stroke-linecap="round" />
+        <path d="M 16 8 l 6 6 l -6 6" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </g>
+    </g>
+
+    <!-- footer -->
+    <text x="220" y="980" text-anchor="middle" fill="#A3A3A3" font-size="10" opacity="0.6">powered by Bar Manager</text>
+  </g>
+</svg>

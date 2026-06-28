@@ -8,9 +8,10 @@
    절제된 채도, 솔리드 표면, 미묘한 깊이.
    ============================================================ */
 @theme {
-  /* Fonts */
+  /* Fonts — Pretendard for everything except code (JetBrains Mono).
+     --font-display kept as an alias for backward compat / future override. */
   --font-sans: var(--font-pretendard), system-ui, -apple-system, sans-serif;
-  --font-display: var(--font-geist), var(--font-pretendard), system-ui, sans-serif;
+  --font-display: var(--font-pretendard), system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-jbmono), ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* Light palette — Notion clean, Linear-grade contrast */

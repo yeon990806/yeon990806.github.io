@@ -1,5 +1,5 @@
 ---
-title: 바 매니저 만들기 ① — 환경 설정과 차감 엔진까지
+title: 바 매니저 만들기 ①. 환경 설정과 차감 엔진까지
 description: 모노레포부터 Docker·Prisma·NestJS·Vite까지, 사이드 프로젝트 셋업의 실제 구현 노트. "칵테일 한 잔 = 재료 차감"을 50줄로 짜본 첫 코드.
 pubDate: 2026-06-28
 tags: [사이드프로젝트, 풀스택, NestJS, Prisma, Vite, React, Docker, 모노레포]
@@ -24,11 +24,11 @@ draft: true
 
 ---
 
-## 1. 모노레포 세팅 — pnpm workspaces + Turborepo
+## 1. 모노레포 세팅: pnpm workspaces + Turborepo
 
 디렉토리 구조부터 잡았어요.
 
-![모노레포 디렉토리 구조 — 루트 아래 apps/(api·web), packages/(shared), docker-compose.yml/pnpm-workspace.yaml/turbo.json/package.json 설정 파일](./bar-manager-setup/01-monorepo-tree.svg)
+![모노레포 디렉토리 구조. 루트 아래 apps/(api·web), packages/(shared), docker-compose.yml/pnpm-workspace.yaml/turbo.json/package.json 설정 파일](./bar-manager-setup/01-monorepo-tree.svg)
 
 `pnpm-workspace.yaml`:
 
@@ -80,7 +80,7 @@ Turborepo는 패키지 간 빌드 캐시가 핵심입니다. `shared`만 바꾼 
 
 ---
 
-## 2. Docker로 PostgreSQL — 로컬·운영 환경 통일
+## 2. Docker로 PostgreSQL: 로컬·운영 환경 통일
 
 ```yaml
 # docker-compose.yml
@@ -109,13 +109,13 @@ DATABASE_URL="postgresql://bm:bm@localhost:5432/bar_manager?schema=public"
 JWT_SECRET="dev-secret-change-me"
 ```
 
-`pnpm db:up` 한 번이면 DB가 뜹니다. 운영에서도 똑같이 RDS PostgreSQL로 바꿔주기만 하면 끝이에요 — URL만 갈아치우는 식이라 코드는 손댈 일이 거의 없습니다.
+`pnpm db:up` 한 번이면 DB가 뜹니다. 운영에서도 똑같이 RDS PostgreSQL로 바꿔주기만 하면 끝이에요. URL만 갈아치우는 식이라 코드는 손댈 일이 거의 없습니다.
 
 처음엔 `brew install postgresql`이 더 쉽다고 느낄 수 있어요. 근데 두 달 뒤 노트북 바꾸거나 OS 새로 깔면 그 짓을 또 해야 해요. `docker compose up -d db` 한 줄이 그때 훨씬 친절합니다.
 
 ---
 
-## 3. shared 패키지 — Zod로 도메인 타입 한 곳에
+## 3. shared 패키지: Zod로 도메인 타입 한 곳에
 
 `packages/shared/package.json`:
 
@@ -168,7 +168,7 @@ export type CreateIngredientInput = z.infer<typeof createIngredientSchema>;
 
 ---
 
-## 4. API 만들기 — NestJS + Prisma
+## 4. API 만들기: NestJS + Prisma
 
 ### 4.1 NestJS init
 
@@ -286,7 +286,7 @@ pnpm prisma migrate dev --name init
 
 ---
 
-## 5. 차감 엔진의 첫 코드 — 50줄
+## 5. 차감 엔진의 첫 코드: 50줄
 
 `apps/api/src/recipe/recipe.service.ts`의 핵심 부분입니다.
 
@@ -309,7 +309,7 @@ async make(ownerId: string, recipeId: string, qty = 1) {
     );
   }
 
-  // 3. 트랜잭션 — 차감 + 로그가 한 묶음
+  // 3. 트랜잭션 안에서 차감 + 로그를 한 묶음으로
   return this.prisma.$transaction(async (tx) => {
     for (const ri of recipe.ingredients) {
       const used = ri.amount * qty;
@@ -348,7 +348,7 @@ async make(ownerId: string, recipeId: string, qty = 1) {
 
 ---
 
-## 6. 인증 — JWT로 stateless
+## 6. 인증: JWT로 stateless
 
 `apps/api/src/auth/auth.service.ts`:
 
@@ -407,7 +407,7 @@ export class IngredientController {
 
 ---
 
-## 7. 웹 셋업 — Vite + React + Tailwind
+## 7. 웹 셋업: Vite + React + Tailwind
 
 ```bash
 cd apps
@@ -486,11 +486,11 @@ const makeMutation = useMutation({
 
 ---
 
-## 9. 첫 통합 — 끝에서 끝까지 한 번 돌려보기
+## 9. 첫 통합: 끝에서 끝까지 한 번 돌려보기
 
 여기까지 만들면 가능한 시나리오는 이렇게 돼요.
 
-![첫 통합 시나리오 — pnpm db:up · pnpm dev · 회원가입/로그인 · 재고 추가 · 레시피 추가 · 한 잔 만들기 클릭(차감 엔진 실행) · StockLog 확인 총 7단계](./bar-manager-setup/02-integration-scenario.svg)
+![첫 통합 시나리오. pnpm db:up · pnpm dev · 회원가입/로그인 · 재고 추가 · 레시피 추가 · 한 잔 만들기 클릭(차감 엔진 실행) · StockLog 확인 총 7단계](./bar-manager-setup/02-integration-scenario.svg)
 
 이 흐름이 한 번 깔끔하게 돌아가면, **그 뒤에 붙는 모든 기능은 이 위의 변주** 가 됩니다.
 
@@ -506,7 +506,7 @@ const makeMutation = useMutation({
 
 **코어는 50줄로 짤 수 있을 만큼 작게.** `recipe.make()`가 50줄을 넘었으면 나중에 기주 옵션·QR·취소를 그 위에 얹기 진짜 어려웠을 거예요. **"이 함수가 책임지는 게 정확히 뭐냐"** 를 한 문장으로 답할 수 있을 만큼 작게 시작해야 합니다. 코어가 작아야 그 위에 뭐든 얹힐 수 있어요.
 
-**타입을 한 곳에 정의하는 부담은 처음만.** shared 패키지를 만드는 초기엔 좀 귀찮아요 — workspace 셋업, tsconfig path, import 경로 같은 것들. 근데 한 달쯤 지나서 도메인 모델이 10개 넘어가기 시작하면 그 초기 부담의 10배가 돌아옵니다.
+**타입을 한 곳에 정의하는 부담은 처음만.** shared 패키지를 만드는 초기엔 좀 귀찮아요. workspace 셋업, tsconfig path, import 경로 같은 것들이요. 근데 한 달쯤 지나서 도메인 모델이 10개 넘어가기 시작하면 그 초기 부담의 10배가 돌아옵니다.
 
 **Docker는 미래의 자기 자신한테 친절한 일.** 노트북 바꾸거나 OS 새로 깔았을 때 5분 만에 똑같은 DB가 뜨는 경험을 한 번 하면 못 돌아가요.
 
@@ -526,9 +526,9 @@ const makeMutation = useMutation({
 
 ## 다음 글에서
 
-- 재료 카테고리(taxonomy) — 술·베르무트·리큐어·시럽... 한 트리로
-- 입고·폐기·상미기한 — `stockLog.type`을 활용
-- 메뉴북 — 사장이 손님에게 보여주는 화면 (색·폰트·레이아웃을 전부 설정값으로)
-- 좌석·예약 — 업장 운영 레이어의 첫걸음
+- 재료 카테고리(taxonomy): 술·베르무트·리큐어·시럽... 한 트리로
+- 입고·폐기·상미기한: `stockLog.type`을 활용
+- 메뉴북: 사장이 손님에게 보여주는 화면 (색·폰트·레이아웃을 전부 설정값으로)
+- 좌석·예약: 업장 운영 레이어의 첫걸음
 
 같은 차감 엔진 위에 이게 다 얼마나 자연스럽게 얹히는지가 다음 글의 핵심이 될 거예요.

@@ -28,7 +28,7 @@ const GISCUS = {
 const isConfigured = !GISCUS.repoId.startsWith('[') && !GISCUS.categoryId.startsWith('[');
 ---
 
-{isConfigured ? (
+{isConfigured && (
   <div class="giscus-wrap" data-giscus-mount>
     <script
       src="https://giscus.app/client.js"
@@ -48,41 +48,10 @@ const isConfigured = !GISCUS.repoId.startsWith('[') && !GISCUS.categoryId.starts
       async
     ></script>
   </div>
-) : (
-  <div class="giscus-placeholder glass">
-    <p class="ph-title">💬 댓글 셋업 대기 중</p>
-    <p class="ph-body">
-      <code>src/components/Giscus.astro</code> 상단의 <code>GISCUS</code> 값을 채우면 GitHub Discussions 댓글이 자동으로 렌더됩니다.
-      셋업 가이드는 같은 파일 상단 주석 참고.
-    </p>
-  </div>
 )}
 
 <style>
   .giscus-wrap { margin-top: 0.5rem; }
-  .giscus-placeholder {
-    padding: 1.25rem 1.5rem;
-    border-radius: var(--radius-lg);
-    color: var(--color-muted);
-  }
-  .ph-title {
-    margin: 0 0 0.35rem;
-    font-family: var(--font-display);
-    font-weight: 600;
-    color: var(--color-fg);
-  }
-  .ph-body {
-    margin: 0;
-    font-size: 0.875rem;
-    line-height: 1.6;
-  }
-  .ph-body code {
-    padding: 0.1rem 0.35rem;
-    background: color-mix(in oklch, var(--color-surface) 80%, transparent);
-    border: 1px solid var(--color-border);
-    border-radius: 0.25rem;
-    font-size: 0.85em;
-  }
 </style>
 
 <script define:vars={{ isConfigured: isConfigured }}>

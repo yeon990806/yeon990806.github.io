@@ -28,18 +28,7 @@ draft: true
 
 디렉토리 구조부터 잡았어요.
 
-```
-bar-manager/
-├── apps/
-│   ├── api/       # NestJS + Prisma
-│   └── web/       # Vite + React
-├── packages/
-│   └── shared/    # Zod 스키마 (양쪽이 import)
-├── docker-compose.yml
-├── pnpm-workspace.yaml
-├── turbo.json
-└── package.json
-```
+![모노레포 디렉토리 구조 — 루트 아래 apps/(api·web), packages/(shared), docker-compose.yml/pnpm-workspace.yaml/turbo.json/package.json 설정 파일](./bar-manager-setup/01-monorepo-tree.svg)
 
 `pnpm-workspace.yaml`:
 
@@ -501,13 +490,7 @@ const makeMutation = useMutation({
 
 여기까지 만들면 가능한 시나리오는 이렇게 돼요.
 
-1. `pnpm db:up` — PostgreSQL 컨테이너 띄우기
-2. `pnpm dev` — API(3001) + Web(5173) 같이 뜸
-3. 브라우저로 회원가입 → 로그인
-4. 재고 추가 (탱커레이 진 700 ml, 토닉워터 1500 ml, 라임 8개)
-5. 레시피 추가 (진토닉 = 진 45 ml + 토닉 120 ml + 라임 1개)
-6. 「한 잔 만들기」 클릭 → 재고가 진 655 ml, 토닉 1380 ml, 라임 7개로 줄어듭니다
-7. StockLog 페이지에서 방금 찍힌 차감 로그 확인
+![첫 통합 시나리오 — pnpm db:up · pnpm dev · 회원가입/로그인 · 재고 추가 · 레시피 추가 · 한 잔 만들기 클릭(차감 엔진 실행) · StockLog 확인 총 7단계](./bar-manager-setup/02-integration-scenario.svg)
 
 이 흐름이 한 번 깔끔하게 돌아가면, **그 뒤에 붙는 모든 기능은 이 위의 변주** 가 됩니다.
 

@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" font-family="Inter, system-ui, sans-serif">
+  <rect width="900" height="520" fill="#FAFAF9" />
+
+  <text x="450" y="42" text-anchor="middle" fill="#262626" font-size="20" font-weight="800">모노레포 디렉토리 구조</text>
+  <text x="450" y="66" text-anchor="middle" fill="#737373" font-size="13">apps · packages · docker-compose를 루트에서 관리</text>
+
+  <!-- 루트 노드 -->
+  <g transform="translate(60 110)">
+    <rect width="220" height="52" rx="12" fill="#1D4ED8" />
+    <text x="20" y="24" fill="#BFDBFE" font-size="11" font-weight="800" letter-spacing="1">ROOT</text>
+    <text x="20" y="42" fill="#fff" font-size="15" font-weight="700">bar-manager/</text>
+  </g>
+
+  <!-- 연결선들 -->
+  <path d="M 170 162 L 170 200 L 200 200" stroke="#9CA3AF" stroke-width="2" fill="none" />
+  <path d="M 170 162 L 170 280 L 200 280" stroke="#9CA3AF" stroke-width="2" fill="none" />
+  <path d="M 170 162 L 170 380 L 200 380" stroke="#9CA3AF" stroke-width="2" fill="none" />
+  <path d="M 170 162 L 170 440 L 200 440" stroke="#9CA3AF" stroke-width="2" fill="none" />
+
+  <!-- apps/ -->
+  <g transform="translate(200 175)">
+    <rect width="640" height="90" rx="12" fill="#fff" stroke="#D4D4D4" stroke-width="2" />
+    <text x="20" y="26" fill="#525252" font-size="11" font-weight="800" letter-spacing="1">APPS</text>
+    <text x="20" y="48" fill="#262626" font-size="15" font-weight="700">apps/</text>
+    <!-- api -->
+    <g transform="translate(20 58)">
+      <rect width="285" height="24" rx="6" fill="#F5F5F5" />
+      <text x="16" y="16" fill="#404040" font-size="12" font-weight="700">api/</text>
+      <text x="60" y="16" fill="#737373" font-size="11">NestJS + Prisma</text>
+    </g>
+    <!-- web -->
+    <g transform="translate(315 58)">
+      <rect width="285" height="24" rx="6" fill="#F5F5F5" />
+      <text x="16" y="16" fill="#404040" font-size="12" font-weight="700">web/</text>
+      <text x="60" y="16" fill="#737373" font-size="11">Vite + React</text>
+    </g>
+  </g>
+
+  <!-- packages/ -->
+  <g transform="translate(200 275)">
+    <rect width="640" height="80" rx="12" fill="#fff" stroke="#D4D4D4" stroke-width="2" />
+    <text x="20" y="26" fill="#525252" font-size="11" font-weight="800" letter-spacing="1">PACKAGES</text>
+    <text x="20" y="48" fill="#262626" font-size="15" font-weight="700">packages/</text>
+    <!-- shared -->
+    <g transform="translate(20 56)">
+      <rect width="600" height="20" rx="6" fill="#DBEAFE" />
+      <text x="12" y="14" fill="#1D4ED8" font-size="12" font-weight="700">shared/</text>
+      <text x="76" y="14" fill="#1D4ED8" font-size="11">Zod 스키마 — 프론트·백엔드가 같이 import</text>
+    </g>
+  </g>
+
+  <!-- 루트 설정 파일들 -->
+  <g transform="translate(200 365)">
+    <rect width="640" height="60" rx="12" fill="#fff" stroke="#D4D4D4" stroke-width="2" />
+    <text x="20" y="26" fill="#525252" font-size="11" font-weight="800" letter-spacing="1">ROOT CONFIG</text>
+    <g transform="translate(20 34)">
+      <rect width="140" height="20" rx="5" fill="#F5F5F5" />
+      <text x="70" y="14" text-anchor="middle" fill="#404040" font-size="11" font-weight="700">docker-compose.yml</text>
+    </g>
+    <g transform="translate(170 34)">
+      <rect width="150" height="20" rx="5" fill="#F5F5F5" />
+      <text x="75" y="14" text-anchor="middle" fill="#404040" font-size="11" font-weight="700">pnpm-workspace.yaml</text>
+    </g>
+    <g transform="translate(330 34)">
+      <rect width="90" height="20" rx="5" fill="#F5F5F5" />
+      <text x="45" y="14" text-anchor="middle" fill="#404040" font-size="11" font-weight="700">turbo.json</text>
+    </g>
+    <g transform="translate(430 34)">
+      <rect width="110" height="20" rx="5" fill="#F5F5F5" />
+      <text x="55" y="14" text-anchor="middle" fill="#404040" font-size="11" font-weight="700">package.json</text>
+    </g>
+  </g>
+
+  <!-- 실행 커맨드 -->
+  <g transform="translate(200 435)">
+    <rect width="640" height="52" rx="12" fill="#F0FDF4" stroke="#86EFAC" stroke-width="2" />
+    <text x="20" y="24" fill="#166534" font-size="11" font-weight="800" letter-spacing="1">COMMAND</text>
+    <text x="20" y="42" fill="#14532D" font-size="14" font-weight="700">pnpm dev</text>
+    <text x="120" y="42" fill="#166534" font-size="12">→ web(5173) · api(3001) 동시 실행 · shared 자동 재컴파일</text>
+  </g>
+</svg>

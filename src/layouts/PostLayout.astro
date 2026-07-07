@@ -6,7 +6,6 @@ import PostMeta from '../components/PostMeta.astro';
 import Toc from '../components/Toc.astro';
 import CodeCopy from '../components/CodeCopy.astro';
 import PostNav from '../components/PostNav.astro';
-import Giscus from '../components/Giscus.astro';
 import { readingTime } from '../utils/readingTime';
 
 interface Props {
@@ -60,11 +59,6 @@ const minutes = readingTime(body);
     </div>
 
     <PostNav prev={prev} next={next} />
-
-    <section class="comments">
-      <h2 class="comments-title">댓글</h2>
-      <Giscus />
-    </section>
   </article>
 
   <CodeCopy />
@@ -217,17 +211,5 @@ const minutes = readingTime(body);
     display: block;
   }
 
-  .comments {
-    max-width: var(--reading-width);
-    margin: 4rem auto 0;
-    padding-top: 2.5rem;
-    border-top: 1px solid var(--color-border);
-  }
-  .comments-title {
-    font-family: var(--font-display);
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin: 0 0 1rem;
-  }
   .muted { color: var(--color-muted); }
 </style>

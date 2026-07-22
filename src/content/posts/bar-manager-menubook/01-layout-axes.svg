@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="Inter, system-ui, sans-serif">
+  <rect width="900" height="560" fill="#FAFAF9" />
+
+  <text x="450" y="42" text-anchor="middle" fill="#262626" font-size="20" font-weight="800">레이아웃 7종 → 두 축의 조합</text>
+  <text x="450" y="66" text-anchor="middle" fill="#737373" font-size="13">이미지·텍스트 방향(orientation) × 한 줄에 몇 개(columns)</text>
+
+  <!-- 축 라벨 -->
+  <text x="140" y="118" text-anchor="middle" fill="#525252" font-size="11" font-weight="800" letter-spacing="1">ORIENTATION</text>
+  <text x="450" y="118" text-anchor="middle" fill="#525252" font-size="11" font-weight="800" letter-spacing="1">COLUMNS</text>
+
+  <!-- 컬럼 헤더 -->
+  <g fill="#737373" font-size="13" font-weight="700" text-anchor="middle">
+    <text x="330" y="152">1열</text>
+    <text x="530" y="152">2열</text>
+    <text x="730" y="152">3열</text>
+  </g>
+
+  <!-- row 행 라벨 -->
+  <g transform="translate(60 175)">
+    <rect width="160" height="150" rx="12" fill="#1D4ED8" />
+    <text x="20" y="30" fill="#BFDBFE" font-size="11" font-weight="800" letter-spacing="1">ROW</text>
+    <text x="20" y="56" fill="#fff" font-size="15" font-weight="700">가로 배치</text>
+    <text x="20" y="80" fill="#BFDBFE" font-size="12">이미지 옆에</text>
+    <text x="20" y="98" fill="#BFDBFE" font-size="12">텍스트</text>
+    <text x="20" y="128" fill="#93C5FD" font-size="11">전통 메뉴판 느낌</text>
+  </g>
+
+  <!-- col 행 라벨 -->
+  <g transform="translate(60 350)">
+    <rect width="160" height="150" rx="12" fill="#7C3AED" />
+    <text x="20" y="30" fill="#DDD6FE" font-size="11" font-weight="800" letter-spacing="1">COL</text>
+    <text x="20" y="56" fill="#fff" font-size="15" font-weight="700">세로 배치</text>
+    <text x="20" y="80" fill="#DDD6FE" font-size="12">이미지 위에</text>
+    <text x="20" y="98" fill="#DDD6FE" font-size="12">텍스트</text>
+    <text x="20" y="128" fill="#C4B5FD" font-size="11">카드·그리드 느낌</text>
+  </g>
+
+  <!-- row × 1 -->
+  <g transform="translate(250 175)">
+    <rect width="160" height="150" rx="12" fill="#fff" stroke="#1D4ED8" stroke-width="2" />
+    <rect x="16" y="18" width="34" height="26" rx="5" fill="#DBEAFE" />
+    <rect x="58" y="22" width="60" height="7" rx="3" fill="#404040" />
+    <rect x="58" y="35" width="40" height="6" rx="3" fill="#A3A3A3" />
+    <rect x="16" y="56" width="34" height="26" rx="5" fill="#DBEAFE" />
+    <rect x="58" y="60" width="66" height="7" rx="3" fill="#404040" />
+    <rect x="58" y="73" width="36" height="6" rx="3" fill="#A3A3A3" />
+    <text x="16" y="112" fill="#1D4ED8" font-size="13" font-weight="800">리스트 · 컴팩트</text>
+    <text x="16" y="132" fill="#737373" font-size="11">점선 leader 적용 구간</text>
+  </g>
+
+  <!-- row × 2 -->
+  <g transform="translate(450 175)">
+    <rect width="160" height="150" rx="12" fill="#fff" stroke="#1D4ED8" stroke-width="2" />
+    <rect x="14" y="18" width="26" height="22" rx="4" fill="#DBEAFE" />
+    <rect x="46" y="22" width="26" height="6" rx="3" fill="#404040" />
+    <rect x="88" y="18" width="26" height="22" rx="4" fill="#DBEAFE" />
+    <rect x="120" y="22" width="26" height="6" rx="3" fill="#404040" />
+    <rect x="14" y="50" width="26" height="22" rx="4" fill="#DBEAFE" />
+    <rect x="46" y="54" width="26" height="6" rx="3" fill="#404040" />
+    <rect x="88" y="50" width="26" height="22" rx="4" fill="#DBEAFE" />
+    <rect x="120" y="54" width="26" height="6" rx="3" fill="#404040" />
+    <text x="14" y="112" fill="#1D4ED8" font-size="13" font-weight="800">쇼케이스</text>
+    <text x="14" y="132" fill="#737373" font-size="11">이미지 좌 · 설명 우</text>
+  </g>
+
+  <!-- row × 3 (신규 조합) -->
+  <g transform="translate(650 175)">
+    <rect width="160" height="150" rx="12" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="2" stroke-dasharray="6 4" />
+    <text x="80" y="62" text-anchor="middle" fill="#7C3AED" font-size="13" font-weight="800">축으로 쪼개니</text>
+    <text x="80" y="84" text-anchor="middle" fill="#7C3AED" font-size="13" font-weight="800">공짜로 생긴 조합</text>
+    <text x="80" y="112" text-anchor="middle" fill="#8B5CF6" font-size="11">원래 만들 생각도</text>
+    <text x="80" y="128" text-anchor="middle" fill="#8B5CF6" font-size="11">없던 배치</text>
+  </g>
+
+  <!-- col × 1 -->
+  <g transform="translate(250 350)">
+    <rect width="160" height="150" rx="12" fill="#fff" stroke="#7C3AED" stroke-width="2" />
+    <rect x="16" y="18" width="128" height="34" rx="5" fill="#EDE9FE" />
+    <rect x="16" y="58" width="70" height="7" rx="3" fill="#404040" />
+    <rect x="16" y="71" width="48" height="6" rx="3" fill="#A3A3A3" />
+    <text x="16" y="112" fill="#7C3AED" font-size="13" font-weight="800">피드 · 매거진</text>
+    <text x="16" y="132" fill="#737373" font-size="11">큰 이미지 · SNS 스타일</text>
+  </g>
+
+  <!-- col × 2 -->
+  <g transform="translate(450 350)">
+    <rect width="160" height="150" rx="12" fill="#fff" stroke="#7C3AED" stroke-width="2" />
+    <rect x="14" y="18" width="60" height="30" rx="4" fill="#EDE9FE" />
+    <rect x="14" y="52" width="40" height="6" rx="3" fill="#404040" />
+    <rect x="86" y="18" width="60" height="30" rx="4" fill="#EDE9FE" />
+    <rect x="86" y="52" width="40" height="6" rx="3" fill="#404040" />
+    <text x="14" y="112" fill="#7C3AED" font-size="13" font-weight="800">앨범</text>
+    <text x="14" y="132" fill="#737373" font-size="11">2열 그리드 · 정사각</text>
+  </g>
+
+  <!-- col × 3 -->
+  <g transform="translate(650 350)">
+    <rect width="160" height="150" rx="12" fill="#fff" stroke="#7C3AED" stroke-width="2" />
+    <rect x="12" y="18" width="38" height="24" rx="4" fill="#EDE9FE" />
+    <rect x="12" y="46" width="28" height="6" rx="3" fill="#404040" />
+    <rect x="61" y="18" width="38" height="24" rx="4" fill="#EDE9FE" />
+    <rect x="61" y="46" width="28" height="6" rx="3" fill="#404040" />
+    <rect x="110" y="18" width="38" height="24" rx="4" fill="#EDE9FE" />
+    <rect x="110" y="46" width="28" height="6" rx="3" fill="#404040" />
+    <text x="12" y="112" fill="#7C3AED" font-size="13" font-weight="800">플렉스</text>
+    <text x="12" y="132" fill="#737373" font-size="11">3열 그리드 · 콤팩트</text>
+  </g>
+
+  <!-- 하단 요약 -->
+  <g transform="translate(60 520)">
+    <rect width="780" height="30" rx="8" fill="#F5F5F4" />
+    <text x="20" y="20" fill="#525252" font-size="12">
+      컴포넌트 7개 → <tspan font-weight="800" fill="#262626">UnifiedLayout 1개</tspan>. 옵션 하나 추가할 때 고칠 곳도 7군데 → 1군데.
+    </text>
+  </g>
+</svg>

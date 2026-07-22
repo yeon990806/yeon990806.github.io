@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1100" font-family="Inter, system-ui, sans-serif">
+  <rect width="800" height="1100" fill="#FAFAF9" />
+
+  <!-- 모바일 프레임 -->
+  <g transform="translate(180 30)">
+    <rect width="440" height="1040" rx="40" fill="#fff" stroke="#262626" stroke-width="3" />
+    <rect x="170" y="14" width="100" height="22" rx="11" fill="#262626" />
+
+    <!-- 헤더 -->
+    <g transform="translate(0 60)">
+      <text x="220" y="22" text-anchor="middle" fill="#A3A3A3" font-family="Georgia, serif" font-size="10" letter-spacing="3">MENU</text>
+      <text x="220" y="58" text-anchor="middle" fill="#262626" font-family="Georgia, serif" font-size="28" font-weight="800">지운의 홈바</text>
+      <line x1="200" y1="74" x2="240" y2="74" stroke="#2563EB" stroke-width="2" />
+    </g>
+
+    <!-- 카테고리 라벨 -->
+    <text x="32" y="180" fill="#A3A3A3" font-size="10" font-weight="800" letter-spacing="2">시그니처</text>
+
+    <!-- 메뉴 카드 1 — 올드 패션드 (담음 2잔) -->
+    <g transform="translate(20 200)">
+      <rect width="400" height="100" rx="12" fill="#F5F5F5" />
+      <rect x="14" y="14" width="60" height="60" rx="6" fill="#E5E5E5" />
+      <text x="44" y="52" text-anchor="middle" fill="#A3A3A3" font-family="serif" font-size="22">🍸</text>
+
+      <text x="86" y="38" fill="#262626" font-size="15" font-weight="800">올드 패션드</text>
+      <text x="86" y="58" fill="#737373" font-size="11">버번 위스키에 비터스와 약간의 설탕</text>
+      <g transform="translate(86 68)">
+        <rect width="92" height="20" rx="10" fill="#FEF3C7" />
+        <text x="46" y="14" text-anchor="middle" fill="#B45309" font-size="10" font-weight="800">🔁 기주 선택</text>
+      </g>
+
+      <text x="386" y="38" text-anchor="end" fill="#262626" font-size="15" font-weight="800">₩12,000</text>
+
+      <!-- 수량 배지 -->
+      <circle cx="392" cy="14" r="14" fill="#2563EB" stroke="#fff" stroke-width="2.5" />
+      <text x="392" y="19" text-anchor="middle" fill="#fff" font-size="11" font-weight="800">2</text>
+    </g>
+
+    <!-- 메뉴 카드 2 — 진토닉 -->
+    <g transform="translate(20 320)">
+      <rect width="400" height="100" rx="12" fill="#fff" stroke="#E5E5E5" />
+      <rect x="14" y="14" width="60" height="60" rx="6" fill="#E5E5E5" />
+      <text x="44" y="52" text-anchor="middle" fill="#A3A3A3" font-family="serif" font-size="22">🍸</text>
+
+      <text x="86" y="38" fill="#262626" font-size="15" font-weight="800">진토닉</text>
+      <text x="86" y="58" fill="#737373" font-size="11">진·토닉·라임의 가볍고 깔끔한 클래식</text>
+      <g transform="translate(86 68)">
+        <rect width="92" height="20" rx="10" fill="#FEF3C7" />
+        <text x="46" y="14" text-anchor="middle" fill="#B45309" font-size="10" font-weight="800">🔁 기주 선택</text>
+      </g>
+
+      <text x="386" y="38" text-anchor="end" fill="#262626" font-size="15" font-weight="800">₩8,000</text>
+    </g>
+
+    <!-- 메뉴 카드 3 — 맨해튼 (담음 1잔) -->
+    <g transform="translate(20 440)">
+      <rect width="400" height="80" rx="12" fill="#fff" stroke="#E5E5E5" />
+      <rect x="14" y="14" width="60" height="52" rx="6" fill="#E5E5E5" />
+      <text x="44" y="48" text-anchor="middle" fill="#A3A3A3" font-family="serif" font-size="22">🍸</text>
+
+      <text x="86" y="38" fill="#262626" font-size="15" font-weight="800">맨해튼</text>
+      <text x="86" y="58" fill="#737373" font-size="11">라이 위스키와 스위트 베르무트</text>
+
+      <text x="386" y="38" text-anchor="end" fill="#262626" font-size="15" font-weight="800">₩14,000</text>
+
+      <!-- 수량 배지 -->
+      <circle cx="392" cy="14" r="14" fill="#2563EB" stroke="#fff" stroke-width="2.5" />
+      <text x="392" y="19" text-anchor="middle" fill="#fff" font-size="11" font-weight="800">1</text>
+    </g>
+
+    <!-- 메뉴 카드 4 — 품절 -->
+    <g transform="translate(20 540)" opacity="0.4">
+      <rect width="400" height="80" rx="12" fill="#fff" stroke="#E5E5E5" />
+      <rect x="14" y="14" width="60" height="52" rx="6" fill="#E5E5E5" />
+      <text x="86" y="38" fill="#262626" font-size="15" font-weight="800">에스프레소 마티니</text>
+      <g transform="translate(252 24)">
+        <rect width="42" height="18" rx="9" fill="#F5F5F5" />
+        <text x="21" y="13" text-anchor="middle" fill="#737373" font-size="9" font-weight="800">품절</text>
+      </g>
+      <text x="386" y="38" text-anchor="end" fill="#262626" font-size="15" font-weight="800">₩15,000</text>
+    </g>
+
+    <!-- 카트 시트 (펼친 상태) -->
+    <g transform="translate(20 660)">
+      <rect width="400" height="360" rx="20" fill="#2563EB" />
+
+      <!-- 토글 -->
+      <text x="200" y="26" text-anchor="middle" fill="#fff" font-size="10" font-weight="800" letter-spacing="2" opacity="0.85">카트 접기 ▲</text>
+
+      <!-- 펼친 영역 (배경 흰색) -->
+      <rect x="0" y="42" width="400" height="232" fill="#fff" />
+
+      <!-- 카트 행 1 -->
+      <g transform="translate(14 58)">
+        <rect width="372" height="92" rx="8" fill="#fff" stroke="#E5E5E5" />
+        <text x="14" y="24" fill="#262626" font-size="13" font-weight="800">올드 패션드</text>
+        <text x="14" y="42" fill="#737373" font-size="10">₩12,000</text>
+        <text x="358" y="24" text-anchor="end" fill="#262626" font-size="13" font-weight="800">₩24,000</text>
+
+        <rect x="14" y="56" width="84" height="26" rx="6" fill="#F5F5F5" stroke="#E5E5E5" />
+        <text x="28" y="73" text-anchor="middle" fill="#525252" font-size="13" font-weight="800">−</text>
+        <text x="56" y="73" text-anchor="middle" fill="#262626" font-size="12" font-weight="800">2</text>
+        <text x="83" y="73" text-anchor="middle" fill="#525252" font-size="13" font-weight="800">+</text>
+        <text x="358" y="73" text-anchor="end" fill="#A3A3A3" font-size="10" font-weight="600">삭제</text>
+      </g>
+
+      <!-- 카트 행 2 -->
+      <g transform="translate(14 162)">
+        <rect width="372" height="92" rx="8" fill="#fff" stroke="#E5E5E5" />
+        <text x="14" y="24" fill="#262626" font-size="13" font-weight="800">맨해튼</text>
+        <text x="14" y="42" fill="#B45309" font-size="10" font-weight="700">🔁 라이 위스키</text>
+        <text x="358" y="24" text-anchor="end" fill="#262626" font-size="13" font-weight="800">₩14,000</text>
+
+        <rect x="14" y="56" width="84" height="26" rx="6" fill="#F5F5F5" stroke="#E5E5E5" />
+        <text x="28" y="73" text-anchor="middle" fill="#525252" font-size="13" font-weight="800">−</text>
+        <text x="56" y="73" text-anchor="middle" fill="#262626" font-size="12" font-weight="800">1</text>
+        <text x="83" y="73" text-anchor="middle" fill="#525252" font-size="13" font-weight="800">+</text>
+        <text x="358" y="73" text-anchor="end" fill="#A3A3A3" font-size="10" font-weight="600">삭제</text>
+      </g>
+
+      <!-- 하단 액션 -->
+      <g transform="translate(0 280)">
+        <text x="20" y="22" fill="#fff" font-size="10" font-weight="800" letter-spacing="2" opacity="0.8">카트</text>
+        <text x="20" y="50" fill="#fff" font-size="18" font-weight="800">3잔 · ₩38,000</text>
+
+        <rect x="262" y="18" width="118" height="44" rx="12" fill="#fff" />
+        <text x="321" y="46" text-anchor="middle" fill="#2563EB" font-size="14" font-weight="800">주문하기</text>
+      </g>
+    </g>
+  </g>
+</svg>

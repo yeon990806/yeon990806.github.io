@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" font-family="Inter, system-ui, sans-serif">
+  <rect width="900" height="520" fill="#FAFAF9" />
+
+  <text x="450" y="42" text-anchor="middle" fill="#262626" font-size="20" font-weight="800">설정 화면의 정보 구조</text>
+  <text x="450" y="66" text-anchor="middle" fill="#737373" font-size="13">쓰는 빈도로 3단 계층 — 항상 보이는 것 / 접어둔 것 / 모달로 뺀 것</text>
+
+  <!-- 탭 바 -->
+  <g transform="translate(60 100)">
+    <rect width="780" height="48" rx="10" fill="#fff" stroke="#D4D4D4" stroke-width="2" />
+    <rect x="10" y="8" width="120" height="32" rx="7" fill="#2563EB" />
+    <text x="70" y="29" text-anchor="middle" fill="#fff" font-size="13" font-weight="800">테마</text>
+    <text x="200" y="29" text-anchor="middle" fill="#737373" font-size="13" font-weight="700">대문</text>
+    <text x="330" y="29" text-anchor="middle" fill="#737373" font-size="13" font-weight="700">메뉴</text>
+    <text x="460" y="29" text-anchor="middle" fill="#737373" font-size="13" font-weight="700">주문</text>
+    <text x="700" y="29" text-anchor="middle" fill="#A3A3A3" font-size="11">tab: 'theme' | 'landing' | 'menu' | 'order'</text>
+  </g>
+
+  <!-- L1: 항상 보이는 것 -->
+  <g transform="translate(60 176)">
+    <rect width="780" height="118" rx="12" fill="#EFF6FF" stroke="#2563EB" stroke-width="2" />
+    <text x="20" y="28" fill="#1D4ED8" font-size="11" font-weight="800" letter-spacing="1">L1 · 항상 보임</text>
+    <text x="20" y="52" fill="#262626" font-size="15" font-weight="800">프리셋 · 색 · 폰트 · 크기</text>
+    <text x="20" y="76" fill="#525252" font-size="12">열에 아홉은 여기서 끝납니다. 프리셋 한 번 누르고 색만 살짝 만지면 완성.</text>
+
+    <g transform="translate(20 88)">
+      <rect width="86" height="22" rx="6" fill="#fff" stroke="#93C5FD" />
+      <text x="43" y="15" text-anchor="middle" fill="#1D4ED8" font-size="10" font-weight="700">무드 프리셋 5</text>
+    </g>
+    <g transform="translate(114 88)">
+      <rect width="70" height="22" rx="6" fill="#fff" stroke="#93C5FD" />
+      <text x="35" y="15" text-anchor="middle" fill="#1D4ED8" font-size="10" font-weight="700">색 3개</text>
+    </g>
+    <g transform="translate(192 88)">
+      <rect width="70" height="22" rx="6" fill="#fff" stroke="#93C5FD" />
+      <text x="35" y="15" text-anchor="middle" fill="#1D4ED8" font-size="10" font-weight="700">폰트 7종</text>
+    </g>
+    <g transform="translate(270 88)">
+      <rect width="86" height="22" rx="6" fill="#fff" stroke="#93C5FD" />
+      <text x="43" y="15" text-anchor="middle" fill="#1D4ED8" font-size="10" font-weight="700">S / M / L / XL</text>
+    </g>
+    <g transform="translate(364 88)">
+      <rect width="78" height="22" rx="6" fill="#fff" stroke="#93C5FD" />
+      <text x="39" y="15" text-anchor="middle" fill="#1D4ED8" font-size="10" font-weight="700">단 수 1·2·3</text>
+    </g>
+    <g transform="translate(450 88)">
+      <rect width="78" height="22" rx="6" fill="#fff" stroke="#93C5FD" />
+      <text x="39" y="15" text-anchor="middle" fill="#1D4ED8" font-size="10" font-weight="700">표시 토글 5</text>
+    </g>
+  </g>
+
+  <!-- L2: 아코디언 -->
+  <g transform="translate(60 312)">
+    <rect width="780" height="90" rx="12" fill="#fff" stroke="#D4D4D4" stroke-width="2" />
+    <text x="20" y="28" fill="#525252" font-size="11" font-weight="800" letter-spacing="1">L2 · 아코디언으로 접음</text>
+    <text x="20" y="52" fill="#262626" font-size="15" font-weight="800">간격 조정</text>
+    <text x="20" y="74" fill="#737373" font-size="12">노브 7개 (페이지 여백 · 헤더 · 공지 · 카테고리 · 아이템) — 필요한 사람만 펼침</text>
+    <g transform="translate(700 20)">
+      <rect width="60" height="24" rx="6" fill="#F5F5F4" />
+      <text x="30" y="16" text-anchor="middle" fill="#737373" font-size="11" font-weight="700">▼ 펼치기</text>
+    </g>
+  </g>
+
+  <!-- L3: 모달 -->
+  <g transform="translate(60 420)">
+    <rect width="780" height="90" rx="12" fill="#FAF5FF" stroke="#A855F7" stroke-width="2" stroke-dasharray="6 4" />
+    <text x="20" y="28" fill="#7C3AED" font-size="11" font-weight="800" letter-spacing="1">L3 · 모달로 분리</text>
+    <text x="20" y="52" fill="#262626" font-size="15" font-weight="800">세부 커스터마이징</text>
+    <text x="20" y="74" fill="#737373" font-size="12">요소 7개 × 속성 7개 = 49칸 — 진짜 세밀하게 만질 때만 여는 별도 화면</text>
+    <g transform="translate(690 20)">
+      <rect width="70" height="24" rx="6" fill="#F3E8FF" />
+      <text x="35" y="16" text-anchor="middle" fill="#7C3AED" font-size="11" font-weight="700">모달 열기</text>
+    </g>
+  </g>
+</svg>

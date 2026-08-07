@@ -1,9 +1,9 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import { getArticles } from '../../utils/content';
 
 const showDrafts = import.meta.env.DEV;
-const posts = await getCollection('posts', ({ data }) => showDrafts || !data.draft);
+const posts = await getArticles(showDrafts);
 
 // Tag counts
 const tagCounts = new Map<string, number>();

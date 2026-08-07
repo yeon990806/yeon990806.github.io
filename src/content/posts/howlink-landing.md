@@ -9,6 +9,12 @@ heroImage: ./howlink-landing/showcase.jpg
 demoUrl: https://about.workerlink.ai
 featured: false
 pubDate: 2026-03-10
+showcase: true
+highlights:
+  - 제품 · 요금 · 법적효력 · 보안 · 고객센터 페이지 구성
+  - 도입 문의 리드 수집 폼
+  - 이용약관 등 5종 약관 페이지
+  - 데스크톱 · 모바일 양쪽 뷰포트 대응
 ---
 
 HOWLINK의 B2B HR SaaS **WINK**를 소개하는 공식 랜딩/마케팅 사이트입니다. 제품 소개, 요금 안내, 전자계약의 법적 효력, 보안, 고객센터, 그리고 **도입 문의를 통한 리드 수집**까지 담은 SPA입니다. 데스크톱과 모바일 양쪽 뷰포트를 모두 대응합니다.

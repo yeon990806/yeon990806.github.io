@@ -5,9 +5,9 @@ interface Props {
   href: string;
   title: string;
   description: string;
-  period: string;
+  period?: string;
   role?: string;
-  status: 'live' | 'archived' | 'wip';
+  status?: 'live' | 'archived' | 'wip';
   tags: string[];
   heroImage?: ImageMetadata;
 }
@@ -29,8 +29,8 @@ const statusLabel = {
   )}
   <div class="body">
     <div class="meta">
-      <span class={`status status-${status}`}>{statusLabel[status]}</span>
-      <span class="period">{period}</span>
+      {status && <span class={`status status-${status}`}>{statusLabel[status]}</span>}
+      {period && <span class="period">{period}</span>}
       {role && <span class="role">· {role}</span>}
     </div>
     <h3 class="title">{title}</h3>

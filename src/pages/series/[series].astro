@@ -1,12 +1,12 @@
 ---
-import { getCollection } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import Base from '../../layouts/Base.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
+import { getArticles } from '../../utils/content';
 
 export const getStaticPaths = (async () => {
   const showDrafts = import.meta.env.DEV;
-  const posts = await getCollection('posts', ({ data }) => showDrafts || !data.draft);
+  const posts = await getArticles(showDrafts);
   const seriesMap = new Map<string, typeof posts>();
   for (const p of posts) {
     if (!p.data.series) continue;

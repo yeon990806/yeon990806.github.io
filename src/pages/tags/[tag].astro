@@ -1,12 +1,12 @@
 ---
-import { getCollection } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import Base from '../../layouts/Base.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
+import { getArticles } from '../../utils/content';
 
 export const getStaticPaths = (async () => {
   const showDrafts = import.meta.env.DEV;
-  const posts = await getCollection('posts', ({ data }) => showDrafts || !data.draft);
+  const posts = await getArticles(showDrafts);
   const tagSet = new Set<string>();
   for (const p of posts) for (const t of p.data.tags) tagSet.add(t);
   return Array.from(tagSet).map((tag) => ({

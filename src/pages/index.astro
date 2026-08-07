@@ -6,13 +6,18 @@ import ProjectCard from '../components/ProjectCard.astro';
 
 const showDrafts = import.meta.env.DEV;
 
+// 케이스 스터디는 바로 아래 "최근 작업"에서 따로 보여주므로 글 목록에서는 뺍니다.
 const allPosts = (
-  await getCollection('posts', ({ data }) => showDrafts || !data.draft)
+  await getCollection('posts', ({ data }) => !data.showcase && (showDrafts || !data.draft))
 ).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 const latestPosts = allPosts.slice(0, 3);
 
+// 케이스 스터디는 posts에 있고, showcase: true 인 글만 작업으로 취급합니다.
 // Featured projects first; fall back to most recent. Cap at 2 for home preview.
-const allProjects = await getCollection('portfolio', ({ data }) => showDrafts || !data.draft);
+const allProjects = await getCollection(
+  'posts',
+  ({ data }) => data.showcase && (showDrafts || !data.draft),
+);
 const featuredProjects = allProjects
   .sort((a, b) => {
     if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
@@ -75,7 +80,7 @@ const featuredProjects = allProjects
         {featuredProjects.map((p, i) => (
           <div class="reveal" style={`transition-delay: ${i * 80}ms`}>
             <ProjectCard
-              href={`/portfolio/${p.id}/`}
+              href={`/posts/${p.id}/`}
               title={p.data.title}
               description={p.data.description}
               period={p.data.period}

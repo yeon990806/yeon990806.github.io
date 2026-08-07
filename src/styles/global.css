@@ -334,6 +334,15 @@
   opacity: 1;
   transform: translateY(0);
 }
+
+/* JS 없이도 내용은 보여야 합니다. About처럼 본문 대부분이 .reveal인 페이지가 있습니다. */
+@media (scripting: none) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .reveal {
     opacity: 1;

@@ -1,5 +1,5 @@
 import type { APIRoute, GetStaticPaths } from 'astro';
-import { getCollection } from 'astro:content';
+import { getArticles } from '../../utils/content';
 import satori from 'satori';
 import { html } from 'satori-html';
 import { Resvg } from '@resvg/resvg-js';
@@ -13,19 +13,17 @@ const fontBold = fs.readFileSync(path.join(FONT_DIR, 'noto-sans-kr-korean-700-no
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const showDrafts = import.meta.env.DEV;
-  const posts = await getCollection('posts', ({ data }) => showDrafts || !data.draft);
-  const portfolio = await getCollection('portfolio', ({ data }) => showDrafts || !data.draft);
+  // 본문이 없는 쇼케이스 전용 항목은 개별 페이지가 없으니 OG도 만들지 않습니다.
+  const posts = await getArticles(showDrafts);
 
-  return [
-    ...posts.map((e) => ({
-      params: { slug: `posts/${e.id}` },
-      props: { title: e.data.title, kind: 'post' as const },
-    })),
-    ...portfolio.map((e) => ({
-      params: { slug: `portfolio/${e.id}` },
-      props: { title: e.data.title, kind: 'project' as const },
-    })),
-  ];
+  // 케이스 스터디도 posts에 있으므로 showcase 여부로 라벨만 구분합니다.
+  return posts.map((e) => ({
+    params: { slug: `posts/${e.id}` },
+    props: {
+      title: e.data.title,
+      kind: e.data.showcase ? ('project' as const) : ('post' as const),
+    },
+  }));
 };
 
 export const GET: APIRoute = async ({ props }) => {

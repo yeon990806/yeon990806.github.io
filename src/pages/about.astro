@@ -1,4 +1,5 @@
 ---
+import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { SOCIAL_LINKS } from '../consts';
 
@@ -6,16 +7,19 @@ import { SOCIAL_LINKS } from '../consts';
    ABOUT 페이지 데이터.
    여기만 편집하면 페이지가 자동으로 새로 그려집니다.
    bio·now는 배열 (한 원소 = 한 문단), 빈 배열은 섹션 자동 숨김.
+   career.period 는 `YYYY.MM - YYYY.MM` 또는 `YYYY.MM - 현재` 형식.
    ============================================================ */
 const ABOUT = {
+  name: '김도연',
+  handle: 'yeon',
+
   tagline:
-    '퍼블리셔로 시작해, 지금은 웹·앱·솔루션을 만드는 풀스택 개발자.',
+    '웹과 앱, 솔루션을 만드는 풀스택 개발자.',
 
   location: '대한민국',
 
   bio: [
     '안녕하세요, **김도연** (yeon) 입니다.',
-    '2017년 퍼블리셔로 시작해 사용자 경험에 집착하는 UI를 만들다가, 1금융권과 공공기관 SI, R&D 솔루션 프로젝트를 거치며 비즈니스 로직까지 다루는 풀스택 개발자로 성장했습니다.',
     '투네이션에서 대규모 트래픽 환경의 프론트엔드와 서비스 개발을 담당했고, CI/CD 파이프라인을 직접 구축해 운영했습니다. 최근 1년 6개월은 하울링에서 전자 계약 · 근태 관리 · 3PL WMS/OMS 솔루션을 Web과 Flutter 기반 모바일까지 동시에 만들면서, 웹과 모바일을 아우르는 풀스택으로 영역을 넓혔습니다.',
     '요즘은 **AX(AI Experience)** 에 대한 고민과 함께, 프로덕트 디자이너의 관점에서 서비스를 다루는 방향도 같이 공부하고 있습니다.',
   ],
@@ -24,15 +28,25 @@ const ABOUT = {
     {
       period: '2025.01 - 2026.06',
       role: '(주)하울링 · 개발팀 엔지니어',
+      summary: '전자 계약과 근태, 물류까지 세 개의 솔루션을 Web과 Flutter로 동시에 만들었습니다.',
+      stack: ['Next.js', 'React', 'Flutter', 'TypeScript'],
       highlights: [
         '일용직 근로자 특화 전자 계약 서비스 — <code>WINK</code>',
         '근태 관리 통합 플랫폼 (Web · Flutter) — <code>WINK WORKER</code>',
         '3PL WMS · OMS 통합 솔루션 — <code>DOODA</code>',
       ],
+      ongoing: [
+        '전자계약 v1 · v2 병존 운영과 폐기 일정 조율',
+        'EC2 수동 배포 운영 및 릴리스 반영',
+        'Sentry 기반 오류 모니터링',
+        '앱 강제 업데이트 · 토큰 자동 재발급 대응',
+      ],
     },
     {
       period: '2021.02 - 2024.12',
       role: '(주)투네이션 · 개발본부 Staff',
+      summary: '대규모 트래픽을 받는 방송 후원 플랫폼의 프론트엔드와 정산 시스템을 맡았습니다.',
+      stack: ['Vue.js', 'React', 'TypeScript', 'Flutter', 'CI/CD'],
       highlights: [
         'Flutter PoC 리모컨 현대화',
         '치지직(Chzzk) · 투네AD 클라이언트 리모컨',
@@ -42,31 +56,10 @@ const ABOUT = {
         '정산 시스템 대규모 개편',
         '가챠온(Gachaon) · 퀴즈킹(QuizKing)',
       ],
-    },
-    {
-      period: '2020.07 - 2021.02',
-      role: '(주)알파이글루 · 연구원',
-      highlights: [
-        '알파키친(Alpha Kitchen) 식사 주문 서비스',
-        '실시간 캠 기반 학습 시간 측정 PoC',
-      ],
-    },
-    {
-      period: '2020.03 - 2020.07',
-      role: '에프티앤씨(주) · 연구원',
-      highlights: [
-        '잇올(It-all) 공식 홈페이지 리뉴얼 및 퍼블리싱',
-      ],
-    },
-    {
-      period: '2017.09 - 2020.03',
-      role: '(주)인젠트 · 퍼블리셔 / 프론트엔드',
-      highlights: [
-        'i-biz 사내 ERP 인사관리(HR) 시스템',
-        'iXeb HTML5 WYSIWYG Framework',
-        'IBK 기업은행 차세대 VTM',
-        'KB 국민은행 차세대 PoC',
-        '공공기관·금융권 메인 퍼블리싱',
+      ongoing: [
+        '각종 이벤트 페이지 제작 및 운영',
+        '후원 기능 업데이트',
+        '크고 작은 QA 이슈 대응',
       ],
     },
   ],
@@ -84,8 +77,6 @@ const ABOUT = {
       'Zustand',
       'Astro',
       'Node.js',
-      'Java / Spring',
-      'PHP',
       'Firebase',
       'RESTful API',
       'CI/CD',
@@ -109,133 +100,337 @@ const ABOUT = {
   now: [],
 };
 
+/* ---------- 파생값 (데이터에서 계산, 하드코딩하지 않음) ---------- */
+
+/** `2021.02` → {y, m}. `현재`는 오늘 날짜. */
+function parseMonth(token: string): { y: number; m: number } {
+  const t = token.trim();
+  if (t === '현재' || t.toLowerCase() === 'present') {
+    const now = new Date();
+    return { y: now.getFullYear(), m: now.getMonth() + 1 };
+  }
+  const [y, m] = t.split('.').map(Number);
+  return { y, m: m || 1 };
+}
+
+function diffMonths(a: { y: number; m: number }, b: { y: number; m: number }): number {
+  return (b.y - a.y) * 12 + (b.m - a.m);
+}
+
+/** 기간 문자열의 개월 수. 국내 이력서 관행대로 시작·종료 월을 모두 포함합니다. */
+function monthsOf(period: string): number {
+  const [from, to] = period.split('-');
+  if (!to) return 0;
+  return Math.max(0, diffMonths(parseMonth(from), parseMonth(to)) + 1);
+}
+
+/** `18` → `1년 6개월`. 0인 단위는 생략. */
+function humanizeMonths(months: number): string {
+  const y = Math.floor(months / 12);
+  const m = months % 12;
+  return [y ? `${y}년` : '', m ? `${m}개월` : ''].filter(Boolean).join(' ');
+}
+
+// 총 경력은 각 기간의 합이 아니라 첫 입사부터 마지막 퇴사까지의 구간으로 셉니다.
+// 합산하면 이직 월이 중복으로 잡힙니다.
+const careerStart = ABOUT.career.length
+  ? parseMonth(ABOUT.career[ABOUT.career.length - 1].period.split('-')[0])
+  : null;
+const careerEnd = ABOUT.career.length ? parseMonth(ABOUT.career[0].period.split('-')[1]) : null;
+const totalMonths = careerStart && careerEnd ? diffMonths(careerStart, careerEnd) + 1 : 0;
+const totalYears = Math.floor(totalMonths / 12);
+
+const showDrafts = import.meta.env.DEV;
+// 케이스 스터디는 posts에 있고, showcase: true 인 글만 작업으로 취급합니다.
+const projects = (
+  await getCollection('posts', ({ data }) => data.showcase && (showDrafts || !data.draft))
+).sort(
+  (a, b) => {
+    if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
+    return b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
+  },
+);
+
+const stats = [
+  {
+    value: totalYears,
+    suffix: '년',
+    label: '개발 경력',
+    note: careerStart ? `${careerStart.y}년 ${careerStart.m}월 시작 · ${humanizeMonths(totalMonths)}` : '',
+  },
+  {
+    value: ABOUT.career.length,
+    suffix: '곳',
+    label: '거쳐온 팀',
+    note: '플랫폼 · B2B 솔루션',
+  },
+  {
+    value: projects.length,
+    suffix: '건',
+    label: '케이스 스터디',
+    note: '포트폴리오에 정리한 작업',
+  },
+];
+
+/** '(주)하울링 · 개발팀 엔지니어' → ['(주)하울링', '개발팀 엔지니어'] */
+function splitRole(role: string): [string, string] {
+  const i = role.indexOf(' · ');
+  if (i === -1) return [role, ''];
+  return [role.slice(0, i), role.slice(i + 3)];
+}
+
 const hasCareer = ABOUT.career.length > 0;
+const hasSkills = ABOUT.skills.primary.length + ABOUT.skills.side.length > 0;
+const hasWork = projects.length > 0;
 const hasCerts =
   ABOUT.certs.have.length + ABOUT.certs.pursuing.length + ABOUT.certs.education.length > 0;
 const hasNow = ABOUT.now.length > 0;
+
+const sections = [
+  { id: 'bio', label: '소개', show: ABOUT.bio.length > 0 },
+  { id: 'career', label: '경력', show: hasCareer },
+  { id: 'skills', label: '기술', show: hasSkills },
+  { id: 'work', label: '작업', show: hasWork },
+  { id: 'education', label: '자격 · 교육', show: hasCerts },
+  { id: 'contact', label: '연락', show: true },
+].filter((s) => s.show);
+
+const bold = (s: string) => s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
 ---
 
 <Base title="About" description={ABOUT.tagline}>
-  <article class="about">
-    <!-- Hero -->
-    <header class="intro reading">
-      <h1 class="title">About</h1>
-      <p class="tagline" set:html={ABOUT.tagline}></p>
-      <div class="chips">
-        {ABOUT.location && <span class="chip">📍 {ABOUT.location}</span>}
-        <a class="chip link" href={SOCIAL_LINKS.email}>✉ Email</a>
-        <a class="chip link" href={SOCIAL_LINKS.github} target="_blank" rel="noreferrer">GitHub ↗</a>
+  <article class="about" data-about>
+    <!-- ===== Hero ===== -->
+    <header class="hero">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="reading hero-inner">
+        <p class="eyebrow" style="--d: 0ms">
+          <span class="dot" aria-hidden="true"></span>
+          About
+        </p>
+
+        <h1 class="name" style="--d: 60ms">
+          {ABOUT.name}
+          <span class="handle">/ {ABOUT.handle}</span>
+        </h1>
+
+        <p class="tagline" style="--d: 140ms" set:html={bold(ABOUT.tagline)}></p>
+
+        <div class="chips" style="--d: 220ms">
+          {ABOUT.location && <span class="chip">📍 {ABOUT.location}</span>}
+          <a class="chip link" href={SOCIAL_LINKS.email}>✉ Email</a>
+          <a class="chip link" href={SOCIAL_LINKS.github} target="_blank" rel="noreferrer">
+            GitHub ↗
+          </a>
+        </div>
+
+        <dl class="stats" style="--d: 300ms">
+          {stats.map((s) => (
+            <div class="stat">
+              <dt class="stat-label">{s.label}</dt>
+              <dd class="stat-value">
+                <span data-count={s.value}>0</span><span class="suffix">{s.suffix}</span>
+              </dd>
+              {s.note && <p class="stat-note">{s.note}</p>}
+            </div>
+          ))}
+        </dl>
       </div>
     </header>
 
-    <!-- Bio -->
+    <!-- ===== Section nav (scrollspy) ===== -->
+    <nav class="subnav" aria-label="섹션 바로가기">
+      <div class="subnav-inner glass">
+        {sections.map((s) => (
+          <a href={`#${s.id}`} class="subnav-link" data-spy-link={s.id}>{s.label}</a>
+        ))}
+      </div>
+    </nav>
+
+    <!-- ===== Bio ===== -->
     {ABOUT.bio.length > 0 && (
-      <section class="section reading">
-        {ABOUT.bio.map((p) => (
-          <p class="bio" set:html={p.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')}></p>
+      <section id="bio" class="section reading" data-spy>
+        <h2 class="section-title reveal">소개</h2>
+        {ABOUT.bio.map((p, i) => (
+          <p class="bio reveal" style={`transition-delay: ${i * 60}ms`} set:html={bold(p)}></p>
         ))}
       </section>
     )}
 
-    <!-- Career -->
+    <!-- ===== Career ===== -->
     {hasCareer && (
-      <section class="section reading">
-        <h2 class="section-title">경력</h2>
-        <ol class="timeline">
-          {ABOUT.career.map((c) => (
-            <li class="timeline-item">
-              <div class="period">{c.period}</div>
-              <div class="role-block">
-                <p class="role">{c.role}</p>
-                {c.highlights.length > 0 && (
-                  <ul class="highlights">
-                    {c.highlights.map((h) => <li set:html={h}></li>)}
-                  </ul>
-                )}
-              </div>
-            </li>
-          ))}
-        </ol>
+      <section id="career" class="section reading" data-spy>
+        <h2 class="section-title reveal">경력</h2>
+
+        <div class="timeline" data-timeline>
+          <span class="rail" aria-hidden="true"><span class="rail-fill"></span></span>
+
+          <ol class="entries">
+          {ABOUT.career.map((c, i) => {
+            const [company, title] = splitRole(c.role);
+            const duration = humanizeMonths(monthsOf(c.period));
+            return (
+              <li class="entry reveal" style={`transition-delay: ${i * 90}ms`}>
+                <span class="node" aria-hidden="true"></span>
+
+                <div class="entry-head">
+                  <span class="period">{c.period}</span>
+                  {duration && <span class="duration">{duration}</span>}
+                </div>
+
+                <div class="entry-card surface surface-hover">
+                  <p class="company">{company}</p>
+                  {title && <p class="role">{title}</p>}
+                  {c.summary && <p class="summary">{c.summary}</p>}
+
+                  {c.highlights.length > 0 && (
+                    <ul class="highlights">
+                      {c.highlights.map((h, j) => (
+                        <li style={`--d: ${j * 45}ms`} set:html={h}></li>
+                      ))}
+                    </ul>
+                  )}
+
+                  {c.ongoing && c.ongoing.length > 0 && (
+                    <div class="ongoing">
+                      <p class="ongoing-label">운영 · 유지보수</p>
+                      <ul class="ongoing-list">
+                        {c.ongoing.map((o) => <li>{o}</li>)}
+                      </ul>
+                    </div>
+                  )}
+
+                  {c.stack && c.stack.length > 0 && (
+                    <ul class="stack">
+                      {c.stack.map((s) => <li class="tag">{s}</li>)}
+                    </ul>
+                  )}
+                </div>
+              </li>
+            );
+          })}
+          </ol>
+        </div>
       </section>
     )}
 
-    <!-- Skills -->
-    {(ABOUT.skills.primary.length > 0 || ABOUT.skills.side.length > 0) && (
-      <section class="section reading">
-        <h2 class="section-title">기술</h2>
+    <!-- ===== Skills ===== -->
+    {hasSkills && (
+      <section id="skills" class="section reading" data-spy>
+        <h2 class="section-title reveal">기술</h2>
+
         {ABOUT.skills.primary.length > 0 && (
           <div class="skill-group">
-            <h3 class="skill-label">주력</h3>
+            <h3 class="skill-label reveal">주력</h3>
             <ul class="chip-row">
-              {ABOUT.skills.primary.map((s) => <li class="chip">{s}</li>)}
+              {ABOUT.skills.primary.map((s, i) => (
+                <li class="chip strong reveal" style={`transition-delay: ${i * 45}ms`}>{s}</li>
+              ))}
             </ul>
           </div>
         )}
+
         {ABOUT.skills.side.length > 0 && (
           <div class="skill-group">
-            <h3 class="skill-label">사이드 · 관심</h3>
+            <h3 class="skill-label reveal">사이드 · 관심</h3>
             <ul class="chip-row">
-              {ABOUT.skills.side.map((s) => <li class="chip muted">{s}</li>)}
+              {ABOUT.skills.side.map((s, i) => (
+                <li class="chip muted reveal" style={`transition-delay: ${i * 35}ms`}>{s}</li>
+              ))}
             </ul>
           </div>
         )}
       </section>
     )}
 
-    <!-- Certs -->
+    <!-- ===== Work ===== -->
+    {hasWork && (
+      <section id="work" class="section reading" data-spy>
+        <div class="section-head">
+          <h2 class="section-title reveal">작업</h2>
+          <a href="/portfolio" class="see-all reveal">전체 보기 →</a>
+        </div>
+
+        <ul class="work-list">
+          {projects.slice(0, 4).map((p, i) => (
+            <li class="reveal" style={`transition-delay: ${i * 70}ms`}>
+              <a class="work-item" href={`/posts/${p.id}/`}>
+                <span class="work-period">{p.data.period}</span>
+                <span class="work-body">
+                  <span class="work-title">{p.data.title}</span>
+                  <span class="work-desc">{p.data.description}</span>
+                </span>
+                <span class="work-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <!-- ===== Certs · Education ===== -->
     {hasCerts && (
-      <section class="section reading">
-        <h2 class="section-title">자격증 · 교육</h2>
+      <section id="education" class="section reading" data-spy>
+        <h2 class="section-title reveal">자격증 · 교육</h2>
+
         {ABOUT.certs.have.length > 0 && (
           <div class="cert-group">
-            <h3 class="cert-label">보유</h3>
+            <h3 class="cert-label reveal">보유</h3>
             <ul class="cert-list">
-              {ABOUT.certs.have.map((c) => <li>{c}</li>)}
+              {ABOUT.certs.have.map((c, i) => (
+                <li class="reveal" style={`transition-delay: ${i * 50}ms`}>{c}</li>
+              ))}
             </ul>
           </div>
         )}
+
         {ABOUT.certs.pursuing.length > 0 && (
           <div class="cert-group">
-            <h3 class="cert-label">준비 중</h3>
+            <h3 class="cert-label reveal">준비 중</h3>
             <ul class="cert-list">
-              {ABOUT.certs.pursuing.map((c) => <li>{c}</li>)}
+              {ABOUT.certs.pursuing.map((c, i) => (
+                <li class="reveal" style={`transition-delay: ${i * 50}ms`}>{c}</li>
+              ))}
             </ul>
           </div>
         )}
+
         {ABOUT.certs.education.length > 0 && (
           <div class="cert-group">
-            <h3 class="cert-label">교육</h3>
+            <h3 class="cert-label reveal">교육</h3>
             <ul class="cert-list">
-              {ABOUT.certs.education.map((c) => <li>{c}</li>)}
+              {ABOUT.certs.education.map((c, i) => (
+                <li class="reveal" style={`transition-delay: ${i * 50}ms`}>{c}</li>
+              ))}
             </ul>
           </div>
         )}
       </section>
     )}
 
-    <!-- Now -->
+    <!-- ===== Now ===== -->
     {hasNow && (
       <section class="section reading">
-        <h2 class="section-title">지금</h2>
-        <div class="surface now-card">
+        <h2 class="section-title reveal">지금</h2>
+        <div class="surface now-card reveal">
           {ABOUT.now.map((p) => <p>{p}</p>)}
         </div>
       </section>
     )}
 
-    <!-- Contact -->
-    <section class="section reading contact-section">
-      <h2 class="section-title">연락</h2>
+    <!-- ===== Contact ===== -->
+    <section id="contact" class="section reading contact-section" data-spy>
+      <h2 class="section-title reveal">연락</h2>
       <ul class="contact">
-        <li>
+        <li class="reveal">
           <a href={SOCIAL_LINKS.email}>✉ {SOCIAL_LINKS.email.replace('mailto:', '')}</a>
         </li>
-        <li>
+        <li class="reveal" style="transition-delay: 60ms">
           <a href={SOCIAL_LINKS.github} target="_blank" rel="noreferrer">
             ↗ {SOCIAL_LINKS.github.replace('https://', '')}
           </a>
         </li>
-        <li>
+        <li class="reveal" style="transition-delay: 120ms">
           <a href={SOCIAL_LINKS.rss}>RSS 피드</a>
         </li>
       </ul>
@@ -244,31 +439,111 @@ const hasNow = ABOUT.now.length > 0;
 </Base>
 
 <style>
-  .about { padding: 3rem 0 1rem; }
+  .about { padding: 0 0 1rem; }
 
   .reading {
+    width: 100%;
     max-width: var(--reading-width);
     margin-inline: auto;
     padding-inline: 1.5rem;
   }
 
-  /* Hero */
-  .intro {
-    text-align: left;
-    margin-bottom: 3rem;
+  /* ===== Entrance animation (hero only, no scroll needed) ===== */
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
   }
-  .title {
+  .eyebrow,
+  .name,
+  .tagline,
+  .chips,
+  .stats {
+    opacity: 0;
+    animation: rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    animation-delay: var(--d, 0ms);
+  }
+
+  /* ===== Hero ===== */
+  .hero {
+    position: relative;
+    padding: 4.5rem 0 2.5rem;
+    isolation: isolate;
+  }
+  .hero-glow {
+    position: absolute;
+    top: -6rem;
+    left: 0;
+    right: 0;
+    height: 32rem;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(32% 46% at 22% 45%, color-mix(in oklch, var(--color-accent) 24%, transparent) 0%, transparent 80%),
+      radial-gradient(32% 46% at 70% 40%, color-mix(in oklch, oklch(60% 0.2 200) 20%, transparent) 0%, transparent 80%);
+    filter: blur(80px);
+    animation: drift 20s ease-in-out infinite;
+  }
+  @keyframes drift {
+    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.95; }
+    33% { transform: translate(-3%, 1.5%) scale(1.06); opacity: 1; }
+    66% { transform: translate(2.5%, -1%) scale(1.03); opacity: 0.88; }
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0 0 1rem;
+    padding: 0.25rem 0.8rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-1);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--color-muted);
+    text-transform: uppercase;
+  }
+  .eyebrow .dot {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 9999px;
+    background: oklch(72% 0.18 145);
+    box-shadow: 0 0 0 3px color-mix(in oklch, oklch(72% 0.18 145) 25%, transparent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+
+  .name {
     font-family: var(--font-display);
-    font-size: clamp(2rem, 1.5rem + 1.5vw, 2.5rem);
-    margin: 0 0 0.5rem;
-    letter-spacing: -0.02em;
+    font-size: clamp(2.25rem, 1.6rem + 2.6vw, 3.25rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin: 0 0 0.65rem;
   }
+  .name .handle {
+    font-size: 0.42em;
+    font-weight: 400;
+    color: var(--color-muted);
+    letter-spacing: -0.01em;
+    margin-left: 0.4rem;
+    vertical-align: 0.35em;
+  }
+
   .tagline {
-    margin: 0 0 1.25rem;
-    color: var(--color-fg);
-    font-size: 1.15rem;
-    line-height: 1.55;
+    margin: 0 0 1.5rem;
+    max-width: 34rem;
+    font-size: 1.1rem;
+    line-height: 1.65;
+    color: var(--color-muted);
   }
+  .tagline :global(strong) { color: var(--color-fg); }
+
   .chips {
     display: flex;
     flex-wrap: wrap;
@@ -279,7 +554,7 @@ const hasNow = ABOUT.now.length > 0;
     align-items: center;
     gap: 0.25rem;
     padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
+    border-radius: var(--radius-pill);
     background: var(--color-surface-subtle);
     border: 1px solid var(--color-border);
     font-size: 0.85rem;
@@ -288,15 +563,119 @@ const hasNow = ABOUT.now.length > 0;
   .chip.link {
     color: var(--color-fg);
     text-decoration: none;
-    transition: border-color 0.15s, color 0.15s;
+    transition: border-color 0.2s, color 0.2s, transform 0.2s;
   }
   .chip.link:hover {
     border-color: var(--color-border-strong);
     color: var(--color-accent);
+    transform: translateY(-1px);
   }
 
-  /* Sections */
-  .section { margin-bottom: 3rem; }
+  /* Stats */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin: 2.25rem 0 0;
+  }
+  .stat {
+    padding: 1rem 1.1rem 1.1rem;
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-1);
+    transition: border-color 0.25s, transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .stat:hover {
+    border-color: color-mix(in oklch, var(--color-accent) 30%, var(--color-border-strong));
+    transform: translateY(-2px);
+  }
+  .stat-label {
+    margin: 0 0 0.3rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    color: var(--color-muted);
+    text-transform: uppercase;
+  }
+  .stat-value {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.9rem;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+    background: linear-gradient(160deg, var(--color-fg) 20%, var(--color-accent) 130%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+  .stat-value .suffix {
+    font-size: 0.55em;
+    font-weight: 500;
+    margin-left: 0.1em;
+  }
+  .stat-note {
+    margin: 0.4rem 0 0;
+    font-size: 0.75rem;
+    line-height: 1.45;
+    color: var(--color-muted);
+  }
+  @media (max-width: 620px) {
+    .stats { grid-template-columns: 1fr; }
+    .stat { display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; }
+    .stat-label { order: 2; margin: 0; }
+    .stat-value { order: 1; font-size: 1.5rem; }
+    .stat-note { order: 3; flex-basis: 100%; margin-top: 0.15rem; }
+  }
+
+  /* ===== Sub nav ===== */
+  .subnav {
+    position: sticky;
+    top: 4.25rem;
+    z-index: 20;
+    padding: 0.5rem 1.5rem 1.25rem;
+    display: flex;
+    justify-content: center;
+  }
+  .subnav-inner {
+    display: flex;
+    gap: 0.15rem;
+    padding: 0.3rem;
+    border-radius: var(--radius-pill);
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .subnav-inner::-webkit-scrollbar { display: none; }
+  .subnav-link {
+    flex: none;
+    padding: 0.35rem 0.85rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-muted);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s, background 0.2s;
+  }
+  .subnav-link:hover { color: var(--color-fg); }
+  .subnav-link.is-active {
+    color: var(--color-accent-fg);
+    background: var(--color-accent);
+  }
+
+  /* ===== Sections ===== */
+  .section {
+    margin-bottom: 4rem;
+    scroll-margin-top: 8.5rem;
+  }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
   .section-title {
     font-family: var(--font-display);
     font-size: 1.35rem;
@@ -308,6 +687,7 @@ const hasNow = ABOUT.now.length > 0;
     display: flex;
     align-items: center;
     gap: 0.6rem;
+    flex: 1;
   }
   .section-title::before {
     content: "";
@@ -317,50 +697,153 @@ const hasNow = ABOUT.now.length > 0;
     border-radius: 2px;
     background: linear-gradient(180deg, var(--color-accent), oklch(60% 0.2 200));
   }
+  .see-all {
+    color: var(--color-muted);
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .see-all:hover { color: var(--color-fg); }
 
-  /* Bio */
+  /* ===== Bio ===== */
   .bio {
     margin: 0 0 0.95em;
     font-size: 1.05rem;
-    line-height: 1.8;
+    line-height: 1.85;
   }
   .bio:last-child { margin-bottom: 0; }
 
-  /* Timeline */
+  /* ===== Timeline ===== */
   .timeline {
+    --p: 0;
+    position: relative;
+  }
+  .entries {
     list-style: none;
     padding: 0;
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1.75rem;
   }
-  .timeline-item {
-    display: grid;
-    grid-template-columns: 9rem 1fr;
-    gap: 1.5rem;
-    align-items: start;
+  /* 노드(0.85rem)의 중심선에 맞춘다: left = 중심 0.425rem - 레일 두께의 절반. */
+  .rail {
+    position: absolute;
+    left: calc(0.425rem - 1px);
+    top: 0.775rem;
+    bottom: 0;
+    width: 2px;
+    border-radius: 2px;
+    background: var(--color-border);
+    overflow: hidden;
+  }
+  .rail-fill {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(180deg, var(--color-accent), oklch(60% 0.2 200));
+    transform: scaleY(var(--p));
+    transform-origin: top;
+  }
+
+  .entry {
+    position: relative;
+    padding-left: 2rem;
+    padding-bottom: 2rem;
+  }
+  .entry:last-child { padding-bottom: 0; }
+
+  .node {
+    position: absolute;
+    left: 0;
+    top: 0.35rem;
+    width: 0.85rem;
+    height: 0.85rem;
+    border-radius: 9999px;
+    background: var(--color-bg);
+    border: 2px solid var(--color-border-strong);
+    transition: border-color 0.4s ease 0.15s, box-shadow 0.4s ease 0.15s, transform 0.4s cubic-bezier(0.2, 1.5, 0.4, 1) 0.15s;
+    transform: scale(0.6);
+  }
+  .entry.is-visible .node {
+    transform: scale(1);
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 4px color-mix(in oklch, var(--color-accent) 14%, transparent);
+  }
+
+  .entry-head {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
   }
   .period {
-    color: var(--color-muted);
     font-size: 0.85rem;
+    color: var(--color-muted);
     font-variant-numeric: tabular-nums;
-    padding-top: 0.15rem;
+    font-family: var(--font-mono);
   }
-  .role-block { margin: 0; }
-  .role {
-    margin: 0 0 0.5rem;
+  .duration {
+    font-size: 0.72rem;
+    padding: 0.1rem 0.5rem;
+    border-radius: var(--radius-pill);
+    background: color-mix(in oklch, var(--color-accent) 12%, transparent);
+    color: var(--color-accent);
+    font-weight: 500;
+  }
+
+  .entry-card {
+    padding: 1.25rem 1.4rem 1.4rem;
+  }
+  .company {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
     font-weight: 650;
+    letter-spacing: -0.01em;
     color: var(--color-fg);
   }
+  .role {
+    margin: 0.15rem 0 0;
+    font-size: 0.88rem;
+    color: var(--color-muted);
+  }
+  .summary {
+    margin: 0.85rem 0 0;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--color-fg);
+  }
+
   .highlights {
-    margin: 0;
-    padding-left: 1.1rem;
+    margin: 0.9rem 0 0;
+    padding: 0;
+    list-style: none;
     color: var(--color-muted);
   }
   .highlights li {
-    margin-bottom: 0.35rem;
+    position: relative;
+    padding-left: 1rem;
+    margin-bottom: 0.4rem;
     line-height: 1.6;
+    font-size: 0.92rem;
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+    transition-delay: var(--d, 0ms);
+  }
+  .entry.is-visible .highlights li {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .highlights li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 0.3rem;
+    height: 0.3rem;
+    border-radius: 9999px;
+    background: color-mix(in oklch, var(--color-accent) 55%, transparent);
   }
   .highlights :global(code) {
     font-family: var(--font-mono);
@@ -373,15 +856,61 @@ const hasNow = ABOUT.now.length > 0;
     color: var(--color-fg);
     letter-spacing: 0.02em;
   }
-  @media (max-width: 640px) {
-    .timeline-item { grid-template-columns: 1fr; gap: 0.35rem; }
+
+  /* 프로젝트 성과와 성격이 달라 얇은 구분선 아래에 따로 둡니다. */
+  .ongoing {
+    margin-top: 1rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--color-border);
+  }
+  .ongoing-label {
+    margin: 0 0 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+  .ongoing-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .ongoing-list li {
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-surface-subtle);
+    border: 1px solid var(--color-border);
+    font-size: 0.8rem;
+    color: var(--color-muted);
   }
 
-  /* Skills */
-  .skill-group + .skill-group { margin-top: 1.25rem; }
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin: 1rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .stack .tag {
+    padding: 0.15rem 0.55rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-surface-subtle);
+    border: 1px solid var(--color-border);
+    font-size: 0.72rem;
+    font-family: var(--font-mono);
+    color: var(--color-muted);
+  }
+
+  /* ===== Skills ===== */
+  .skill-group + .skill-group { margin-top: 1.5rem; }
   .skill-label,
   .cert-label {
-    margin: 0 0 0.5rem;
+    margin: 0 0 0.6rem;
     font-size: 0.8rem;
     color: var(--color-muted);
     text-transform: uppercase;
@@ -399,34 +928,97 @@ const hasNow = ABOUT.now.length > 0;
   .chip-row .chip {
     font-family: var(--font-mono);
     font-size: 0.78rem;
-    padding: 0.2rem 0.65rem;
+    padding: 0.25rem 0.7rem;
+    transition: border-color 0.2s, color 0.2s, transform 0.2s, background 0.2s;
+  }
+  .chip-row .chip:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in oklch, var(--color-accent) 35%, var(--color-border-strong));
+    color: var(--color-fg);
+  }
+  .chip-row .chip.strong {
+    color: var(--color-fg);
+    background: color-mix(in oklch, var(--color-accent) 8%, var(--color-surface));
+    border-color: color-mix(in oklch, var(--color-accent) 22%, var(--color-border));
   }
   .chip-row .chip.muted { color: var(--color-muted); }
 
-  /* Certs */
-  .cert-group + .cert-group { margin-top: 1.25rem; }
+  /* ===== Work ===== */
+  .work-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .work-item {
+    display: grid;
+    grid-template-columns: 8rem 1fr auto;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 1rem 0.75rem;
+    border-radius: var(--radius-md);
+    border-bottom: 1px solid var(--color-border);
+    color: inherit;
+    text-decoration: none;
+    transition: background 0.2s, padding-left 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .work-item:hover {
+    background: var(--color-surface-subtle);
+    padding-left: 1.15rem;
+  }
+  .work-period {
+    font-size: 0.78rem;
+    font-family: var(--font-mono);
+    color: var(--color-muted);
+  }
+  .work-body { display: block; }
+  .work-title {
+    display: block;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.2rem;
+  }
+  .work-desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 0.88rem;
+    color: var(--color-muted);
+  }
+  .work-arrow {
+    color: var(--color-muted);
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.2s;
+  }
+  .work-item:hover .work-arrow {
+    transform: translateX(4px);
+    color: var(--color-accent);
+  }
+  @media (max-width: 620px) {
+    .work-item { grid-template-columns: 1fr auto; }
+    .work-period { grid-column: 1 / -1; }
+  }
+
+  /* ===== Certs ===== */
+  .cert-group + .cert-group { margin-top: 1.5rem; }
   .cert-list {
     list-style: none;
     padding: 0;
     margin: 0;
   }
   .cert-list li {
-    padding: 0.45rem 0;
+    padding: 0.55rem 0.25rem;
     border-bottom: 1px solid var(--color-border);
+    transition: padding-left 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.2s;
   }
+  .cert-list li:hover { padding-left: 0.65rem; color: var(--color-accent); }
   .cert-list li:last-child { border-bottom: 0; }
 
-  /* Now card */
-  .now-card {
-    padding: 1.75rem 1.85rem;
-  }
-  .now-card p {
-    margin: 0 0 0.75em;
-    line-height: 1.7;
-  }
+  /* ===== Now ===== */
+  .now-card { padding: 1.75rem 1.85rem; }
+  .now-card p { margin: 0 0 0.75em; line-height: 1.7; }
   .now-card p:last-child { margin-bottom: 0; }
 
-  /* Contact */
+  /* ===== Contact ===== */
   .contact-section { margin-bottom: 5rem; }
   .contact {
     list-style: none;
@@ -435,6 +1027,7 @@ const hasNow = ABOUT.now.length > 0;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    align-items: flex-start;
   }
   .contact a {
     color: var(--color-fg);
@@ -447,4 +1040,125 @@ const hasNow = ABOUT.now.length > 0;
     color: var(--color-accent);
     border-bottom-color: var(--color-accent);
   }
+
+  /* ===== Reduced motion ===== */
+  @media (prefers-reduced-motion: reduce) {
+    .eyebrow, .name, .tagline, .chips, .stats {
+      opacity: 1;
+      animation: none;
+    }
+    .hero-glow { animation: none; }
+    .eyebrow .dot { animation: none; }
+    .node { transform: scale(1); transition: none; }
+    .highlights li { opacity: 1; transform: none; transition: none; }
+    .rail-fill { transform: scaleY(1); }
+  }
 </style>
+
+<script>
+  const REDUCE = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- 타임라인 레일: 스크롤 진행도를 --p 로 반영 ---- */
+  let rafPending = false;
+  function paintRail() {
+    rafPending = false;
+    const el = document.querySelector<HTMLElement>('[data-timeline]');
+    if (!el) return;
+    if (REDUCE()) {
+      el.style.setProperty('--p', '1');
+      return;
+    }
+    const r = el.getBoundingClientRect();
+    const anchor = window.innerHeight * 0.6;
+    const p = Math.min(1, Math.max(0, (anchor - r.top) / Math.max(r.height, 1)));
+    el.style.setProperty('--p', p.toFixed(4));
+  }
+  function requestRail() {
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(paintRail);
+  }
+
+  /* ---- 숫자 카운트업 ---- */
+  function setupCounters() {
+    const nodes = document.querySelectorAll<HTMLElement>('[data-count]:not([data-counted])');
+    if (nodes.length === 0) return;
+
+    const run = (el: HTMLElement) => {
+      el.dataset.counted = 'true';
+      const target = Number(el.dataset.count || '0');
+      if (REDUCE() || target <= 0) {
+        el.textContent = String(target);
+        return;
+      }
+      const duration = 900;
+      const start = performance.now();
+      const step = (now: number) => {
+        const t = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        el.textContent = String(Math.round(target * eased));
+        if (t < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+
+    const io = new IntersectionObserver(
+      (entries, obs) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          obs.unobserve(e.target);
+          run(e.target as HTMLElement);
+        }
+      },
+      { threshold: 0.4 },
+    );
+    nodes.forEach((n) => io.observe(n));
+  }
+
+  /* ---- 섹션 스크롤스파이 ---- */
+  let spyObserver: IntersectionObserver | null = null;
+  function setupSpy() {
+    spyObserver?.disconnect();
+    const sections = document.querySelectorAll<HTMLElement>('[data-spy]');
+    if (sections.length === 0) return;
+
+    const links = new Map<string, HTMLElement>();
+    document.querySelectorAll<HTMLElement>('[data-spy-link]').forEach((a) => {
+      links.set(a.dataset.spyLink!, a);
+    });
+
+    const visible = new Set<string>();
+    spyObserver = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) visible.add(e.target.id);
+          else visible.delete(e.target.id);
+        }
+        // 문서 순서상 가장 위에 걸린 섹션을 활성으로.
+        let active: string | null = null;
+        for (const s of sections) {
+          if (visible.has(s.id)) {
+            active = s.id;
+            break;
+          }
+        }
+        links.forEach((a, id) => a.classList.toggle('is-active', id === active));
+      },
+      { rootMargin: '-45% 0px -45% 0px' },
+    );
+    sections.forEach((s) => spyObserver!.observe(s));
+  }
+
+  function setupAbout() {
+    if (!document.querySelector('[data-about]')) return;
+    setupCounters();
+    setupSpy();
+    paintRail();
+  }
+
+  window.addEventListener('scroll', requestRail, { passive: true });
+  window.addEventListener('resize', requestRail, { passive: true });
+
+  setupAbout();
+  document.addEventListener('astro:page-load', setupAbout);
+</script>

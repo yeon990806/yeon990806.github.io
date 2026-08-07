@@ -7,6 +7,12 @@ status: live
 tags: [Flutter, Dart, Provider, go_router, 네이버지도, Geolocation, 출퇴근]
 featured: false
 pubDate: 2026-05-20
+showcase: true
+highlights:
+  - Haversine 공식으로 근무지 반경 안에서만 출퇴근 허용
+  - Google Play 정책에 맞춰 백그라운드 위치 추적을 알람 기반으로 재설계
+  - 만료 5분 전 토큰 자동 재발급과 강제 업데이트 처리
+  - 화면마다 Material · Cupertino UI를 분리 구현
 ---
 
 WINK 플랫폼의 **근로자용 모바일 앱**입니다. 관리자 웹(WINK ERP)과 같은 데이터를 공유하면서, 현장 근로자가 직접 사용하는 접점을 담당합니다.

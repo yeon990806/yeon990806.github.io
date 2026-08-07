@@ -1,11 +1,12 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { render } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import PostLayout from '../../layouts/PostLayout.astro';
+import { getArticles } from '../../utils/content';
 
 export const getStaticPaths = (async () => {
   const showDrafts = import.meta.env.DEV;
-  const all = await getCollection('posts', ({ data }) => showDrafts || !data.draft);
+  const all = await getArticles(showDrafts);
 
   // Pre-compute series-aware prev/next.
   // Within a series: order by seriesOrder. Outside: no prev/next.

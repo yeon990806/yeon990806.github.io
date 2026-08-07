@@ -1,56 +1,202 @@
 ---
-import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
-import ProjectCard from '../../components/ProjectCard.astro';
+import { getShowcase } from '../../utils/content';
 
 const showDrafts = import.meta.env.DEV;
-const projects = (
-  await getCollection('portfolio', ({ data }) => showDrafts || !data.draft)
-).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// 케이스 스터디 본문은 posts에 있습니다. 이 페이지는 showcase: true 인 글을
+// 상세 페이지 없이 한 화면에 펼쳐 보여주는 피드입니다.
+const projects = (await getShowcase(showDrafts)).sort((a, b) => {
+  if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
+  return b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
+});
+
+const statusLabel = { live: 'Live', archived: 'Archived', wip: 'WIP' } as const;
+
+// 태그는 수가 많아 전부 늘어놓으면 산만합니다. 여러 프로젝트에 걸친 것만 추립니다.
+const tagCount = new Map<string, number>();
+for (const p of projects) {
+  for (const t of p.data.tags) tagCount.set(t, (tagCount.get(t) ?? 0) + 1);
+}
+const topTags = [...tagCount.entries()]
+  .filter(([, n]) => n > 1)
+  .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+  .slice(0, 8)
+  .map(([t]) => t);
 ---
 
-<Base title="Portfolio" description="만든 것들과 그 뒤의 이야기.">
-  <section class="archive container-wide">
-    <header class="head">
-      <h1 class="title">Portfolio</h1>
-      <p class="sub">만든 것들과 그 뒤의 이야기.</p>
+<Base title="포트폴리오">
+  <div class="archive">
+    <header class="head container-wide">
+      <div class="glow" aria-hidden="true"></div>
+      <h1 class="title" style="--d: 0ms">포트폴리오</h1>
+      {topTags.length > 0 && (
+        <ul class="tag-cloud" style="--d: 80ms">
+          {topTags.map((t) => <li class="tag-chip">{t}</li>)}
+        </ul>
+      )}
     </header>
 
     {projects.length === 0 ? (
-      <div class="glass empty">
-        <p class="empty-title">포트폴리오 정리 중</p>
-        <p class="empty-sub">곧 진행한 프로젝트와 케이스 스터디를 올릴게요.</p>
+      <div class="container-wide">
+        <div class="glass empty">
+          <p class="empty-title">포트폴리오 정리 중</p>
+          <p class="empty-sub">곧 진행한 프로젝트와 케이스 스터디를 올릴게요.</p>
+        </div>
       </div>
     ) : (
-      <div class="grid">
-        {projects.map((p) => (
-          <ProjectCard
-            href={`/portfolio/${p.id}/`}
-            title={p.data.title}
-            description={p.data.description}
-            period={p.data.period}
-            role={p.data.role}
-            status={p.data.status}
-            tags={p.data.tags}
-            heroImage={p.data.heroImage}
-          />
-        ))}
+      <div class="feed container-wide">
+        {projects.map((p, i) => {
+          const d = p.data;
+          const shots = [...(d.heroImage ? [d.heroImage] : []), ...d.gallery];
+          return (
+            <article class="project reveal" style={`transition-delay: ${i * 60}ms`}>
+              <span class="rule" aria-hidden="true"></span>
+
+              {shots.length > 0 && (
+                <div class="shots" data-shots>
+                  {shots.map((img, j) => (
+                    <figure class="shot">
+                      <Image
+                        src={img}
+                        alt=""
+                        widths={[420, 720, 1040]}
+                        sizes="(max-width: 768px) 84vw, 34rem"
+                        loading={i === 0 && j === 0 ? 'eager' : 'lazy'}
+                      />
+                    </figure>
+                  ))}
+                </div>
+              )}
+
+              <div class="body">
+                <div class="lead">
+                  <p class="kicker">
+                    <span class="num">{String(i + 1).padStart(2, '0')}</span>
+                    {d.period && <span class="period">{d.period}</span>}
+                    {/* 기간이 없는 항목에 구분점만 남지 않도록 앞에 붙이지 않습니다. */}
+                    {d.role && <span class="role">{d.period ? `· ${d.role}` : d.role}</span>}
+                  </p>
+
+                  <h2 class="name">
+                    {d.title}
+                    {d.featured && <span class="badge">Featured</span>}
+                    {d.status && (
+                      <span class={`status status-${d.status}`}>{statusLabel[d.status]}</span>
+                    )}
+                  </h2>
+
+                  <p class="desc">{d.description}</p>
+                </div>
+
+                <div class="detail">
+                  {d.highlights.length > 0 && (
+                    <ul class="highlights">
+                      {d.highlights.map((h) => <li>{h}</li>)}
+                    </ul>
+                  )}
+
+                  {d.tags.length > 0 && (
+                    <ul class="stack">
+                      {d.tags.map((t) => <li class="tag">{t}</li>)}
+                    </ul>
+                  )}
+
+                  <div class="links">
+                    {/* 회고 글이 없는 작업도 피드에는 오릅니다. 본문이 빈 글로
+                        연결해 빈 페이지를 보여주지 않도록 링크를 감춥니다. */}
+                    {(p.body ?? '').trim().length > 0 && (
+                      <a class="link primary" href={`/posts/${p.id}/`}>케이스 스터디 읽기 →</a>
+                    )}
+                    {d.demoUrl && (
+                      <a class="link" href={d.demoUrl} target="_blank" rel="noreferrer">
+                        {d.demoUrl.replace(/^https?:\/\//, '')} ↗
+                      </a>
+                    )}
+                    {d.repoUrl && (
+                      <a class="link" href={d.repoUrl} target="_blank" rel="noreferrer">Repo ↗</a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </article>
+          );
+        })}
       </div>
     )}
-  </section>
+  </div>
 </Base>
 
 <style>
-  .archive { padding: 4rem 1.25rem; }
-  .head { margin-bottom: 2.5rem; text-align: center; }
+  .archive { padding: 0 0 5rem; }
+
+  /* ===== Hero ===== */
+  .head {
+    position: relative;
+    padding-top: 4.5rem;
+    padding-bottom: 2.5rem;
+    text-align: center;
+    isolation: isolate;
+  }
+  .glow {
+    position: absolute;
+    top: -5rem;
+    left: 0;
+    right: 0;
+    height: 26rem;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(30% 46% at 26% 42%, color-mix(in oklch, var(--color-accent) 22%, transparent) 0%, transparent 80%),
+      radial-gradient(30% 46% at 72% 40%, color-mix(in oklch, oklch(60% 0.2 200) 20%, transparent) 0%, transparent 80%);
+    filter: blur(80px);
+    animation: drift 20s ease-in-out infinite;
+  }
+  @keyframes drift {
+    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.95; }
+    33% { transform: translate(-3%, 1.5%) scale(1.06); opacity: 1; }
+    66% { transform: translate(2.5%, -1%) scale(1.03); opacity: 0.88; }
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .title,
+  .tag-cloud {
+    opacity: 0;
+    animation: rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    animation-delay: var(--d, 0ms);
+  }
   .title {
     font-family: var(--font-display);
-    font-size: clamp(2rem, 1.5rem + 2vw, 2.75rem);
-    margin: 0 0 0.35rem;
-    letter-spacing: -0.02em;
+    font-size: clamp(2rem, 1.4rem + 2.6vw, 3rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    margin: 0;
   }
-  .sub { margin: 0; color: var(--color-muted); }
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.35rem;
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+  }
+  .tag-chip {
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-surface-subtle);
+    border: 1px solid var(--color-border);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-muted);
+  }
 
+  /* ===== Empty ===== */
   .empty {
     padding: 3rem 2rem;
     border-radius: var(--radius-lg);
@@ -68,12 +214,214 @@ const projects = (
   }
   .empty-sub { font-size: 0.9rem; margin: 0; }
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.5rem;
+  /* ===== Feed ===== */
+  .project {
+    position: relative;
+    padding: 3.5rem 0;
   }
-  @media (max-width: 768px) {
-    .grid { grid-template-columns: 1fr; }
+  .rule {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-border-strong) 12%,
+      var(--color-border-strong) 88%,
+      transparent
+    );
+  }
+  .project:first-child { padding-top: 1.5rem; }
+  .project:first-child .rule { display: none; }
+
+  /* 스크린샷은 가로 스크롤 띠. 여러 장이어도 세로 길이를 먹지 않습니다. */
+  .shots {
+    display: flex;
+    gap: 0.85rem;
+    margin-bottom: 2rem;
+    padding-bottom: 0.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-strong) transparent;
+  }
+  .shot {
+    flex: 0 0 auto;
+    width: min(34rem, 84vw);
+    margin: 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    scroll-snap-align: start;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.3s;
+  }
+  .shot:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in oklch, var(--color-accent) 30%, var(--color-border-strong));
+  }
+  .shot :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 0;
+  }
+
+  /* 왼쪽에 제목·요약, 오른쪽에 상세. 넓은 화면에서 눈이 덜 움직입니다. */
+  .body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 2rem 3rem;
+    align-items: start;
+  }
+
+  .kicker {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.45rem;
+    margin: 0 0 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--color-muted);
+  }
+  .kicker .num {
+    color: var(--color-accent);
+    letter-spacing: 0.08em;
+  }
+  .period { font-variant-numeric: tabular-nums; }
+
+  .name {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 1.1rem + 0.9vw, 1.8rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+    margin: 0 0 0.75rem;
+  }
+  .badge,
+  .status {
+    flex: none;
+    padding: 0.15rem 0.55rem;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+  .badge {
+    background: var(--color-accent);
+    color: var(--color-accent-fg);
+  }
+  .status-live {
+    background: color-mix(in oklch, oklch(65% 0.18 150) 18%, transparent);
+    color: oklch(45% 0.18 150);
+  }
+  .status-wip {
+    background: color-mix(in oklch, var(--color-accent) 15%, transparent);
+    color: var(--color-accent);
+  }
+  .status-archived {
+    background: color-mix(in oklch, var(--color-fg) 8%, transparent);
+    color: var(--color-muted);
+  }
+  :global([data-theme="dark"]) .status-live { color: oklch(75% 0.18 150); }
+
+  .desc {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .highlights {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .highlights li {
+    position: relative;
+    padding-left: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+  .highlights li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 0.3rem;
+    height: 0.3rem;
+    border-radius: 9999px;
+    background: color-mix(in oklch, var(--color-accent) 55%, transparent);
+  }
+
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin: 1.1rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .stack .tag {
+    padding: 0.15rem 0.55rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-surface-subtle);
+    border: 1px solid var(--color-border);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-muted);
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.35rem;
+  }
+  .link {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.45rem 0.95rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-border);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-fg);
+    text-decoration: none;
+    transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.2s, border-color 0.2s;
+  }
+  .link:hover {
+    transform: translateY(-1px);
+    background: var(--color-surface);
+    border-color: var(--color-border-strong);
+  }
+  .link.primary {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-accent-fg);
+  }
+  .link.primary:hover {
+    background: color-mix(in oklch, var(--color-accent) 90%, var(--color-fg));
+  }
+  .link:active { transform: translateY(0); }
+
+  @media (max-width: 860px) {
+    .body { grid-template-columns: 1fr; gap: 1.5rem; }
+    .project { padding: 2.75rem 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .title, .tag-cloud { opacity: 1; animation: none; }
+    .glow { animation: none; }
+    .shot, .link { transition: none; }
   }
 </style>

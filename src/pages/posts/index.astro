@@ -1,12 +1,12 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
+import { getArticles } from '../../utils/content';
 
 const showDrafts = import.meta.env.DEV;
-const allPosts = (
-  await getCollection('posts', ({ data }) => showDrafts || !data.draft)
-).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const allPosts = (await getArticles(showDrafts)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
 
 // Group by year for sticky year headers
 const byYear = new Map<number, typeof allPosts>();

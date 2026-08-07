@@ -8,6 +8,15 @@ tags: [React, TypeScript, MUI Joy, Recoil, 전자계약, PDF, TossPayments]
 heroImage: ./wink-front/hero.jpg
 featured: true
 pubDate: 2026-06-20
+showcase: true
+highlights:
+  - 전자계약 서식 에디터를 v1에서 v2로 재설계 (다중 페이지 · 다인 서명)
+  - konva 캔버스 기반 위젯 좌표 · 속성 편집
+  - Toss 결제 위젯을 붙인 크레딧 충전 흐름 구현
+  - 브라우저 ONNX로 서명 · 도장 이미지 배경 제거
+gallery:
+  - ./wink-front/list.jpg
+  - ./wink-front/history.jpg
 ---
 
 일용직 근로자에 특화된 B2B HR SaaS **WINK**의 웹 클라이언트입니다.

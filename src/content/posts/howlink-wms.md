@@ -8,6 +8,16 @@ tags: [Next.js, React 19, TypeScript, TanStack Query, Zustand, Tailwind, WMS]
 heroImage: ./howlink-wms/products.jpg
 featured: false
 pubDate: 2026-04-15
+showcase: true
+highlights:
+  - App Router route group으로 화주사 · 물류사 화면을 한 코드베이스에 분리
+  - 모든 호출을 service → fetcher 단일 경로로 통일한 API 계층 규칙
+  - BE와 동일한 snake_case를 유지해 변환 레이어 제거
+  - 창고 현장용 모바일 PWA 라우트 별도 구성
+gallery:
+  - ./howlink-wms/inventory.jpg
+  - ./howlink-wms/outbound.jpg
+  - ./howlink-wms/inbound.jpg
 ---
 
 **DOODA WMS**는 3PL(제3자 물류) 창고를 운영하기 위한 WMS/OMS 통합 솔루션입니다. 입고·출고·재고·반품·피킹·패킹·정산까지, 창고에서 이루어지는 흐름 전체를 다루는 프론트엔드입니다.

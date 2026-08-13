@@ -5,6 +5,7 @@ pubDate: 2024-08-01
 tags: [Flutter]
 org: 투네이션
 role: Frontend
+status: archived
 showcase: true
 highlights:
   - 시청자 후원을 확인하고 상호작용하도록 돕는 크리에이터용 도구

@@ -15,6 +15,11 @@ highlights:
   - konva 캔버스 기반 위젯 좌표 · 속성 편집
   - Toss 결제 위젯을 붙인 크레딧 충전 흐름 구현
   - 브라우저 ONNX로 서명 · 도장 이미지 배경 제거
+metrics:
+  - value: "2개"
+    label: 전자계약 · 근태 두 도메인을 한 클라이언트에
+  - value: "5종"
+    label: 속성 편집이 가능한 계약 위젯
 gallery:
   - ./wink-front/list.jpg
   - ./wink-front/history.jpg

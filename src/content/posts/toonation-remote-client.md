@@ -11,4 +11,7 @@ highlights:
   - 치지직(Chzzk) 클라이언트 리모컨
   - 투네AD 클라이언트 리모컨
   - Electron 데스크톱 클라이언트, 화면은 Vue 2로 구현
+metrics:
+  - value: "2개"
+    label: 치지직 · 투네AD 플랫폼 클라이언트
 ---

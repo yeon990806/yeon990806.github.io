@@ -15,6 +15,11 @@ highlights:
   - 모든 호출을 service → fetcher 단일 경로로 통일한 API 계층 규칙
   - BE와 동일한 snake_case를 유지해 변환 레이어 제거
   - 창고 현장용 모바일 PWA 라우트 별도 구성
+metrics:
+  - value: "2개"
+    label: 화주사 · 물류사 역할을 한 코드베이스에
+  - value: "7단계"
+    label: 입고부터 정산까지 창고 흐름 전체
 gallery:
   - ./howlink-wms/inventory.jpg
   - ./howlink-wms/outbound.jpg

@@ -4,7 +4,7 @@ description: 화주사와 물류사가 한 라우터 안에서 각자의 화면�
 period: 2025.06 – 2026.06
 org: 하울링
 role: Frontend (설계 · 구현)
-status: live
+status: archived
 tags: [Next.js, React 19, TypeScript, TanStack Query, Zustand, Tailwind, WMS]
 heroImage: ./howlink-wms/products.jpg
 featured: false

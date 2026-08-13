@@ -5,6 +5,7 @@ pubDate: 2024-12-01
 tags: [Preact, TypeScript, 정산]
 org: 투네이션
 role: Frontend
+status: live
 showcase: true
 highlights:
   - 기존 정산 시스템을 전면 교체

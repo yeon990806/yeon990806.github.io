@@ -5,6 +5,7 @@ pubDate: 2024-11-01
 tags: [Next.js, React, TypeScript]
 org: 투네이션
 role: Frontend
+status: live
 showcase: true
 highlights:
   - 투네이션을 사용하는 모든 스트리머의 방송을 한곳에 모아 제공

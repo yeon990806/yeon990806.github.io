@@ -2,6 +2,7 @@
 title: DOODA WMS — 3PL 물류 통합 솔루션
 description: 화주사와 물류사가 한 라우터 안에서 각자의 화면을 쓰는 3PL WMS/OMS 프론트엔드. Next.js App Router의 route group과 역할 분기로 두 도메인을 한 코드베이스에 담았습니다.
 period: 2025.06 – 2026.06
+org: 하울링
 role: Frontend (설계 · 구현)
 status: live
 tags: [Next.js, React 19, TypeScript, TanStack Query, Zustand, Tailwind, WMS]

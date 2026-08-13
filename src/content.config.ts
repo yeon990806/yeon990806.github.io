@@ -29,6 +29,8 @@ const posts = defineCollection({
       // /portfolio 피드에서 그 글을 한 항목으로 펼쳐 보여줄 때만 씁니다.
       // showcase: true 인 글만 피드에 오릅니다.
       showcase: z.boolean().default(false),
+      /** 어느 회사 일인지. 제품명만으로는 소속을 알 수 없어 피드에 함께 씁니다. */
+      org: z.string().optional(),
       period: z.string().optional(),
       role: z.string().optional(),
       status: z.enum(['live', 'archived', 'wip']).optional(),
@@ -37,6 +39,13 @@ const posts = defineCollection({
       featured: z.boolean().default(false),
       /** 피드에 나열할 성과 불릿. 본문 요약이 아니라 "무엇을 만들었는가". */
       highlights: z.array(z.string()).default([]),
+      /**
+       * 정량 성과. 숫자로 말할 수 있는 결과만 넣습니다.
+       * value는 짧게(`4.6배`, `-38%`, `12만`), label은 무엇을 잰 것인지.
+       */
+      metrics: z
+        .array(z.object({ value: z.string(), label: z.string() }))
+        .default([]),
       /** 피드에서 가로로 늘어놓을 스크린샷. heroImage는 자동 포함하지 않습니다. */
       gallery: z.array(image()).default([]),
     }),

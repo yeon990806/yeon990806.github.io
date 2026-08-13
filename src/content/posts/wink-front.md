@@ -2,6 +2,7 @@
 title: WINK — 전자계약 · 근태 통합 ERP
 description: 인력 파견·근로계약·전자계약·근태·정산을 하나로 묶은 B2B ERP의 관리자/사용자 웹 클라이언트. 전자계약 v2 위젯 에디터와 크레딧 결제 흐름을 설계·구현했습니다.
 period: 2025.01 – 2026.06
+org: 하울링
 role: Frontend (설계 · 구현)
 status: live
 tags: [React, TypeScript, MUI Joy, Recoil, 전자계약, PDF, TossPayments]

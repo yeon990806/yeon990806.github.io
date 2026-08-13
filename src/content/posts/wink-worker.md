@@ -2,6 +2,7 @@
 title: WINK WORKER — 근로자 출퇴근 앱
 description: 근로자가 SMS 인증으로 가입하고 현장에서 GPS·Wi-Fi로 출퇴근을 기록하는 Flutter 모바일 앱. Google Play 정책에 맞춰 백그라운드 위치 추적을 알람 기반으로 재설계했습니다.
 period: 2025.01 – 2026.06
+org: 하울링
 role: Mobile (Flutter)
 status: live
 tags: [Flutter, Dart, Provider, go_router, 네이버지도, Geolocation, 출퇴근]

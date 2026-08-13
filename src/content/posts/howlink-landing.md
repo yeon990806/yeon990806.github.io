@@ -2,6 +2,7 @@
 title: WINK 공식 랜딩 사이트
 description: WINK 제품을 소개하고 도입 문의 리드를 수집하는 B2B 랜딩 사이트. React + Vite로 만든 SPA에 서비스·요금·법적효력·보안·약관 페이지와 문의 폼을 구성했습니다.
 period: 2025.06 – 2026.06
+org: 하울링
 role: Frontend
 status: live
 tags: [React, TypeScript, Vite, Tailwind, styled-components, Netlify, 랜딩]

@@ -50,6 +50,12 @@ const topTags = [...tagCount.entries()]
         {projects.map((p, i) => {
           const d = p.data;
           const shots = [...(d.heroImage ? [d.heroImage] : []), ...d.gallery];
+          // 빠진 항목이 있어도 구분점만 남지 않도록 있는 것끼리만 이어 붙입니다.
+          const meta = [
+            { cls: 'org', text: d.org },
+            { cls: 'period', text: d.period },
+            { cls: 'role', text: d.role },
+          ].filter((m) => Boolean(m.text));
           return (
             <article class="project reveal" style={`transition-delay: ${i * 60}ms`}>
               <span class="rule" aria-hidden="true"></span>
@@ -74,9 +80,12 @@ const topTags = [...tagCount.entries()]
                 <div class="lead">
                   <p class="kicker">
                     <span class="num">{String(i + 1).padStart(2, '0')}</span>
-                    {d.period && <span class="period">{d.period}</span>}
-                    {/* 기간이 없는 항목에 구분점만 남지 않도록 앞에 붙이지 않습니다. */}
-                    {d.role && <span class="role">{d.period ? `· ${d.role}` : d.role}</span>}
+                    {meta.map((m, k) => (
+                      <>
+                        {k > 0 && <span class="sep" aria-hidden="true">·</span>}
+                        <span class={m.cls}>{m.text}</span>
+                      </>
+                    ))}
                   </p>
 
                   <h2 class="name">
@@ -88,6 +97,17 @@ const topTags = [...tagCount.entries()]
                   </h2>
 
                   <p class="desc">{d.description}</p>
+
+                  {d.metrics.length > 0 && (
+                    <dl class="metrics">
+                      {d.metrics.map((m) => (
+                        <div class="metric">
+                          <dt class="metric-value">{m.value}</dt>
+                          <dd class="metric-label">{m.label}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
                 </div>
 
                 <div class="detail">
@@ -291,6 +311,11 @@ const topTags = [...tagCount.entries()]
     color: var(--color-accent);
     letter-spacing: 0.08em;
   }
+  .kicker .org {
+    color: var(--color-fg);
+    font-weight: 500;
+  }
+  .kicker .sep { color: var(--color-border-strong); }
   .period { font-variant-numeric: tabular-nums; }
 
   .name {
@@ -338,6 +363,38 @@ const topTags = [...tagCount.entries()]
     color: var(--color-muted);
     font-size: 1rem;
     line-height: 1.75;
+  }
+
+  /* 정량 성과. 숫자가 먼저 읽히도록 값을 크게, 라벨을 작게 둡니다. */
+  .metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1.35rem 0 0;
+  }
+  .metric {
+    flex: 1 1 7rem;
+    padding: 0.7rem 0.9rem;
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-1);
+  }
+  .metric-value {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-accent);
+  }
+  .metric-label {
+    margin: 0.2rem 0 0;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: var(--color-muted);
   }
 
   .highlights {
